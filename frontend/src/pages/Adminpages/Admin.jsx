@@ -30,7 +30,7 @@ const Admin = () => {
           {/* <DialogWithForm/>
        
          <AddServiceForm/> */}
-         {/* <MechanicsRows/> */}
+         <MechanicsRows/>
          <Servicelist/>
         </main>
 

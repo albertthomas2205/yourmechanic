@@ -8,10 +8,11 @@ from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .models import   CustomUser,CustomUserManager
+from .models import   CustomUser,CustomUserManager,UserVehicles
 from .serializers import UserRegisterSerializer,MyTokenObtainPairSerializer, BlockUserSerializer,UserlistSerializer, OtpRequestSerializer,OtpResponseSerializer,UsergoogleSerializer,MechanicRegisterSerializer,EmailCheckSerializer
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.decorators import api_view
+from .serializers import UserProfileEditSerializer
 
 from rest_framework.exceptions import AuthenticationFailed,ParseError
 from django.contrib.auth import authenticate
@@ -28,7 +29,7 @@ from rest_framework.filters import SearchFilter
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework.generics import ListAPIView
-from .models import CustomUser,Mechanic
+from .models import CustomUser
 from .serializers import CustomUserSerializer
 
 
@@ -173,8 +174,9 @@ class LoginView(APIView):
         user = authenticate(username=email,password=password)
         if user is None:
             raise AuthenticationFailed('Invalid Password')
+    
         if not user.is_useractive:
-            raise AuthenticationFailed('You are blocked by admin')
+            raise AuthenticationFailed('No permission to access')
             
         
         
@@ -185,6 +187,8 @@ class LoginView(APIView):
                      'refresh': str(refresh),
                      'access': str(refresh.access_token),
                      'first_name':str(user.first_name),
+                     'id':str(user.id),
+                     'is_user':user.is_user
                      
                 }
         
@@ -236,7 +240,7 @@ class LoginMechanicView(APIView):
 
 
         if not user.is_mechanicactive:
-            raise AuthenticationFailed('You are blocked by admin')
+            raise AuthenticationFailed('No permission to access')
 
         refresh = RefreshToken.for_user(user)
         refresh['first_name'] = str(user.first_name)
@@ -360,3 +364,50 @@ class CustomUserListView(ListAPIView):
 class MechanicListView(ListAPIView):
     queryset = CustomUser.objects.filter(is_mechanic=True)
     serializer_class = CustomUserSerializer
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import UserProfile
+from .serializers import UserProfileSerializer
+from django.shortcuts import get_object_or_404
+
+class UserProfileListCreateView(generics.ListCreateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+
+class UserProfileDetailView(APIView):
+
+    def get(self, request, user_id):
+        profile = get_object_or_404(UserProfile, user_id=user_id)
+        serializer = UserProfileSerializer(profile)
+        return Response(serializer.data)
+
+    def put(self, request, user_id):
+        profile = get_object_or_404(UserProfile, user_id=user_id)
+        serializer = UserProfileEditSerializer(profile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, user_id):
+        profile = get_object_or_404(UserProfile, user_id=user_id)
+        profile.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+from .serializers import UserVehiclesSerializer
+
+class UserVehiclesListCreateView(generics.ListCreateAPIView):
+    
+
+    queryset = UserVehicles.objects.all()
+    serializer_class = UserVehiclesSerializer
+    
+    def perform_create(self, serializer):
+        try:
+            serializer.save()
+        except Exception as e:
+            return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)

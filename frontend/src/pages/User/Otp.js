@@ -59,8 +59,9 @@ const OtpVerification = () => {
   return (
     <>
       <HeaderUser />
-      <div className="max-w-md mx-auto mt-5 bg-white p-4">
-        <h2 className="text-2xl font-semibold mb-6">OTP Verification {url}</h2>
+      <div style={{ marginTop: '10rem' }} >
+      <div  className="max-w-md mx-auto mt-5 bg-white p-4">
+        <h2 className="text-2xl font-semibold mb-6">OTP Verification </h2>
 
         <Typography color="blue-gray" className="text-center mb-4">
           Please enter the OTP 
@@ -94,6 +95,7 @@ const OtpVerification = () => {
         <Typography color="gray" className="text-center font-normal">
           Didn't receive OTP? <a href="#" className="font-medium text-blue-500">Resend OTP</a>
         </Typography>
+      </div>
       </div>
     </>
   );

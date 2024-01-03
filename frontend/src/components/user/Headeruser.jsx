@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch,useSelector } from "react-redux";
 import  {Login} from "./Login";
+import { clear_Authentication } from "../../Redux/user/AuthenticationSlice";
 import {
   Navbar,
   Collapse,
@@ -196,8 +198,9 @@ function NavListMenu() {
 }
 
 function NavList() {
+  const navigate =useNavigate()
   return (
-    <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
+    <List className="mt-4 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
       <Typography
         as="a"
         href="#"
@@ -205,7 +208,7 @@ function NavList() {
         color="blue-gray"
         className="font-medium"
       >
-        <ListItem className="flex items-center gap-2 py-2 pr-4">Home</ListItem>
+        <ListItem className="flex items-center gap-2 py-2 pr-4" onClick={()=>(navigate("/userprofile/"))}>Profile</ListItem>
       </Typography>
       <NavListMenu />
       <Typography
@@ -227,7 +230,9 @@ function HeaderUser() {
   const [openNav, setOpenNav] = useState(false);
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
   const [openRight, setOpenRight] = React.useState(false);
-   const [state, setstate] = useState("");
+  const [state, setstate] = useState("");
+  const dispatch = useDispatch()
+  const isAuthenticated = useSelector((state) => state.persistedAuthReducer.authentication_user.isAuthenticated);
 
 
   useEffect(() => {
@@ -240,10 +245,17 @@ function HeaderUser() {
       window.removeEventListener("resize", () => {});
     };
   }, []);
+ 
   const handleLoginClick = () => {
     setstate("s")
     setOpenRight(true);
   };
+  const handleLogoutClick=() =>{
+    dispatch(
+      clear_Authentication()
+      )
+
+  }
   const handleRegisterClick = () => {
     setstate("r")
     setOpenRight(true);
@@ -256,7 +268,7 @@ function HeaderUser() {
   const handleSignIn = ()=>{
   
   }
- 
+  const navigate = useNavigate()
 
   return (
     <>
@@ -267,8 +279,9 @@ function HeaderUser() {
           href="#"
           variant="h6"
           className="mr-4 cursor-pointer py-1.5 lg:ml-2"
+          onClick={()=>(navigate("/"))}
         >
-          Material Tailwind
+          Your Mechanic
         </Typography>
         <div className="hidden lg:block">
           <NavList />
@@ -278,10 +291,12 @@ function HeaderUser() {
       
           </div>
        
-        <div className="hidden gap-2 lg:flex">
-          <Button variant="text" size="sm" color="blue-gray"     onClick={handleLoginClick}>
-            Sign In
-          </Button>
+        <div className="hidden gap-2 lg:flex">{
+          isAuthenticated ? <Button variant="text" size="sm" color="blue-gray"     onClick={handleLogoutClick}>
+          Log Out
+        </Button>:""
+        }
+         
 
           
           <MenuDefault />

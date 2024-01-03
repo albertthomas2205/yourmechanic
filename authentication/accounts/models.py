@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from .managers import CustomUserManager
 from django.utils import timezone
+from authentication import settings
 
 # Create your models here.
 
@@ -65,54 +66,35 @@ class CustomUser(AbstractBaseUser):
     
     def __str__(self):
         return self.first_name
-class Mechanic(AbstractBaseUser):
-    email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150,null = True)
-    password=models.CharField(max_length=250,null = True)
-    phone_number = models.CharField(max_length=100,null = True)
-    is_mechanic = models.BooleanField(default=True)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default = False)
-    is_admin = models.BooleanField(default = False)
-    date_joined = models.DateTimeField(default=timezone.now)
-    objects = CustomUserManager()
-    USERNAME_FIELD = 'email'
-    
-    objects = CustomUserManager()
-    
+
+class UserProfile(models.Model):
+   
+    username = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=15)
+    place = models.CharField(max_length=100)
+    pin = models.CharField(max_length=10)
+    profile_pic =models.FileField(upload_to='yourmechanic_userprofile',blank=True,null=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+   
+
+
     def __str__(self):
-        return self.first_name
+        return self.username
+    
+    
+class UserVehicles(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    vehicle =  models.CharField(max_length=50)
+    brand = models.CharField(max_length=50)
+    year_of_manufacture = models.IntegerField()
+    registration_number = models.CharField(max_length=50, unique=True)
+    total_km = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.vehicle.name} - {self.registration_number}"
     
 
-# class User(AbstractBaseUser):
-#     first_name = models.CharField(max_length=50)
-#     phone_number = models.CharField(max_length=12,unique=True)
-#     email = models.EmailField(max_length=100,unique=True)
-  
+
     
     
-    
-#     #required field
-#     date_joined = models.DateTimeField(auto_now_add=True)
-#     last_login = models.DateTimeField(auto_now_add=True)
-#     is_superuser = models.BooleanField(default=False)
-#     is_email_verified = models.BooleanField(default=False)
-#     is_staff = models.BooleanField(default=False)
-#     is_active = models.BooleanField(default=True)
-    
-#     USERNAME_FIELD  = 'email'
-#     REQUIRED_FIELDS = ['phone_number','first_name']
-    
-#     objects = MyAccountManager()
-    
-#     def __str__(self):
-#         return self.first_name
-    
-#     def has_perm(self,perm,obj=None):
-#         return self.is_superuser
-    
-#     def has_module_perms(self,add_label):
-#         return True
     

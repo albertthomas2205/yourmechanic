@@ -1,10 +1,11 @@
 import logo from './logo.svg';
-import './App.css';
+
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Userwarper from './Router/user/Userwarper';
 import Adminwarper from './Router/admin/Adminwarper';
-import PrivateRoute from './Router/admin/PrivateRoute.js';
+// import "./App.css"
+
 
 function App() {
   function handleCallbackResponse(response) {
@@ -32,8 +33,9 @@ function App() {
     <div className="App">
       <div id="signInDiv"></div>
       <BrowserRouter>
-
+      
         <Routes>
+          
           <Route path="*" element={<Userwarper />} />
      <Route
             path="admin/*"

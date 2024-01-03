@@ -14,3 +14,22 @@ class Service(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+
+class Brand(models.Model):
+    brand_name = models.CharField(unique=True,max_length=100)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+class Vehicle(models.Model):
+    vehicle_name = models.CharField(unique=True,max_length=100)
+    description = models.TextField()
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    image = models.FileField(upload_to='yourmechanic_vechile')
+
+    def __str__(self):
+        return self.name 
+    

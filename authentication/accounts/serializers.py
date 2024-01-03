@@ -2,7 +2,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer,Token
 
 
 from rest_framework import serializers
-from .models import CustomUser,Mechanic
+from .models import CustomUser
 from rest_framework_simplejwt.tokens import RefreshToken, Token,AccessToken
 
 
@@ -90,5 +90,25 @@ class UserlistSerializer(serializers.ModelSerializer):
         
 class BlockUserSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
+    
+    
+from .models import UserProfile
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['id', 'username', 'phone_number', 'place','profile_pic', 'pin', 'user']
+class UserProfileEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['id', 'username', 'phone_number', 'place', 'pin', 'user']
+        
+from .models import UserVehicles
+
+class UserVehiclesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserVehicles
+        fields = '__all__'
+
       
         

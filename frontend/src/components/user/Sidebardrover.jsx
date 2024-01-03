@@ -5,16 +5,32 @@ import {
   Typography,
   IconButton,
 } from "@material-tailwind/react";
+import {
+    Bars4Icon,
+    GlobeAmericasIcon,
+    NewspaperIcon,
+    PhoneIcon,
+    RectangleGroupIcon,
+    SquaresPlusIcon,
+    SunIcon,
+    TagIcon,
+    UserGroupIcon,
+  } from "@heroicons/react/24/solid";
+
+
  
-export default function Drawer() {
+export default function Slidebardrover() {
   const [open, setOpen] = React.useState(false);
  
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
  
   return (
-    <React.Fragment>
-      <Button onClick={openDrawer}>Open Drawer</Button>
+   
+    <React.Fragment >
+      <Button className="bg-white" onClick={openDrawer}>
+     <Bars4Icon  className="h-5 w-5 bg-black"/>
+      </Button>
       <Drawer open={open} onClose={closeDrawer} className="p-4">
         <div className="mb-6 flex items-center justify-between">
           <Typography variant="h5" color="blue-gray">
@@ -49,5 +65,6 @@ export default function Drawer() {
         </div>
       </Drawer>
     </React.Fragment>
+ 
   );
 }

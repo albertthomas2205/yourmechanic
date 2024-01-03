@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
     Card,
     Typography,
@@ -21,6 +22,7 @@ import {
 
   
   export default function Sidebar() {
+    const navigate = useNavigate()
     return (
         <>
   
@@ -34,7 +36,7 @@ import {
         </div>
         <div className="mb-2 ">
           <Typography  color="blue-gray">
-          <Button variant="text" className="flex items-center  space-x-2">
+          <Button variant="text" onClick={()=>{navigate("/admin/users/")}} className="flex items-center   space-x-2">
           <UserCircleIcon className="h-5 w-5" />
           <span>  Users</span>
 
@@ -45,7 +47,7 @@ import {
  
         <div className="mb-2 ">
           <Typography  color="blue-gray">
-          <Button variant="text" className="flex items-center  space-x-2">
+          <Button variant="text" onClick={()=>{navigate("/admin/mechanics/")}} className="flex items-center  space-x-2">
           <UserCircleIcon className="h-5 w-5" />
           <span>  Mechanic</span>
 
@@ -55,7 +57,7 @@ import {
         </div>
         <div className="mb-2 ">
           <Typography  color="blue-gray">
-          <Button variant="text" className="flex items-center  space-x-2">
+          <Button variant="text" onClick={()=>{navigate("/admin/services/")}} className="flex items-center  space-x-2">
           <Cog6ToothIcon className="h-5 w-5" />
           <span>  Service</span>
 
@@ -66,60 +68,14 @@ import {
         <div className="mb-2 ">
           <Typography  color="blue-gray">
           <Button variant="text" className="flex items-center  space-x-2">
-          <PowerIcon className="h-5 w-5" />
-          <span>  logOut</span>
+            {/* <span>  logOut</span> <PowerIcon className="h-5 w-5" /> */}
+       
 
           </Button>
        
           </Typography>
         </div>
-        <List className="mb-2 p-2">
-          <ListItem className="whitespace-normal">
-            <ListItemPrefix>
-              <PresentationChartBarIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Dashboard
-          </ListItem>
-          <ListItem className="whitespace-normal">
-            <ListItemPrefix>
-              <ShoppingBagIcon className="h-5 w-5 overflow-hidden" />
-            </ListItemPrefix>
-            E-Commerce
-          </ListItem>
-          <ListItem className="whitespace-normal">
-            <ListItemPrefix>
-              <InboxIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Inbox
-            <ListItemSuffix>
-              <Chip
-                value="14"
-                size="sm"
-                variant="ghost"
-                color="blue-gray"
-                className="rounded-full"
-              />
-            </ListItemSuffix>
-          </ListItem>
-          <ListItem className="whitespace-normal">
-            <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Profile
-          </ListItem>
-          <ListItem className="whitespace-normal">
-            <ListItemPrefix>
-              <Cog6ToothIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Settings
-          </ListItem>
-          <ListItem className="whitespace-normal">
-            <ListItemPrefix>
-              <PowerIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Log Out
-          </ListItem>
-        </List>
+     
       </div>
       </>
     );

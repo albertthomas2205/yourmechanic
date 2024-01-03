@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'allauth',
+    'cloudinary',
+    'cloudinary_storage',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
@@ -172,3 +174,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #         'rest_framework.permissions.IsAuthenticated',
 #     ],
 # }
+
+
+CLOUDINARY_STORAGE ={
+    'CLOUD_NAME': 'drukcil8f',
+    'API_KEY':'327523762193849',
+    'API_SECRET':'0yVZcDGz7asICvlyZllfsvyE5JE'
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

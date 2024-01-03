@@ -22,8 +22,11 @@ urlpatterns = [
     path('mechaniclogin/',views.LoginMechanicView.as_view(),name = 'mechaniclogin'),
     path('check_email/',views.EmailCheckView.as_view(),name='check_email'),
     path('check_useremail/',views.EmailCheckUserView.as_view(),name='check_useremail'),
-    path("mechanics/",views.MechanicListView.as_view(),name='mechanics')
-  
+    path("mechanics/",views.MechanicListView.as_view(),name='mechanics'),
+    path('profiles/', views.UserProfileListCreateView.as_view(), name='profile-list-create'),
+    path('userprofile/<int:user_id>/', views.UserProfileDetailView.as_view(), name='user-profile-detail'),
+    path('user-vehicles/', views.UserVehiclesListCreateView.as_view(), name='user-vehicles-list-create'),
+    
     
   
    

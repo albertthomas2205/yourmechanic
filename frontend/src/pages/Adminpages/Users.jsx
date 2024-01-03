@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Typography, Button } from '@material-tailwind/react';
-
+import Pagination from '../../components/admin/Pagination';
 const UsersRows = () => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(false);

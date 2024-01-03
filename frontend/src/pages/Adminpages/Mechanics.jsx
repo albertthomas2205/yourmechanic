@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Typography, Button } from '@material-tailwind/react';
+import Pagination from '../../components/admin/Pagination';
 
 const MechanicRows = () => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(5);
 
   useEffect(() => {
     // Fetch data from the API
@@ -52,7 +55,11 @@ const MechanicRows = () => {
     }
   };
 
-  const TABLE_HEAD = ['NO', 'ID', 'Name', 'Email', 'Action'];
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = userData.slice(indexOfFirstUser, indexOfLastUser);
+
+  const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <Card className="h-full w-full overflow-scroll">
@@ -64,21 +71,55 @@ const MechanicRows = () => {
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
-            {TABLE_HEAD.map((head, index) => (
-              <th key={head} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
-                  {head}
-                </Typography>
-              </th>
-            ))}
+            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none opacity-70"
+              >
+                NO
+              </Typography>
+            </th>
+            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none opacity-70"
+              >
+                ID
+              </Typography>
+            </th>
+            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none opacity-70"
+              >
+                Name
+              </Typography>
+            </th>
+            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none opacity-70"
+              >
+                Email
+              </Typography>
+            </th>
+            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none opacity-70"
+              >
+                Action
+              </Typography>
+            </th>
           </tr>
         </thead>
         <tbody>
-          {userData.map((user, index) => (
+          {currentUsers.map((user, index) => (
             <tr key={user.id} className={index % 2 === 0 ? 'even:bg-blue-gray-50/50' : ''}>
               <td className="p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
@@ -104,7 +145,7 @@ const MechanicRows = () => {
                 <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium">
                   <Button
                     onClick={() => handleBlockUser(user.id, user.is_mechanicactive)}
-                    color={user.is_active ? 'black' : 'blue'}
+                    color={user.is_mechanicactive ? 'black' : 'blue'}
                   >
                     {user.is_mechanicactive ? 'Block' : 'Unblock'}
                   </Button>
@@ -114,6 +155,16 @@ const MechanicRows = () => {
           ))}
         </tbody>
       </table>
+      {userData.length > usersPerPage && (
+        <div className="flex justify-center mt-4">
+          <Pagination
+            usersPerPage={usersPerPage}
+            totalUsers={userData.length}
+            currentPage={currentPage}
+            onPageChange={paginate}
+          />
+        </div>
+      )}
     </Card>
   );
 };

@@ -51,6 +51,10 @@ const SigninUser = () => {
           set_Authentication({
             first_name: res.data.first_name,
             isAuthenticated: true,
+            id : res.data.id,
+            isAdmin:res.data.is_admin,
+            accessToken: res.data.access,
+
           })
         );
         {
@@ -93,10 +97,15 @@ const SigninUser = () => {
           localStorage.setItem('access', res.data.access);
           localStorage.setItem('refresh', res.data.refresh);
           console.log(res.data);
+          
+          console.log(res.data.is_admin,res.data.access,res.data.id,res.data.is_user)
           dispatch(
             set_Authentication({
               first_name: res.data.first_name,
               isAuthenticated: true,
+              id: res.data.id,
+              is_user: res.data.is_user,
+              accessToken: res.data.access,
             })
           );
           navigate('/');
@@ -154,10 +163,12 @@ const SigninUser = () => {
   };
 
   return (
+
     <>
       <HeaderUser />
    
-      <div style={{ marginTop: '10rem' }} className="max-w-md mx-auto   bg-white p-4">
+      <div style={{ marginTop: '10rem', }}
+className="max-w-md mx-auto bg-white  p-4">
         <h2 className="text-2xl font-semibold mb-6">  Sign In {name}</h2>
         {formError.length > 0 && (
           <div className="text-red-500 text-center mb-3">
@@ -223,6 +234,7 @@ const SigninUser = () => {
       </div>
     
     </>
+  
   );
 };
 

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, Typography, Button, Input } from '@material-tailwind/react';
+import { Card, Typography, Button, Input, Alert } from '@material-tailwind/react';
 import Pagination from './Pagination';
 import DialogWithForm from '../../pages/Adminpages/Dailogform';
+import Editform from './Editform';
 
 const Servicelist = () => {
   const [services, setServices] = useState([]);
@@ -10,8 +11,18 @@ const Servicelist = () => {
   const [filteredServices, setFilteredServices] = useState([]);
   const [servicesPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [editingServiceId, setEditingServiceId] = useState(null);
 
-  const TABLE_HEAD = ['NO', 'ID', 'Name', 'Description', 'Image', 'Price', 'Time'];
+  const TABLE_HEAD = ['NO', 'Name', 'Description', 'Image', 'Price', 'Actions'];
+  const handleSearch = () => {
+    const trimmedSearchTerm = searchTerm.trim();
+    const filtered = services.filter((service) =>
+      service.name.toLowerCase().includes(trimmedSearchTerm.toLowerCase())
+    );
+    setFilteredServices(filtered);
+  };
+
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -25,18 +36,38 @@ const Servicelist = () => {
     };
 
     fetchServices();
-  }, []);
+  },[] );
 
-  const handleSearch = () => {
-    const trimmedSearchTerm = searchTerm.trim();
-    const filtered = services.filter((service) =>
-      service.name.toLowerCase().includes(trimmedSearchTerm.toLowerCase())
-    );
-    setFilteredServices(filtered);
-  };
 
   const handlePaginationChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const handleEdit = (id) => {
+    console.log(`Edit service with ID ${id}`);
+    setEditingServiceId(id);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      if (window.confirm('Are you sure you want to delete this service?')) {
+        await axios.delete(`http://127.0.0.1:8001/api/services/${id}/`);
+
+        setServices((prevServices) => prevServices.filter((service) => service.id !== id));
+        setFilteredServices((prevFilteredServices) =>
+          prevFilteredServices.filter((service) => service.id !== id)
+        );
+
+        console.log(`Deleted service with ID ${id}`);
+        setShowSuccess(true);
+
+        setTimeout(() => {
+          setShowSuccess(false);
+        }, 1000);
+      }
+    } catch (error) {
+      console.error(`Error deleting service with ID ${id}:`, error);
+    }
   };
 
   const currentServices = () => {
@@ -63,10 +94,16 @@ const Servicelist = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
+            {/* Uncomment the onClick attribute for the "Search" button */}
             <Button onClick={handleSearch}>Search</Button>
           </div>
         </div>
       </div>
+      {showSuccess && (
+        <Alert color="green" className="mb-4" onClose={() => setShowSuccess(false)}>
+          Service deleted successfully!
+        </Alert>
+      )}
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
@@ -89,11 +126,6 @@ const Servicelist = () => {
               </td>
               <td className="p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                  {service.id}
-                </Typography>
-              </td>
-              <td className="p-4">
-                <Typography variant="small" color="blue-gray" className="font-normal">
                   {service.name}
                 </Typography>
               </td>
@@ -111,9 +143,12 @@ const Servicelist = () => {
                 </Typography>
               </td>
               <td className="p-4">
-                <Typography variant="small" color="blue-gray" className="font-normal">
-                  {service.time_required}
-                </Typography>
+                <div className="flex items-center gap-2">
+                  <Editform serviceId={service.id} />
+                  <Button color="red" onClick={() => handleDelete(service.id)}>
+                    Delete
+                  </Button>
+                </div>
               </td>
             </tr>
           ))}
