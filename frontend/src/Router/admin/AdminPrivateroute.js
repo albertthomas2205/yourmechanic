@@ -10,7 +10,7 @@ const AdminPrivateroute = () => {
     console.log(user)
 
   return (
-   user.is_admin? <Outlet/>:<Navigate to="/"/>
+   user.isAdmin   ? <Outlet/>:<Navigate to="/"/>
   )
 }
 

@@ -12,6 +12,7 @@ import Admin from "../../pages/Adminpages/Admin";
 import Profile from "../../pages/User/Profile";
 import Forbidden from "../admin/Forbidden";
 import Vehicle from "../../pages/User/Vehicle";
+
 import UserPrivaterouter from "./UserPrivaterouter";
 const Userwarper = () => {
   return (
@@ -22,6 +23,9 @@ const Userwarper = () => {
         <Route path="/" element={<Home/>} /> 
         <Route path="/otp" element={<Otp/>} /> 
         <Route path="/signin" element={<SigninUser/>} /> 
+        <Route path="/signup" element={<Signup/>} /> 
+        
+
 
         <Route element={<UserPrivaterouter/>}>
       

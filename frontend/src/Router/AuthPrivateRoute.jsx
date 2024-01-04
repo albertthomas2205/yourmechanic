@@ -10,7 +10,7 @@ const AdminPrivateroute = () => {
     console.log(user)
 
   return (
-   user.is_authenticate? <Outlet/>:<Navigate to="/"/>
+   user.is_use? <Outlet/>:<Navigate to="/"/>
   )
 }
 

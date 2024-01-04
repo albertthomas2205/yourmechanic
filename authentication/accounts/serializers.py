@@ -109,6 +109,10 @@ class UserVehiclesSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserVehicles
         fields = '__all__'
-
+from .models import MechanicProfiledetails
+class MechanicProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MechanicProfiledetails
+        fields = ['place', 'pin', 'experience', 'description', 'profile_pic', 'mechanic_id']
       
         

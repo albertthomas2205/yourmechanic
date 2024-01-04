@@ -21,7 +21,8 @@ export const AuthenticationSlice = createSlice({
       state.isAdmin = action.payload.is_admin;
       state.id = action.payload.id;
       state.accessToken = action.payload.access_token;
-      state.user=action.payload
+      state.is_user = action.payload.is_user;
+      state.user=action.payload.user
       // state.is_user = action.payload.is_user;
 
       // Store first name in local storage
@@ -35,6 +36,7 @@ export const AuthenticationSlice = createSlice({
       state.isAuthenticated = false;
       state.isAdmin = false;
       state.id = false;
+      state.user = null;
 
       // Remove first name from local storage on logout
       // localStorage.removeItem('first_name');

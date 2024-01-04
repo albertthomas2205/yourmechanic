@@ -38,18 +38,21 @@ class ServiceListCreateView(generics.ListCreateAPIView):
 class ServiceRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
-    
-class BrandListView(generics.ListCreateAPIView):
+class BrandListCreateView(generics.ListCreateAPIView):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
 
-class VehicleListView(generics.ListCreateAPIView):
+class BrandRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Brand.objects.all()
+    serializer_class = BrandSerializer
+
+class VehicleListCreateView(generics.ListCreateAPIView):
     queryset = Vehicle.objects.all()
     serializer_class = VehicleSerializer
 
-    def perform_create(self, serializer):
-        serializer.save()
-
+class VehicleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Vehicle.objects.all()
+    serializer_class = VehicleSerializer
 # If you need views for individual instances:
 class BrandDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Brand.objects.all()

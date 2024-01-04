@@ -17,6 +17,7 @@ const Adminwarper = () => {
         <Route path="users/*" element={<Userpage />} />
         <Route path="mechanics/*" element={<Mechanicpage />} />
         <Route path="services/*" element={<Servicepage />} />
+        <Route path="adminhome/*" element={<Adminhome />} />
         <Route
           path="/*"
           element={

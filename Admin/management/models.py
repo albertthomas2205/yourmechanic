@@ -22,7 +22,7 @@ class Brand(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return self.name
+        return self.brand_name
 
 class Vehicle(models.Model):
     vehicle_name = models.CharField(unique=True,max_length=100)
@@ -31,5 +31,5 @@ class Vehicle(models.Model):
     image = models.FileField(upload_to='yourmechanic_vechile')
 
     def __str__(self):
-        return self.name 
+        return self.vehicle_name 
     

@@ -58,6 +58,7 @@ class CustomUser(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default = False)
     is_admin = models.BooleanField(default = False)
+    is_verify = models.BooleanField(default = False)
     date_joined = models.DateTimeField(default=timezone.now)
     objects = CustomUserManager()
     USERNAME_FIELD = 'email'
@@ -81,6 +82,19 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.username
     
+class MechanicProfile(models.Model):
+   
+    place = models.CharField(max_length=100)
+    pin = models.CharField(max_length=10)
+    experience=models.IntegerField()
+    description= models.CharField(max_length=200,blank=True,null = True)
+    profile_pic =models.FileField(upload_to='yourmechanic_userprofile',blank=True,null=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+   
+
+
+    def __str__(self):
+        return self.place
     
 class UserVehicles(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -92,6 +106,15 @@ class UserVehicles(models.Model):
 
     def __str__(self):
         return f"{self.vehicle.name} - {self.registration_number}"
+    
+class MechanicProfiledetails(models.Model):
+   
+    place = models.CharField(max_length=100)
+    pin = models.CharField(max_length=10)
+    experience=models.IntegerField()
+    description= models.CharField(max_length=200,blank=True,null = True)
+    profile_pic =models.FileField(upload_to='yourmechanic_userprofile',blank=True,null=True)
+    mechanic_id=models.IntegerField()
     
 
 

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Uservehicle = (props) => {
+  const cloudname = "drukcil8f"
   const [brandName, setBrandName] = useState('');
   const [vehicleDetails, setVehicleDetails] = useState({});
-
+ 
   useEffect(() => {
     // Fetch brand information using the provided API endpoint
     axios.get(`http://127.0.0.1:8001/api/brands/${props.brandid}/`)
@@ -32,42 +33,61 @@ const Uservehicle = (props) => {
   }, [props.vehicle_id]);
 
   return (
-    <div className='p-4'>
-      <div className='bg-black h-[15rem] flex'>
-        <div className='bg-green-300 h-[10rem] content-center m-4 z-1'>
-          <img
-            className="h-40 w-full fill rounded-lg object-cover object-center shadow-xl shadow-blue-gray-900/50"
-            src={`${vehicleDetails.image}1`}
-            alt="nature image"
-          />
-        </div>
-        <div className='flex-col'>
-          <div className='m-4'>
-            <h3>Brand name</h3>
-          </div>
-          <div className='m-4'>
-            <h3>{brandName}</h3>
-          </div>
-        </div>
-        <div className='flex-col'>
-          <div className='m-4'>
-            <h3>Vehicle Name {props.vehicle_id}</h3>
-          </div>
-          <div className='m-4'>
-            <h3>{vehicleDetails.vehicle_name}</h3>
-          </div>
-        </div>
-        <div className='flex-col'>
-          <div className='m-4'>
-            <h3>Registration No</h3>
-          </div>
-          <div className='m-4'>
-            <h3>{props.registration_no}</h3>
-          </div>
-        </div>
-        {/* Add other fields as needed */}
-      </div>
+<div className='p-4'>
+  <div className='bg-black h-[15rem] flex items-center'>
+    <div className='bg-green-300 h-[10rem] content-center m-4 z-1'>
+      <img
+        style={{
+          width: '150px',
+          height: '150px',
+          zIndex: '1',
+          objectFit: 'cover', // Ensures the image covers the area and maintains aspect ratio
+        }}
+        className="h-40 w-full fill rounded-lg object-cover object-center shadow-xl shadow-blue-gray-900/50"
+        src={vehicleDetails.image}
+        alt="nature image"
+      />
     </div>
+    <div className='flex'>
+      <div className='flex-col m-4'>
+        <h5 style={{ fontWeight: 'bold' }}>Brand name</h5>
+        <p className="text-lg">{brandName}</p>
+      </div>
+      <div className='flex-col m-4'>
+        <h5 style={{ fontWeight: 'bold' }}>Vehicle Name {props.vehicle_id}</h5>
+        <p className="text-lg">{vehicleDetails.vehicle_name}</p>
+      </div>
+      <div className='flex-col m-4'>
+        <h5 style={{ fontWeight: 'bold' }}>Registration No</h5>
+        <p className="text-lg">{props.registration_no}</p>
+      </div>
+      <div className='flex-col m-4'>
+        <h5 style={{ fontWeight: 'bold' }}>Total KM</h5>
+        {/* Replace 'totalKm' with the actual variable holding the total KM value */}
+        <p className="text-lg"></p>
+      </div>
+      <div className='flex-col m-4'>
+        <h5 style={{ fontWeight: 'bold' }}>Edit</h5>
+        <button
+          className='text-blue-500 hover:text-blue-700'
+        >
+          ✏️
+        </button>
+      </div>
+      <div className='flex-col m-4'>
+        <h5 style={{ fontWeight: 'bold' }}>Delete</h5>
+        <button
+          className='text-red-500 hover:text-red-700'
+        >
+          🗑️
+        </button>
+      </div>
+      {/* Add other fields as needed */}
+    </div>
+  </div>
+</div>
+
+
   );
 };
 

@@ -53,6 +53,7 @@ const SigninUser = () => {
             isAuthenticated: true,
             id : res.data.id,
             isAdmin:res.data.is_admin,
+            is_user: res.data.is_user,
             accessToken: res.data.access,
 
           })
@@ -218,7 +219,7 @@ className="max-w-md mx-auto bg-white  p-4">
           </Button>
          
           <div>
-          {name === 'Mechanic' || name === 'user' ? (
+          { name === 'user' ? (
     <button onClick={() => login()}>Sign in with Google 🚀 </button>
   ) : null}
           </div>

@@ -248,6 +248,7 @@ class LoginMechanicView(APIView):
         content = {
             'refresh': str(refresh),
             'access': str(refresh.access_token),
+            'id': str(user.id),
             'first_name': str(user.first_name),
             'is_mechanic': user.is_mechanic,
         }
@@ -411,3 +412,25 @@ class UserVehiclesListCreateView(generics.ListCreateAPIView):
             serializer.save()
         except Exception as e:
             return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+        
+from .serializers import MechanicProfileSerializer
+from .models import MechanicProfiledetails,MechanicProfile
+from rest_framework.exceptions import ValidationError
+class MechanicProfileListCreateView(generics.ListCreateAPIView):
+    print("haiiiii")
+    queryset = MechanicProfiledetails.objects.all()
+    serializer_class = MechanicProfileSerializer
+  
+  
+class MechanicProfileRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = MechanicProfile.objects.all()
+    serializer_class = MechanicProfileSerializer
+    
+class UserVehiclesListAPIView(generics.ListAPIView):
+    serializer_class = UserVehiclesSerializer
+
+    def get_queryset(self):
+        user_id = self.kwargs.get('user_id')  # Assuming the user_id is provided in the URL
+        return UserVehicles.objects.filter(user_id=user_id)

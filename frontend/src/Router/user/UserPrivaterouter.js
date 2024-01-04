@@ -7,10 +7,10 @@ const UserPrivaterouter = () => {
 
     const user=useSelector(selectUser)
   
-    console.log(user)
+  
 
   return (
-   user.id? <Outlet/>:<Navigate to="/"/>
+   user?.is_user ? <Outlet/>:<Navigate to="/"/>
   )
 }
 

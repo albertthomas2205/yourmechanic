@@ -8,14 +8,17 @@ import { MDBPopover, MDBPopoverBody, MDBPopoverHeader } from 'mdb-react-ui-kit';
 import Header from "../../components/admin/Header";
 import { useMediaQuery } from "react-responsive";
 import UserVehicleAdd from "../../components/user/Uservehicleadd";
+import { useSelector } from "react-redux";
 import axios from "axios";
 const Profile = () => {
 
   const [vehicles, setVehicles] = useState([]);
+  const id = useSelector((state)=>state.persistedAuthReducer.authentication_user.id);
+
 
   useEffect(() => {
     // Fetch the user vehicles data from the API
-    axios.get('http://127.0.0.1:8000/api/user-vehicles/')
+    axios.get(`http://127.0.0.1:8000/api/user-vehicles/${id}/`)
       .then(response => {
         setVehicles(response.data);
       })
@@ -60,7 +63,7 @@ const Profile = () => {
     <div>
       {/* Render Uservehicle components */}
       {vehicles.map((vehicle) => (
-        <Uservehicle key={vehicle.vehicle_id} vehicle_id={vehicle.vehicle} brandid = {vehicle.brand} registration_no = {vehicle.registration_number} />
+        <Uservehicle key={vehicle.vehicle_id} vehicle_id={vehicle.vehicle} brandid = {vehicle.brand} registration_no = {vehicle.registration_number}  />
       ))}
     </div>
   </div>
