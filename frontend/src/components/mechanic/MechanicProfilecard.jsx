@@ -40,7 +40,7 @@ export default function MechanicProfilecard() {
   const displayName = profileData ? profileData.username : first_name;
 
   return (
-    <div className="gradient-custom-2 mt-[4rem] flex-grow min-h-screen" style={{ backgroundColor: '#9de2ff' }}>
+    <div className="gradient-custom-2 mt-[4rem] flex-grow min-h-screen" >
       <MDBContainer className="py-5 h-100">
         <MDBRow className="justify-center items-center h-100">
           <MDBCol lg="9" xl="7">
@@ -72,7 +72,7 @@ export default function MechanicProfilecard() {
                   <MDBCardText>New York</MDBCardText>
                 </div>
               </div>
-              <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
+              <div className="p-4 text-black" >
                 <div className="d-flex justify-content-end text-center py-1">
                 
                   <div>

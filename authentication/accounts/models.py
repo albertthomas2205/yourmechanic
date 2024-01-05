@@ -115,6 +115,8 @@ class MechanicProfiledetails(models.Model):
     description= models.CharField(max_length=200,blank=True,null = True)
     profile_pic =models.FileField(upload_to='yourmechanic_userprofile',blank=True,null=True)
     mechanic_id=models.IntegerField()
+    is_verify = models.BooleanField(default=False)
+  
     
 
 

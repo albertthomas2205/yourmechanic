@@ -29,6 +29,10 @@ urlpatterns = [
     path('user-vehicles/<int:user_id>/', views.UserVehiclesListAPIView.as_view(), name='user-vehicles-list'),
     path('mechanic-profiles/', views.MechanicProfileListCreateView.as_view(), name='mechanic-profile-list-create'),
     path('mechanic-profiles/<int:pk>/', views.MechanicProfileRetrieveUpdateDestroyView.as_view(), name='mechanic-profile-retrieve-update-destroy'),
+    path('mechanic-profile/<int:mechanic_id>/', views.MechanicProfileDetailView.as_view(), name='mechanic-profile-list-create'),
+    path('verify-mechanic/',views.verify_mechanic,name='verify_mechanic'),
+    path('verify-mechaniclist/',views.VerifyView.as_view(),name='verify_mech'),
+    
     
     
   

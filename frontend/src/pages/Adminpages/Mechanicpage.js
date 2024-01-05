@@ -9,6 +9,7 @@ import AddServiceForm from './AddServiceForm';
 import DialogWithForm from './Dailogform';
 import UsersRows from './Users';
 import MechanicsRows from './Mechanics';
+
 import Servicelist from '../../components/admin/Services';
 
 const Mechanicpage = () => {

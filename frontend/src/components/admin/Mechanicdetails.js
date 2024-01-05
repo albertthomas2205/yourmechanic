@@ -4,6 +4,8 @@ import {
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
 import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
+import Mechanicverify from "./Mechanicverify";
 import {
   Card,
   CardHeader,
@@ -38,6 +40,9 @@ const TABS = [
 
 export default function Mechanicdetails() {
   const [mechanics, setMechanics] = useState([]);
+  const onverify = ()=> {
+    console.log("haiii")
+   }
 
   useEffect(() => {
     // Fetch data from API when component mounts
@@ -52,48 +57,26 @@ export default function Mechanicdetails() {
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures this runs only once when component mounts
+  }, []); 
+//  const [mechanicprofile, setMechanicProfile] = useState([]);
+   
+//   useEffect(() => {
+//     // Fetch the user vehicles data from the API
+//     axios.get(`http://127.0.0.1:8000/api/mechanic-profiles/`)
+//       .then(response => {
+//         console.log(response.data)
+//         setMechanicProfile(response.data);
+//       })
+//       .catch(error => {
+//         console.error('Error fetching user vehicles:', error);
+//       });
+//   }, []);
+
 
   return (
     <div className="h-full w-full bg-white">
-      <CardHeader floated={false} shadow={false} className="rounded-none">
-        <div className="mb-8 flex items-center justify-between gap-8">
-          <div>
-            <Typography variant="h5" color="blue-gray">
-              Members list
-            </Typography>
-            <Typography color="gray" className="mt-1 font-normal">
-              See information about all members
-            </Typography>
-          </div>
-          <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-            <Button variant="outlined" size="sm">
-              view all
-            </Button>
-            <Button className="flex items-center gap-3" size="sm">
-              <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add member
-            </Button>
-          </div>
-        </div>
-        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <Tabs value="all" className="w-full md:w-max">
-            <TabsHeader>
-              {TABS.map(({ label, value }) => (
-                <Tab key={value} value={value}>
-                  &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                </Tab>
-              ))}
-            </TabsHeader>
-          </Tabs>
-          <div className="w-full md:w-72">
-            <Input
-              label="Search"
-              icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-            />
-          </div>
-        </div>
-      </CardHeader>
-      <CardBody className="overflow-scroll px-0">
+      <div className="p-[4rem]" ><h5>Mechanic Verification Page</h5></div>
+      <CardBody className="overflow-scroll p-[4rem]">
         <table className="mt-4 w-full min-w-max table-auto text-left">
           <thead>
             <tr>
@@ -155,7 +138,7 @@ export default function Mechanicdetails() {
             </tr>
           </thead>
           <tbody>
-            {mechanics.map(({ id, first_name, last_name, email, phone_number,is_verified,is_active }, index) => {
+            {mechanics.map(({ id, first_name, last_name, email, phone_number,is_verify,is_active }, index) => {
               const isLast = index === mechanics.length - 1;
               const classes = isLast
                 ? "p-4"
@@ -164,7 +147,7 @@ export default function Mechanicdetails() {
               return (
                 <tr key={id} className="boader-2">
                   <td className={classes}>
-                    <div className="flex items-center max-w-[120px] gap-3">
+                    <div className="flex items-center max-w-[160px] gap-3">
                       <Avatar src={`https://placekitten.com/100/100`} alt={`${first_name} ${last_name}`} size="sm" />
                       <div className="flex flex-col">
                         <Typography
@@ -194,24 +177,25 @@ export default function Mechanicdetails() {
                         <Chip
                           variant="ghost"
                           size="sm"
-                          value={is_verified ? "verify" : "not verify"}
-                          color={is_verified ? "green" : "red"}
+                          value={is_verify ? "verify" : "not verify"}
+                          color={is_verify ? "green" : "red"}
                         />
                       </div>
                   </td>
                   <td className={classes}>
+                    <div onClick={onverify()}>
+                    <Mechanicverify id ={id}/>
+                    </div>
                     {/* ... other columns ... */}
                   </td>
-                  <td className={classes}>
-                    {/* ... other columns ... */}
-                  </td>
+             
                 </tr>
               );
             })}
           </tbody>
         </table>
       </CardBody>
-      <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
+      {/* <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
         <Typography variant="small" color="blue-gray" className="font-normal">
           Page 1 of 10
         </Typography>
@@ -223,7 +207,7 @@ export default function Mechanicdetails() {
             Next
           </Button>
         </div>
-      </CardFooter>
+      </CardFooter> */}
     </div>
   );
 }

@@ -30,7 +30,7 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework.generics import ListAPIView
 from .models import CustomUser
-from .serializers import CustomUserSerializer
+from .serializers import CustomUserSerializer,VerifyMechanicSerializer
 
 
 
@@ -360,11 +360,14 @@ def block_mechanic(request):
 class CustomUserListView(ListAPIView):
     queryset = CustomUser.objects.filter(is_user=True)
     serializer_class = CustomUserSerializer
+    
+
 
 
 class MechanicListView(ListAPIView):
     queryset = CustomUser.objects.filter(is_mechanic=True)
     serializer_class = CustomUserSerializer
+    
 
 
 from rest_framework.views import APIView
@@ -418,6 +421,8 @@ class UserVehiclesListCreateView(generics.ListCreateAPIView):
 from .serializers import MechanicProfileSerializer
 from .models import MechanicProfiledetails,MechanicProfile
 from rest_framework.exceptions import ValidationError
+
+
 class MechanicProfileListCreateView(generics.ListCreateAPIView):
     print("haiiiii")
     queryset = MechanicProfiledetails.objects.all()
@@ -434,3 +439,52 @@ class UserVehiclesListAPIView(generics.ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs.get('user_id')  # Assuming the user_id is provided in the URL
         return UserVehicles.objects.filter(user_id=user_id)
+    
+    
+class MechanicProfileDetailView(APIView):
+
+    def get(self, request, mechanic_id):
+        profile = get_object_or_404(MechanicProfiledetails, mechanic_id=mechanic_id)
+        serializer = MechanicProfileSerializer(profile)
+        return Response(serializer.data)
+
+    def put(self, request, mechanic_id):
+        profile = get_object_or_404(MechanicProfiledetails, mechanic_id=mechanic_id)
+        serializer =MechanicProfileSerializer(profile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # def delete(self, request, user_id):
+    #     profile = get_object_or_404(MechanicProfiledetails, user_id=user_id)
+    #     profile.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+@api_view(['POST'])
+def verify_mechanic(request):
+    serializer = VerifyMechanicSerializer(data=request.data)
+    
+    if serializer.is_valid():
+        mechanic_id = serializer.validated_data['mechanic_id']
+        
+        try:
+            user = MechanicProfiledetails.objects.get(mechanic_id=mechanic_id)
+            mechanic = CustomUser.objects.get(id=mechanic_id)
+            mechanic.is_verify = not mechanic.is_verify
+            user.is_verify = not user.is_verify
+            user.save()
+            mechanic.save()
+            
+            action = 'verifyed' if user.is_verify else 'not verified'
+            return Response({'detail': f'User {action} successfully'}, status=status.HTTP_200_OK)
+        except MechanicProfiledetails.DoesNotExist:
+            return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class VerifyView(ListAPIView):
+    queryset = CustomUser.objects.filter(is_verify=True)
+    serializer_class = CustomUserSerializer

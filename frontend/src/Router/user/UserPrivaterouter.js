@@ -6,7 +6,7 @@ import { Navigate, Outlet, useNavigate } from 'react-router-dom'
 const UserPrivaterouter = () => {
 
     const user=useSelector(selectUser)
-  
+    
   
 
   return (

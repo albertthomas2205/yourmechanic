@@ -7,10 +7,10 @@ const AdminPrivateroute = () => {
 
     const user=useSelector(selectUser)
   
-    console.log(user)
+ 
 
   return (
-   user.isAdmin   ? <Outlet/>:<Navigate to="/"/>
+   user.is_admin   ? <Outlet/>:<Navigate to="/"/>
   )
 }
 

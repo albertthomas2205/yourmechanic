@@ -92,6 +92,10 @@ class BlockUserSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
     
     
+class VerifyMechanicSerializer(serializers.Serializer):
+    mechanic_id = serializers.IntegerField()
+    
+    
 from .models import UserProfile
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -113,6 +117,7 @@ from .models import MechanicProfiledetails
 class MechanicProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = MechanicProfiledetails
-        fields = ['place', 'pin', 'experience', 'description', 'profile_pic', 'mechanic_id']
+        # fields = ['place', 'pin', 'experience', 'description', 'profile_pic', 'mechanic_id',]
+        fields = '__all__'
       
         

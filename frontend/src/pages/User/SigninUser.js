@@ -55,6 +55,7 @@ const SigninUser = () => {
             isAdmin:res.data.is_admin,
             is_user: res.data.is_user,
             accessToken: res.data.access,
+            user:res.data
 
           })
         );
