@@ -9,6 +9,7 @@ import Header from "../../components/admin/Header";
 import { useMediaQuery } from "react-responsive";
 import UserVehicleAdd from "../../components/user/Uservehicleadd";
 import { useSelector } from "react-redux";
+import VehicleCard from "../../components/user/Vechlecard";
 import axios from "axios";
 const Profile = () => {
 
@@ -20,6 +21,7 @@ const Profile = () => {
     // Fetch the user vehicles data from the API
     axios.get(`http://127.0.0.1:8000/api/user-vehicles/${id}/`)
       .then(response => {
+        console.log(response.data)
         setVehicles(response.data);
       })
       .catch(error => {
@@ -37,18 +39,10 @@ const Profile = () => {
       <div className="flex">
   <UserSidebar />
  
-  {
-  isLargeScreen ? (
-    <div className="bg-green-300 w-[20rem] h-screen">
-      {/* Adjusted height to fill the screen */}
-      {/* Content inside the green div */}
-      <div className="p-4">
-        <h1>Green Div Content</h1>
-        {/* Add your content here */}
-      </div>
-    </div>
-  ) : null
-}
+  <div className="flex w-[20rem]">
+
+  </div>
+
 
   <div className="flex-grow mt-[3rem]"> {/* Used flex-grow to make this div take up remaining space */}
     <div className="bg-blue-300 text-center  p-4">
@@ -60,14 +54,16 @@ const Profile = () => {
 
     </div>
 
-    <div>
+    <div className='flex justify-center gap-10 flex-wrap p-[5rem] '>
       {/* Render Uservehicle components */}
       {vehicles.map((vehicle) => (
-        <Uservehicle key={vehicle.vehicle_id} vehicle_id={vehicle.vehicle} brandid = {vehicle.brand} registration_no = {vehicle.registration_number}  />
+        <VehicleCard key={vehicle.vehicle_id} vehicle_id={vehicle.vehicle} brandid = {vehicle.brand} registration_no = {vehicle.registration_number} total_km = {vehicle.total_km} manufacture = {vehicle.year_of_manufacture} />
       ))}
     </div>
   </div>
-</div>
+
+  </div>
+
       
 
         

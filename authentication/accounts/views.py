@@ -488,3 +488,44 @@ def verify_mechanic(request):
 class VerifyView(ListAPIView):
     queryset = CustomUser.objects.filter(is_verify=True)
     serializer_class = CustomUserSerializer
+
+
+from .models import Booking
+from .serializers import BookingSerializer
+
+from datetime import timedelta
+class BookingListCreateView(generics.ListCreateAPIView):
+    queryset = Booking.objects.all()
+    serializer_class = BookingSerializer
+
+    # def create(self, request, *args, **kwargs):
+    #     data = request.data
+    #     # data['service_time'] = timedelta(hours=1)  # Set default service_time to 1 hour
+    #     serializer = self.get_serializer(data=data)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_create(serializer)
+    #     headers = self.get_success_headers(serializer.data)
+    #     return Response(serializer.data, status=201, headers=headers)
+    
+from rest_framework.response import Response
+from django.utils import timezone
+
+
+class IsMechanicAvailableView(generics.CreateAPIView):
+    serializer_class = BookingSerializer
+
+    def post(self, request, *args, **kwargs):
+        mechanic_id = request.data.get('mechanic_id')
+        requested_datetime = request.data.get('requested_datetime')
+        service_duration = request.data.get('service_duration')
+
+        end_datetime = timezone.datetime.strptime(requested_datetime, '%Y-%m-%dT%H:%M:%S') + timezone.timedelta(minutes=int(service_duration))
+
+        existing_bookings = Booking.objects.filter(
+            mechanic_id=mechanic_id,
+            booking_date_time__lt=end_datetime,
+            booking_date_time__gte=requested_datetime,
+        )
+
+        return Response({'available': not existing_bookings.exists()})
+

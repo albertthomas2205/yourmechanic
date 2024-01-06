@@ -10,10 +10,11 @@ const Profile = () => {
         
         <HeaderUser/>
         <div className='flex'>
-          <div className='flex-grow'>
+          <div className='flex'>
           <UserSidebar/>
           </div>
-          <div className='flex-grow'>
+          <div className='flex w-[20rem]'></div>
+          <div className='flex'>
           <Profilecard/>
           </div>
       

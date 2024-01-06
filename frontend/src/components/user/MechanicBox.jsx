@@ -6,8 +6,17 @@ import {
     Typography,
     Button,
   } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
+
+
    
   export  default function   MechanicBox(props) {
+
+
+    const navigate = useNavigate()
+    const Clickbutton = () => {
+      navigate("/userprofile");
+    };
     return (
       <Card className="mt-6 w-96">
         <CardHeader color="blue-gray" className="relative h-56">
@@ -27,7 +36,7 @@ import {
           </Typography>
         </CardBody>
         <CardFooter className="pt-0">
-          <Button>Read More</Button>
+          <Button onClick={Clickbutton}>Select</Button>
         </CardFooter>
       </Card>
     );

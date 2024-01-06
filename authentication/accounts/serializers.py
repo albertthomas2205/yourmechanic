@@ -120,4 +120,10 @@ class MechanicProfileSerializer(serializers.ModelSerializer):
         # fields = ['place', 'pin', 'experience', 'description', 'profile_pic', 'mechanic_id',]
         fields = '__all__'
       
+from .models import Booking
+
+class BookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Booking
+        fields = '__all__'
         

@@ -120,6 +120,15 @@ class MechanicProfiledetails(models.Model):
     
 
 
+class Booking(models.Model):
+    booking_date_time = models.DateTimeField()
+    mechanic_id = models.IntegerField()
+    mechanic_name = models.CharField(max_length=100)
+    vehicle_id = models.IntegerField()
+    user_id = models.IntegerField()
+    user_name = models.CharField(max_length=100)
+    service_id = models.IntegerField()
+    service_time = models.DurationField(default='1:00:00',blank=True,null=True) 
     
     
     

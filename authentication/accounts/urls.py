@@ -32,6 +32,8 @@ urlpatterns = [
     path('mechanic-profile/<int:mechanic_id>/', views.MechanicProfileDetailView.as_view(), name='mechanic-profile-list-create'),
     path('verify-mechanic/',views.verify_mechanic,name='verify_mechanic'),
     path('verify-mechaniclist/',views.VerifyView.as_view(),name='verify_mech'),
+    path('bookings/', views.BookingListCreateView.as_view(), name='booking-list-create'),
+    path('is-mechanic-available/', views.IsMechanicAvailableView.as_view(), name='is-mechanic-available'),
     
     
     

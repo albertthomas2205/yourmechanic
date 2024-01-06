@@ -12,7 +12,7 @@ const Adminhome = () => {
   return (
   
     <>
-    <di>
+    <div>
    <Header/>
  
         <div className='flex'>
@@ -29,7 +29,7 @@ const Adminhome = () => {
         </div>
        
 
-        </di>
+        </div>
     
    
     </>
