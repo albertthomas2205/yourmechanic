@@ -39,22 +39,32 @@ const Profile = () => {
       <div className="flex">
   <UserSidebar />
  
-  <div className="flex w-[20rem]">
+  <div className="flex lg:w-[20rem]">
 
   </div>
 
 
   <div className="flex-grow mt-[3rem]"> {/* Used flex-grow to make this div take up remaining space */}
-    <div className="bg-blue-300 text-center  p-4">
-      <h1 className="mt-4">user vehicles</h1>
-      <UserVehicleAdd/>
+    <div className=" text-center  pt-[5rem]">
+      <div className>
+      <h2 className="mt-4 text-white">Your vehicles</h2>
+      </div>
+  
+      
+  
+     
+ 
     </div>
     <div>
      
 
     </div>
+    <div className=" flex justify-end p-5">
+     <UserVehicleAdd/>
+     </div>
 
     <div className='flex justify-center gap-10 flex-wrap p-[5rem] '>
+    
       {/* Render Uservehicle components */}
       {vehicles.map((vehicle) => (
         <VehicleCard key={vehicle.vehicle_id} vehicle_id={vehicle.vehicle} brandid = {vehicle.brand} registration_no = {vehicle.registration_number} total_km = {vehicle.total_km} manufacture = {vehicle.year_of_manufacture} />

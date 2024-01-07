@@ -13,8 +13,8 @@ const Profile = () => {
           <div className='flex'>
           <UserSidebar/>
           </div>
-          <div className='flex w-[20rem]'></div>
-          <div className='flex'>
+          <div className='flex lg:w-[20rem]'></div>
+          <div className='flex-grow pt-4'>
           <Profilecard/>
           </div>
       

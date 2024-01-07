@@ -10,34 +10,32 @@ import DialogWithForm from './Dailogform';
 import UsersRows from './Users';
 import MechanicsRows from './Mechanics';
 import Servicelist from '../../components/admin/Services';
+import Sidebaradmin from '../../components/admin/Sidbaradmin';
 
 const Userpage = () => {
   return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <Sidebar />
+    <>
+    <div>
+   <Header/>
+ 
+        <div className='flex'>
+          <div >
 
-      <div className="flex flex-col flex-1 overflow-hidden">
-        {/* Header */}
-        <Header />
+          </div>
+        <Sidebaradmin/>
+         
+          <div className='flex-grow min-h-screen ml-[20rem] mt-[4rem]'>
+          <UsersRows/>
+          </div>
+      
+    
+        </div>
+       
 
+        </div>
+    
    
-
-        {/* Main Content */}
-        <main className="flex-1 overflow-x-auto overflow-y-auto bg-gray-200 p-4">
-          {/* Your content goes here */}
-          {/* Add routes and components for different sections/pages */}
-          {/* <DialogWithForm/>
-       
-         <AddServiceForm/> */}
-         {/* <MechanicsRows/> */}
-         <UsersRows/>
-        </main>
-
-        {/* Footer */}
-       
-      </div>
-    </div>
+    </>
   );
 };
 

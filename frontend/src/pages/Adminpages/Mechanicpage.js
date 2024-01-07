@@ -1,45 +1,45 @@
-import React from 'react';
-import Sidebar from '../../components/admin/Sidebar';
-import Footer from '../../components/admin/Footer';
-import StickyNavbar from '../../components/admin/StickyNavbar';
-import Header from '../../components/admin/Header';
-import Registration from '../../components/user/Registration';
-import ServiceTable from './ServiceTable';
-import AddServiceForm from './AddServiceForm';
-import DialogWithForm from './Dailogform';
-import UsersRows from './Users';
-import MechanicsRows from './Mechanics';
+import React from 'react'
 
-import Servicelist from '../../components/admin/Services';
+import AddService from './Addservice'
+import ServiceTable from './Service'
+import Demo from '../../components/admin/demo'
+import Mechanics from '../../components/admin/Mechanics'
 
-const Mechanicpage = () => {
+import Header from '../../components/admin/Header'
+import Sidebaradmin from '../../components/admin/Sidbaradmin'
+import Mechanicdetails from '../../components/admin/Mechanicdetails';
+
+const Mechanicpage= () => {
   return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <Sidebar />
+  
+    <>
+     <Header/>
+ 
+    <div>
+  
+        <div className='flex'>
+          <div className='hidden'>
+          <Sidebaradmin/>
+          </div>
+ {/* <div className='flex lg:w-[20rem]'></div> */}
+       
+        
+{/*          
+          <div className='flex-grow min-h-screen  mt-[4rem] border-2 border-deep-orange-800'> */}
+            {/* <Mechanics/> */}
+          {/* <Mechanicdetails/> */}
+          {/* </div> */}
+      
+    
+        </div>
+       
 
-      <div className="flex flex-col flex-1 overflow-hidden">
-        {/* Header */}
-        <Header />
-
+        </div>
+    
    
+    </>
 
-        {/* Main Content */}
-        <main className="flex-1 overflow-x-auto overflow-y-auto bg-gray-200 p-4">
-          {/* Your content goes here */}
-          {/* Add routes and components for different sections/pages */}
-          {/* <DialogWithForm/>
-       
-         <AddServiceForm/> */}
-         <MechanicsRows/>
-       
-        </main>
+  )
+}
 
-        {/* Footer */}
-       
-      </div>
-    </div>
-  );
-};
-
-export default Mechanicpage;
+export default Mechanicpage

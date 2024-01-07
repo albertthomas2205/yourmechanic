@@ -17,8 +17,18 @@ import {
   } from "@heroicons/react/24/solid";
   import HeaderUser from "./Headeruser";
   import Slidebardrover from "./Sidebardrover";
+  import { useNavigate } from "react-router-dom";
    
   export default function UserSidebar({ className }) {
+    
+   const navigate = useNavigate()
+   const ProfileClick = ()=>{
+     navigate("/userprofile")
+   }
+
+   const VehicleClick = ()=>{
+    navigate("/uservehicle")
+  }
     return (
     //     <div className=" relative self-stretch w-[20rem]">
     //     {/* <HeaderUser/> */}
@@ -34,17 +44,23 @@ import {
           </Typography>
         </div>
         <List>
-          <ListItem>
+        <ListItem onClick={ProfileClick}>
+            <ListItemPrefix>
+              <UserCircleIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Profile
+          </ListItem>
+          <ListItem onClick={VehicleClick}>
             <ListItemPrefix>
               <PresentationChartBarIcon className="h-5 w-5" />
             </ListItemPrefix>
-            Dashboard
+          Vehicles
           </ListItem>
           <ListItem>
             <ListItemPrefix>
               <ShoppingBagIcon className="h-5 w-5" />
             </ListItemPrefix>
-            E-Commerce
+            Booking
           </ListItem>
           <ListItem>
             <ListItemPrefix>
@@ -55,24 +71,19 @@ import {
               <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
             </ListItemSuffix>
           </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Profile
-          </ListItem>
+     
           <ListItem>
             <ListItemPrefix>
               <Cog6ToothIcon className="h-5 w-5" />
             </ListItemPrefix>
             Settings
           </ListItem>
-          <ListItem>
+          {/* <ListItem>
             <ListItemPrefix>
               <PowerIcon className="h-5 w-5" />
             </ListItemPrefix>
             Log Out
-          </ListItem>
+          </ListItem> */}
         </List>
       {/* </div> */}
       {/* <div style={{marginTop:"1rem"}} className="mt-6">

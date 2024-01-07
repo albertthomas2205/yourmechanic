@@ -1,44 +1,37 @@
-import React from 'react';
-import Sidebar from '../../components/admin/Sidebar';
-import Footer from '../../components/admin/Footer';
-import StickyNavbar from '../../components/admin/StickyNavbar';
-import Header from '../../components/admin/Header';
-import Registration from '../../components/user/Registration';
-import ServiceTable from './ServiceTable';
-import AddServiceForm from './AddServiceForm';
-import DialogWithForm from './Dailogform';
-import UsersRows from './Users';
-import MechanicsRows from './Mechanics';
-import Servicelist from '../../components/admin/Services';
+import React from "react";
 
-const Servicepage= () => {
+import AddService from "./Addservice";
+import ServiceTable from "./Service";
+import Demo from "../../components/admin/demo";
+import Mechanics from "../../components/admin/Mechanics";
+
+import Header from "../../components/admin/Header";
+import Sidebaradmin from "../../components/admin/Sidbaradmin";
+import Mechanicdetails from "../../components/admin/Mechanicdetails";
+import Servicelist from "../../components/admin/Services";
+
+const Adminhome = () => {
   return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <Sidebar />
-
-      <div className="flex flex-col flex-1 overflow-hidden">
-        {/* Header */}
-        <Header />
-
    
+      <div>
+        <div className="fixed w-full z-30 bg-[#180e32] ">
+        <Header />
+        </div>
+     
 
-        {/* Main Content */}
-        <main className="flex-1 overflow-x-auto overflow-y-auto bg-gray-200 p-4">
-          {/* Your content goes here */}
-          {/* Add routes and components for different sections/pages */}
-          {/* <DialogWithForm/>
-       
-         <AddServiceForm/> */}
-         {/* <MechanicsRows/> */}
-         <Servicelist/>
-        </main>
+        <div className="flex sm:max-w-[95%] p-3 mx-auto gap-4">
+          <div>
+          <Sidebaradmin />
+          </div>
 
-        {/* Footer */}
-       
+          <div className="flex-grow  mt-[12rem] min-h-screen lg:ml-[20rem] ">
+            <Servicelist/>
+            {/* <Mechanicdetails/> */}
+          </div>
+        </div>
       </div>
-    </div>
+
   );
 };
 
-export default Servicepage;
+export default Adminhome;

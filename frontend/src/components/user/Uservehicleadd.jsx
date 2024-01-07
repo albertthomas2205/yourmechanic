@@ -94,7 +94,7 @@ export default function UserVehicleAdd() {
   
   return (
     <>
-      <Button onClick={handleOpen} variant="text">
+      <Button onClick={handleOpen}  color="green" variant="gradient" className='bg-green-300'>
         Add Vehicle
       </Button>
       <Dialog

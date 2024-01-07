@@ -48,10 +48,10 @@ import { background } from "@chakra-ui/react";
       <Card className="mt-6 w-96 ">
 
 {/* style={{backgroundImage:`url('${vehicleDetails.image}')` ,minHeight:100,}}  */}
-        <CardHeader color="white" className=" relative h-56 bg-cover ">
+        <CardHeader color="bg-black" className=" relative h-56 bg-cover ">
             <div >
             <img
-            className="bg-contain"
+            className="object-cover"
             src={vehicleDetails.image}
             alt="card-image"
           />

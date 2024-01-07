@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from "@material-tailwind/react";
 import axios from 'axios';
-
 import {
   MDBCol,
   MDBContainer,
@@ -11,23 +9,22 @@ import {
   MDBCardBody,
   MDBCardImage,
   MDBTypography
-
 } from 'mdb-react-ui-kit';
-import Userdetailadd from '../user/Userdetailadd';
-import Userdetailsedit from '../user/Userdetailsedit';
 import MechanicdetailsAdd from './MechanicdetailsAdd';
+import MechanicDetailsEdit from './MechanicProfileEdit';
 
 import { useSelector } from 'react-redux';
 
 export default function MechanicProfilecard() {
-  const [profileData, setProfileData] = useState(null);
+  const [profileData, setProfileData] = useState([]);
   const id = useSelector((state)=>state.persistedAuthReducer.authentication_user.id);
  
   const first_name = useSelector((state) => state.persistedAuthReducer.authentication_user.first_name);
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/userprofile/${id}/`)
+    axios.get(`http://127.0.0.1:8000/api/mechanic-profile/${id}/`)
       .then(response => {
+        console.log(response.data)
         setProfileData(response.data);
       })
       .catch(error => {
@@ -37,7 +34,7 @@ export default function MechanicProfilecard() {
 
   const defaultImageUrl = "https://i.pinimg.com/564x/20/c0/0f/20c00f0f135c950096a54b7b465e45cc.jpg";
   const profileImageUrl = profileData ? profileData.profile_pic : defaultImageUrl;
-  const displayName = profileData ? profileData.username : first_name;
+  const displayName = first_name;
 
   return (
     <div className="gradient-custom-2 mt-[4rem] flex-grow min-h-screen" >
@@ -60,76 +57,46 @@ export default function MechanicProfilecard() {
     }} 
   />
   <MDBCard>
-    <MechanicdetailsAdd/>
-   
-    {/* {profileData && profileData.username ? <Userdetailsedit /> : <Userdetailadd />} */}
+    {profileData && profileData.place ? <MechanicDetailsEdit /> : <MechanicdetailsAdd />}
   </MDBCard>
 </div>
 
                 {/* Dummy Data Section */}
                 <div className="ms-3" style={{ marginTop: '130px' }}>
                   <MDBTypography tag="h5">{displayName}</MDBTypography>
-                  <MDBCardText>New York</MDBCardText>
+                  <MDBCardText> {profileData?profileData.place:""}</MDBCardText>
                 </div>
               </div>
-              <div className="p-4 text-black" >
+              <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
                 <div className="d-flex justify-content-end text-center py-1">
-                
                   <div>
-                    <MDBCardText className="mb-1 h5"> <Button variant="outlined">Send Verification</Button></MDBCardText>
-             
+                    <MDBCardText className="mb-1 h5">Bookings</MDBCardText>
+                    <MDBCardText className="small text-muted mb-0">3</MDBCardText>
                   </div>
+                  {/* <div className="px-3">
+                    <MDBCardText className="mb-1 h5">1026</MDBCardText>
+                    <MDBCardText className="small text-muted mb-0">Followers</MDBCardText>
+                  </div>
+                  <div>
+                    <MDBCardText className="mb-1 h5">478</MDBCardText>
+                    <MDBCardText className="small text-muted mb-0">Following</MDBCardText>
+                  </div> */}
                 </div>
               </div>
               <MDBCardBody className="text-black p-4">
                 <div className="mb-5">
                   <p className="lead fw-normal mb-1">About</p>
                   <div className="p-4" style={{ backgroundColor: '#f8f9fa' }}>
-                    <MDBCardText className="font-italic mb-1">Web Developer</MDBCardText>
-                    <MDBCardText className="font-italic mb-1">Lives in New York</MDBCardText>
-                    <MDBCardText className="font-italic mb-0">Photographer</MDBCardText>
+                    <MDBCardText className="font-italic mb-1">{profileData?profileData.experience:""} Years of Experience</MDBCardText>
+                    <MDBCardText className="font-italic mb-1">Lives in {profileData?profileData.place:""}</MDBCardText>
+                    <MDBCardText className="font-italic mb-0">Mechanic</MDBCardText>
                   </div>
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                  <MDBCardText className="lead fw-normal mb-0">Recent photos</MDBCardText>
+                  <MDBCardText className="lead fw-normal mb-0">Recent Booking</MDBCardText>
                   <MDBCardText className="mb-0"><a href="#!" className="text-muted">Show all</a></MDBCardText>
                 </div>
-                <MDBRow>
-                  {/* Dummy Image Gallery */}
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(145).webp" alt="Gallery" className="w-100" />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(150).webp" alt="Gallery" className="w-100" />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(152).webp" alt="Gallery" className="w-100" />
-                  </MDBCol>
-                </MDBRow>
-                <MDBRow>
-                  {/* Dummy Image Gallery */}
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(145).webp" alt="Gallery" className="w-100" />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(150).webp" alt="Gallery" className="w-100" />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(152).webp" alt="Gallery" className="w-100" />
-                  </MDBCol>
-                </MDBRow>
-                <MDBRow>
-                  {/* Dummy Image Gallery */}
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(145).webp" alt="Gallery" className="w-100" />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(150).webp" alt="Gallery" className="w-100" />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(152).webp" alt="Gallery" className="w-100" />
-                  </MDBCol>
-                </MDBRow>
+              
               </MDBCardBody>
             </MDBCard>
           </MDBCol>

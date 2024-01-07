@@ -1,87 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, Typography, Button, Input, Alert } from '@material-tailwind/react';
+import { Card, Typography, Button, Input, Alert, Chip } from '@material-tailwind/react';
 import Pagination from './Pagination';
 import DialogWithForm from '../../pages/Adminpages/Dailogform';
-import Editform from './Editform';
+import Mechanicdetails from './Mechanicdetails';
+import Mechanicverify from './Mechanicverify';
 
-const Servicelist = () => {
-  const [services, setServices] = useState([]);
+
+const Mechanics = () => {
+  const [mechanics, setMechanics] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredServices, setFilteredServices] = useState([]);
-  const [servicesPerPage] = useState(5);
+  const [filteredMechanics, setFilteredMechanics] = useState([]);
+  const [mechanicsPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
-  const [editingServiceId, setEditingServiceId] = useState(null);
+  const [editingMechanicId, setEditingMechanicId] = useState(null);
 
-  const TABLE_HEAD = ['NO', 'Name', 'Description', 'Image', 'Price', 'Actions'];
+
+  const TABLE_HEAD = ['NO', 'First Name', 'Email', 'Phone Number', 'Verify', 'Actions'];
+
   const handleSearch = () => {
     const trimmedSearchTerm = searchTerm.trim();
-    const filtered = services.filter((service) =>
-      service.name.toLowerCase().includes(trimmedSearchTerm.toLowerCase())
+    const filtered = mechanics.filter((mechanic) =>
+      mechanic.first_name.toLowerCase().includes(trimmedSearchTerm.toLowerCase())
     );
-    setFilteredServices(filtered);
+    setFilteredMechanics(filtered);
   };
 
-
   useEffect(() => {
-    const fetchServices = async () => {
+    const fetchMechanics = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8001/api/services/');
-        setServices(response.data);
-        setFilteredServices(response.data);
+        const response = await axios.get('http://127.0.0.1:8000/api/mechanics/');
+        setMechanics(response.data);
+        setFilteredMechanics(response.data);
       } catch (error) {
-        console.error('Error fetching services:', error);
+        console.error('Error fetching mechanics:', error);
       }
     };
 
-    fetchServices();
-  },[] );
-
+    fetchMechanics();
+  }, []);
 
   const handlePaginationChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   const handleEdit = (id) => {
-    console.log(`Edit service with ID ${id}`);
-    setEditingServiceId(id);
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      if (window.confirm('Are you sure you want to delete this service?')) {
-        await axios.delete(`http://127.0.0.1:8001/api/services/${id}/`);
-
-        setServices((prevServices) => prevServices.filter((service) => service.id !== id));
-        setFilteredServices((prevFilteredServices) =>
-          prevFilteredServices.filter((service) => service.id !== id)
-        );
-
-        console.log(`Deleted service with ID ${id}`);
-        setShowSuccess(true);
-
-        setTimeout(() => {
-          setShowSuccess(false);
-        }, 1000);
-      }
-    } catch (error) {
-      console.error(`Error deleting service with ID ${id}:`, error);
-    }
-  };
-
-  const currentServices = () => {
-    const indexOfLastService = currentPage * servicesPerPage;
-    const indexOfFirstService = indexOfLastService - servicesPerPage;
-    return filteredServices.slice(indexOfFirstService, indexOfLastService);
+    console.log(`Edit mechanic with ID ${id}`);
+    setEditingMechanicId(id);
   };
 
   return (
-    <Card className="h-full w-full overflow-scroll">
+    <Card className="h-full w-full overflow-scroll p-[3rem]]">
       <div className="flex justify-between p-4">
         <div>
           <Typography variant="h5" color="blue-gray">
-            Service Details
+            Mechanics Details
           </Typography>
         </div>
         <div className="flex items-center">
@@ -90,18 +64,17 @@ const Servicelist = () => {
           </div>
           <div className="flex items-center">
             <Input
-              placeholder="Search services"
+              placeholder="Search mechanics"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            {/* Uncomment the onClick attribute for the "Search" button */}
             <Button onClick={handleSearch}>Search</Button>
           </div>
         </div>
       </div>
       {showSuccess && (
         <Alert color="green" className="mb-4" onClose={() => setShowSuccess(false)}>
-          Service deleted successfully!
+          Mechanic deleted successfully!
         </Alert>
       )}
       <table className="w-full min-w-max table-auto text-left">
@@ -117,8 +90,8 @@ const Servicelist = () => {
           </tr>
         </thead>
         <tbody>
-          {currentServices().map((service, index) => (
-            <tr key={service.id} className={index % 2 === 0 ? 'even:bg-blue-gray-50/50' : ''}>
+          {filteredMechanics.slice((currentPage - 1) * mechanicsPerPage, currentPage * mechanicsPerPage).map((mechanic, index) => (
+            <tr key={mechanic.id} className={index % 2 === 0 ? 'even:bg-blue-gray-50/50' : ''}>
               <td className="p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
                   {index + 1}
@@ -126,28 +99,30 @@ const Servicelist = () => {
               </td>
               <td className="p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                  {service.name}
+                  {mechanic.first_name}
                 </Typography>
               </td>
               <td className="p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                  {service.description}
+                  {mechanic.email}
                 </Typography>
-              </td>
-              <td className="p-4">
-                <img src={service.image} alt={service.name} className="w-16 h-16 object-cover" />
               </td>
               <td className="p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                  {service.price}
+                  {mechanic.phone_number}
                 </Typography>
+              </td>
+              <td className="p-4">
+                <Chip color={mechanic.is_verify ? 'green' : 'red'}
+                     value={mechanic.is_verify ? "verify" : "not verify"}
+                     variant="ghost"
+                     size="sm"
+                   
+                />
               </td>
               <td className="p-4">
                 <div className="flex items-center gap-2">
-                  <Editform serviceId={service.id} />
-                  <Button color="red" onClick={() => handleDelete(service.id)}>
-                    Delete
-                  </Button>
+                   <Mechanicverify id ={mechanic.id}/>
                 </div>
               </td>
             </tr>
@@ -157,7 +132,7 @@ const Servicelist = () => {
       <div className="items-center p-4">
         <Pagination
           currentPage={currentPage}
-          totalPages={Math.ceil(filteredServices.length / servicesPerPage)}
+          totalPages={Math.ceil(filteredMechanics.length / mechanicsPerPage)}
           onPageChange={handlePaginationChange}
         />
       </div>
@@ -165,4 +140,4 @@ const Servicelist = () => {
   );
 };
 
-export default Servicelist;
+export default Mechanics;

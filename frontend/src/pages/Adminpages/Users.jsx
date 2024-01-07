@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Typography, Button } from '@material-tailwind/react';
 import Pagination from '../../components/admin/Pagination';
+
 const UsersRows = () => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     // Fetch data from the API
@@ -20,46 +23,60 @@ const UsersRows = () => {
     fetchData();
   }, []);
 
+  // Function to filter user data based on search input
+  const filterUserData = () => {
+    const filteredData = userData.filter(
+      (user) =>
+        user.first_name.toLowerCase().includes(searchInput.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchInput.toLowerCase())
+    );
+    setSearchResults(filteredData);
+  };
+
+  useEffect(() => {
+    filterUserData();
+  }, [searchInput, userData]);
+
   const handleBlockUser = async (userId, isUserActive) => {
-    // Show a confirmation alert
-    const confirmed = window.confirm(`Are you sure you want to ${isUserActive ? 'block' : 'unblock'} this user?`);
+    // ... (previous code)
 
-    if (!confirmed) {
-      return; // If the user cancels, do nothing
-    }
+    // Update the user data after a successful block/unblock operation
+    setUserData((prevData) =>
+      prevData.map((user) =>
+        user.id === userId ? { ...user, is_useractive: !isUserActive } : user
+      )
+    );
 
-    try {
-      setLoading(true);
+    // Update search results as well
+    setSearchResults((prevResults) =>
+      prevResults.map((user) =>
+        user.id === userId ? { ...user, is_useractive: !isUserActive } : user
+      )
+    );
 
-      // Send a POST request to block/unblock the user
-      const response = await axios.post('http://127.0.0.1:8000/api/block-user/', {
-        user_id: userId,
-      });
-
-      if (response.status === 200) {
-        // Update the user data after a successful block/unblock operation
-        setUserData(prevData =>
-          prevData.map(user =>
-            user.id === userId ? { ...user, is_useractive: !isUserActive } : user
-          )
-        );
-        console.log(`User ${isUserActive ? 'blocked' : 'unblocked'} successfully`);
-      }
-    } catch (error) {
-      console.error('Error blocking/unblocking user:', error);
-    } finally {
-      setLoading(false);
-    }
+    console.log(`User ${isUserActive ? 'blocked' : 'unblocked'} successfully`);
   };
 
   const TABLE_HEAD = ['NO', 'ID', 'Name', 'Email', 'Action'];
 
   return (
     <Card className="h-full w-full overflow-scroll">
-      <div className="mb-2 p-4">
-        <Typography variant="h5" color="blue-gray">
-          User Details
-        </Typography>
+      <div className="flex justify-between p-4">
+        <div>
+          <Typography variant="h5" color="blue-gray">
+            User Details
+          </Typography>
+        </div>
+        {/* Search input field */}
+        <div>
+          <input
+            type="text"
+            placeholder="Search by Name or Email"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="p-2 border rounded"
+          />
+        </div>
       </div>
       <table className="w-full min-w-max table-auto text-left">
         <thead>
@@ -78,7 +95,7 @@ const UsersRows = () => {
           </tr>
         </thead>
         <tbody>
-          {userData.map((user, index) => (
+          {searchResults.map((user, index) => (
             <tr key={user.id} className={index % 2 === 0 ? 'even:bg-blue-gray-50/50' : ''}>
               <td className="p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
@@ -101,14 +118,14 @@ const UsersRows = () => {
                 </Typography>
               </td>
               <td className="p-4">
-                <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium">
+                <div className="flex items-center gap-2">
                   <Button
                     onClick={() => handleBlockUser(user.id, user.is_useractive)}
                     color={user.is_useractive ? 'black' : 'blue'}
                   >
                     {user.is_useractive ? 'Block' : 'Unblock'}
                   </Button>
-                </Typography>
+                </div>
               </td>
             </tr>
           ))}

@@ -127,7 +127,7 @@ function NavListMenu() {
               selected={isMenuOpen || isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen((cur) => !cur)}
             >
-            
+              Resources
               <ChevronDownIcon
                 strokeWidth={2.5}
                 className={`hidden h-3 w-3 transition-transform lg:block ${
@@ -158,7 +158,7 @@ function NavListMenu() {
  
 function NavList() {
   return (
-    <List className="mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
+    <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
       <Typography
         as="a"
         href="#"
@@ -166,7 +166,7 @@ function NavList() {
         color="blue-gray"
         className="font-medium"
       >
-        <ListItem className="flex items-center gap-2 py-2 pr-4"></ListItem>
+        <ListItem className="flex items-center gap-2 py-2 pr-4">Home</ListItem>
       </Typography>
       <NavListMenu />
       <Typography
@@ -177,7 +177,7 @@ function NavList() {
         className="font-medium"
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">
-       
+          Contact Us
         </ListItem>
       </Typography>
     </List>
@@ -195,28 +195,25 @@ export default function Header() {
   }, []);
  
   return (
-    <div className="  fixed z-10 bg-white container-fluid position-top ">
-    <div className="flex    w-full items-center justify-between top-28 z-10 text-blue-gray-900">
-        {/* <Typography
+    <Navbar className="mx-auto my-4 border-2 px-4 py-">
+      <div className="flex items-center justify-between text-blue-gray-900">
+        <Typography
           as="a"
           href="#"
           variant="h6"
-          className="mr-4 cursor-pointer py-1.5  lg:ml-2"
-
+          className="mr-4 cursor-pointer py-1.5 lg:ml-2"
         >
-          <h3>    Material Tailwind</h3>
-       
-        </Typography> */}
-        <div className="z-10 ml-4"> <h5>Admin Panel</h5></div>
+          Material Tailwind
+        </Typography>
         <div className="hidden lg:block">
           <NavList />
         </div>
         <div className="hidden gap-2 lg:flex">
           <Button variant="text" size="sm" color="blue-gray">
-      
+            Log In
           </Button>
           <Button variant="gradient" size="sm">
-          
+            Sign In
           </Button>
         </div>
         <IconButton
@@ -239,11 +236,10 @@ export default function Header() {
             Log In
           </Button>
           <Button variant="gradient" size="sm" fullWidth>
-            Sign up
+            Sign In
           </Button>
-        
         </div>
       </Collapse>
-    </div>
+    </Navbar>
   );
 }

@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
     Card,
     CardHeader,
@@ -8,9 +10,21 @@ import {
   } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 
-
    
   export  default function   MechanicBox(props) {
+    const [profileData, setProfileData] = useState([]);
+
+useEffect(() => {
+  axios.get(`http://127.0.0.1:8000/api/mechanic-profile/${props.id}/`)
+    .then(response => {
+      console.log(response.data)
+      setProfileData(response.data);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+}, [props.id]);
+
 
 
     const navigate = useNavigate()
@@ -21,7 +35,7 @@ import { useNavigate } from "react-router-dom";
       <Card className="mt-6 w-96">
         <CardHeader color="blue-gray" className="relative h-56">
           <img
-            src="https://www.autotrainingcentre.com/wp-content/uploads/2019/09/Sept-27-automotive-technology-training.jpg"
+            src={profileData.profile_pic}
             alt="card-image"
           />
         </CardHeader>
