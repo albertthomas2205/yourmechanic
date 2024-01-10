@@ -17,7 +17,8 @@ export default function Mechanicverif(props) {
  
   return (
     <>
-      <Button onClick={handleOpen}>Mehanic Profile</Button>
+      <Button onClick={handleOpen}>Mehanic Profile </Button>
+   
     <Dialog open={open} size="sm" handler={handleOpen}>
         <div className="flex items-center justify-between">
           <DialogHeader className="flex flex-col items-start">
@@ -40,7 +41,7 @@ export default function Mechanicverif(props) {
         </div>
         <DialogBody > 
             <div className="pl-[3rem]">
-          <Mechaniccard id ={props.id}/>
+          <Mechaniccard  id ={props.id}/>
           </div>
         </DialogBody>
         <DialogFooter className="space-x-2">

@@ -8,10 +8,11 @@ import Mechanics from "../../components/admin/Mechanics";
 import Header from "../../components/admin/Header";
 import Sidebaradmin from "../../components/admin/Sidbaradmin";
 import Mechanicdetails from "../../components/admin/Mechanicdetails";
-import UsersRows from "./Users";
 import Servicelist from "../../components/admin/Services";
+import VehicleList from "../../components/admin/Vechileslist";
 
-const Adminhome = () => {
+
+const VehiclesPage = () => {
   return (
    
       <div>
@@ -26,7 +27,8 @@ const Adminhome = () => {
           </div>
 
           <div className="flex-grow  mt-[7rem] min-h-screen lg:ml-[20rem] ">
-       <UsersRows/>
+           <VehicleList/>
+          
           </div>
         </div>
       </div>
@@ -34,4 +36,4 @@ const Adminhome = () => {
   );
 };
 
-export default Adminhome;
+export default VehiclesPage;

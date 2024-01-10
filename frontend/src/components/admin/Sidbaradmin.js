@@ -15,8 +15,44 @@ import {
   InboxIcon,
   PowerIcon,
 } from "@heroicons/react/24/solid";
+import { TruckIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import {
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+  Button,
+} from "@material-tailwind/react";
+ 
+export function MenuDefault() {
+  const navigate = useNavigate()
+  const vehicleClick = ()=>{
+    navigate("/admin/vehicles/")
+  }
+  const brandClick = ()=>{
+    navigate("/admin/brands/")
+  }
+  return (
+    <Menu>
+      <MenuHandler>
+    
+      <ListItem >
+          <ListItemPrefix >
+          <TruckIcon className="h-5 w-5" />
 
+          </ListItemPrefix>
+          Vehicles
+        </ListItem>
+      </MenuHandler>
+      <MenuList>
+        <MenuItem onClick={brandClick}>Brands</MenuItem>
+        <MenuItem onClick={vehicleClick}>Vehicle</MenuItem>
+      
+      </MenuList>
+    </Menu>
+  );
+}
  
 export default function Sidebaradmin({ className }) {
   const navigate = useNavigate()
@@ -27,13 +63,13 @@ export default function Sidebaradmin({ className }) {
     navigate("/admin/services/")
     }
     const UserClick = ()=>{
-      navigate("/admin/adminhome/")
+      navigate("/admin/users/")
       }
   return (
   //     <div className=" relative self-stretch w-[20rem]">
   //     {/* <HeaderUser/> */}
   //  <div className="fixed top-[2rem] bottom-0 ">
-  <Card className="   w-full max-w-[20rem] hidden lg:block fixed  h-screen  mt-[12rem] bg-white   p-4  shadow-xl shadow-blue-gray-900/5">
+  <Card className="   w-full max-w-[20rem] hidden lg:block fixed  h-screen  mt-[7rem] bg-white   p-4  shadow-xl shadow-blue-gray-900/5">
 
      
 
@@ -43,31 +79,25 @@ export default function Sidebaradmin({ className }) {
         </Typography>
       </div>
       <List>
-      <ListItem>
-          <ListItemPrefix>
+      <ListItem onClick={UserClick}>
+          <ListItemPrefix >
             <UserCircleIcon className="h-5 w-5" />
           </ListItemPrefix>
-          UsersManagement
+          Users
         </ListItem>
         <ListItem onClick={MechanicClick}>
           <ListItemPrefix>
             <UserCircleIcon className="h-5 w-5" />
           </ListItemPrefix>
-          MechanicsManagement
+          Mechanics
         </ListItem>
         <ListItem onClick={ServicClick}>
           <ListItemPrefix>
             <PresentationChartBarIcon className="h-5 w-5" />
           </ListItemPrefix>
-          Services
+           Services
         </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <ShoppingBagIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          E-Commerce
-        </ListItem>
-       
+      <MenuDefault/>
         
         <ListItem>
           <ListItemPrefix>

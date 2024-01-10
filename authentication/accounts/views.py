@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from .models import   CustomUser,CustomUserManager,UserVehicles
 from .serializers import UserRegisterSerializer,MyTokenObtainPairSerializer, BlockUserSerializer,UserlistSerializer, OtpRequestSerializer,OtpResponseSerializer,UsergoogleSerializer,MechanicRegisterSerializer,EmailCheckSerializer
+from .serializers import AdminRegisterSerializer,MechanicProfiledetailsSerializer
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.decorators import api_view
 from .serializers import UserProfileEditSerializer
@@ -46,6 +47,19 @@ class RegisterVieww(APIView):
         # serializer.is_valid(raise_exception=True)
         # serializer.save()
         
+        content ={'Message':'User Registered Successfully'}
+        return Response(content,status=status.HTTP_201_CREATED,)
+    
+class AdminRegisterVieww(APIView):
+    
+    def post(self,request):
+        
+        serializer = AdminRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return Response(serializer.errors,status=status.HTTP_406_NOT_ACCEPTABLE,)  
+    
         content ={'Message':'User Registered Successfully'}
         return Response(content,status=status.HTTP_201_CREATED,)
     
@@ -188,7 +202,9 @@ class LoginView(APIView):
                      'access': str(refresh.access_token),
                      'first_name':str(user.first_name),
                      'id':str(user.id),
-                     'is_user':user.is_user
+                     'is_user':user.is_user,
+                     'is_admin':user.is_admin,
+                     
                      
                 }
         
@@ -439,7 +455,13 @@ class UserVehiclesListAPIView(generics.ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs.get('user_id')  # Assuming the user_id is provided in the URL
         return UserVehicles.objects.filter(user_id=user_id)
-    
+class UserVehiclesRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = UserVehiclesSerializer
+    lookup_field = 'pk' 
+
+    def get_queryset(self):
+        user_id = self.kwargs.get('user_id')  # Assuming the user_id is provided in the URL
+        return UserVehicles.objects.filter(user_id=user_id)
     
 class MechanicProfileDetailView(APIView):
 
@@ -529,3 +551,40 @@ class IsMechanicAvailableView(generics.CreateAPIView):
 
         return Response({'available': not existing_bookings.exists()})
 
+class MechanicProfiledetailsUpdateView(generics.UpdateAPIView):
+    queryset = MechanicProfiledetails.objects.all()
+    serializer_class = MechanicProfiledetailsSerializer
+
+    def post(self, request, *args, **kwargs):
+        
+        return self.update(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+    
+@api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
+def user_vehicles_detail(request, pk):
+    try:
+        user_vehicle = UserVehicles.objects.get(pk=pk)
+    except UserVehicles.DoesNotExist:
+        return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = UserVehiclesSerializer(user_vehicle)
+        return Response(serializer.data)
+
+    elif request.method in ['PUT', 'PATCH']:
+        serializer = UserVehiclesSerializer(user_vehicle, data=request.data, partial=request.method == 'PATCH')
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        user_vehicle.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -16,24 +16,28 @@ const Profile = () => {
   const [vehicles, setVehicles] = useState([]);
   const id = useSelector((state)=>state.persistedAuthReducer.authentication_user.id);
 
+  const fetchUserVehicles = async () => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/api/user-vehicles/${id}/`);
+      console.log(response.data);
+      setVehicles(response.data);
+    } catch (error) {
+      console.error('Error fetching user vehicles:', error);
+    }
+  };
 
   useEffect(() => {
-    // Fetch the user vehicles data from the API
-    axios.get(`http://127.0.0.1:8000/api/user-vehicles/${id}/`)
-      .then(response => {
-        console.log(response.data)
-        setVehicles(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching user vehicles:', error);
-      });
-  }, []);
+    fetchUserVehicles();
+  }, [id]);
 
   const isLargeScreen = useMediaQuery({ minWidth: 992 });
   return (
     <div  >
+     <div className=" w-full z-30  pt-4 fixed-top  bg-[#180e32]   ">
+        <HeaderUser />
+      </div>
         
-      <HeaderUser/>
+ 
      
      
       <div className="flex">
@@ -60,14 +64,15 @@ const Profile = () => {
 
     </div>
     <div className=" flex justify-end p-5">
-     <UserVehicleAdd/>
+     <UserVehicleAdd fetch = {fetchUserVehicles}/>
      </div>
 
     <div className='flex justify-center gap-10 flex-wrap p-[5rem] '>
     
       {/* Render Uservehicle components */}
       {vehicles.map((vehicle) => (
-        <VehicleCard key={vehicle.vehicle_id} vehicle_id={vehicle.vehicle} brandid = {vehicle.brand} registration_no = {vehicle.registration_number} total_km = {vehicle.total_km} manufacture = {vehicle.year_of_manufacture} />
+        vehicle.vehicle?
+        <VehicleCard key={vehicle.vehicle_id} id={vehicle.id} vehicle_id={vehicle.vehicle} brandid = {vehicle.brand} registration_no = {vehicle.registration_number} total_km = {vehicle.total_km} manufacture = {vehicle.year_of_manufacture} />:""
       ))}
     </div>
   </div>

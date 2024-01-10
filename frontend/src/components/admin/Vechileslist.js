@@ -1,44 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, Typography, Button, Input, Alert, Chip } from '@material-tailwind/react';
+import { Card, Typography, Button, Input, Alert } from '@material-tailwind/react';
 import Pagination from './Pagination';
 import DialogWithForm from '../../pages/Adminpages/Dailogform';
-import Mechanicdetails from './Mechanicdetails';
-import Mechanicverify from './Mechanicverify';
+import Editform from './Editform';
+import AddBrand from './AddBrand';
+import AddAdminVehicle from './AddadminVehicles';
 
-
-const Mechanics = () => {
-  const [mechanics, setMechanics] = useState([]);
+const VehicleList = () => {
+  const [vehicles, setVehicles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredMechanics, setFilteredMechanics] = useState([]);
-  const [mechanicsPerPage] = useState(5);
+  const [filteredVehicles, setFilteredVehicles] = useState([]);
+  const [vehiclesPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
-  const [editingMechanicId, setEditingMechanicId] = useState(null);
+  const [editingVehicleId, setEditingVehicleId] = useState(null);
 
-
-  const TABLE_HEAD = ['NO', 'First Name', 'Email', 'Phone Number', 'Verify', 'Actions'];
+  const TABLE_HEAD = ['NO', 'Vehicle Name', 'Description', 'Brand', 'Image', 'Actions'];
 
   const handleSearch = () => {
     const trimmedSearchTerm = searchTerm.trim();
-    const filtered = mechanics.filter((mechanic) =>
-      mechanic.first_name.toLowerCase().includes(trimmedSearchTerm.toLowerCase())
+    const filtered = vehicles.filter((vehicle) =>
+      vehicle.vehicle_name.toLowerCase().includes(trimmedSearchTerm.toLowerCase())
     );
-    setFilteredMechanics(filtered);
+    setFilteredVehicles(filtered);
   };
 
   useEffect(() => {
-    const fetchMechanics = async () => {
+    const fetchVehicles = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/mechanics/');
-        setMechanics(response.data);
-        setFilteredMechanics(response.data);
+        const response = await axios.get('http://127.0.0.1:8001/api/vehicles/');
+        setVehicles(response.data);
+        setFilteredVehicles(response.data);
       } catch (error) {
-        console.error('Error fetching mechanics:', error);
+        console.error('Error fetching vehicles:', error);
       }
     };
 
-    fetchMechanics();
+    fetchVehicles();
   }, []);
 
   const handlePaginationChange = (pageNumber) => {
@@ -46,25 +45,53 @@ const Mechanics = () => {
   };
 
   const handleEdit = (id) => {
-    console.log(`Edit mechanic with ID ${id}`);
-    setEditingMechanicId(id);
+    console.log(`Edit vehicle with ID ${id}`);
+    setEditingVehicleId(id);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      if (window.confirm('Are you sure you want to delete this vehicle?')) {
+        await axios.delete(`http://127.0.0.1:8001/api/vehicles/${id}/`);
+
+        setVehicles((prevVehicles) => prevVehicles.filter((vehicle) => vehicle.id !== id));
+        setFilteredVehicles((prevFilteredVehicles) =>
+          prevFilteredVehicles.filter((vehicle) => vehicle.id !== id)
+        );
+
+        console.log(`Deleted vehicle with ID ${id}`);
+        setShowSuccess(true);
+
+        setTimeout(() => {
+          setShowSuccess(false);
+        }, 1000);
+      }
+    } catch (error) {
+      console.error(`Error deleting vehicle with ID ${id}:`, error);
+    }
+  };
+
+  const currentVehicles = () => {
+    const indexOfLastVehicle = currentPage * vehiclesPerPage;
+    const indexOfFirstVehicle = indexOfLastVehicle - vehiclesPerPage;
+    return filteredVehicles.slice(indexOfFirstVehicle, indexOfLastVehicle);
   };
 
   return (
-    <Card className="h-full w-full overflow-scroll p-[3rem]]">
+    <Card className="h-full w-full overflow-scroll">
       <div className="flex justify-between p-4">
         <div>
           <Typography variant="h5" color="blue-gray">
-            Mechanics Details
+            Vehicle Details
           </Typography>
         </div>
         <div className="flex items-center">
           <div className="pr-5">
-         
+            <AddAdminVehicle />
           </div>
           <div className="flex items-center">
             <Input
-              placeholder="Search mechanics"
+              placeholder="Search vehicles"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -74,7 +101,7 @@ const Mechanics = () => {
       </div>
       {showSuccess && (
         <Alert color="green" className="mb-4" onClose={() => setShowSuccess(false)}>
-          Mechanic deleted successfully!
+          Vehicle deleted successfully!
         </Alert>
       )}
       <table className="w-full min-w-max table-auto text-left">
@@ -90,8 +117,8 @@ const Mechanics = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredMechanics.slice((currentPage - 1) * mechanicsPerPage, currentPage * mechanicsPerPage).map((mechanic, index) => (
-            <tr key={mechanic.id} className={index % 2 === 0 ? 'even:bg-blue-gray-50/50' : ''}>
+          {currentVehicles().map((vehicle, index) => (
+            <tr key={vehicle.id} className={index % 2 === 0 ? 'even:bg-blue-gray-50/50' : ''}>
               <td className="p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
                   {index + 1}
@@ -99,30 +126,31 @@ const Mechanics = () => {
               </td>
               <td className="p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                  {mechanic.first_name}
+                  {vehicle.vehicle_name}
                 </Typography>
               </td>
               <td className="p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                  {mechanic.email}
+                  {vehicle.description}
                 </Typography>
               </td>
               <td className="p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                  {mechanic.phone_number}
+                  {vehicle.brand}
                 </Typography>
               </td>
               <td className="p-4">
-                <Chip color={mechanic.is_verify ? 'green' : 'red'}
-                     value={mechanic.is_verify ? "verify" : "not verify"}
-                     variant="ghost"
-                     size="sm"
-                   
+                <img
+                  src={vehicle.image}
+                  alt={vehicle.vehicle_name}
+                  className="h-10 w-10 object-cover rounded-full"
                 />
               </td>
               <td className="p-4">
                 <div className="flex items-center gap-2">
-                   <Mechanicverify id ={mechanic.id}/>
+                  <Button color="red" onClick={() => handleDelete(vehicle.id)}>
+                    Delete
+                  </Button>
                 </div>
               </td>
             </tr>
@@ -132,7 +160,7 @@ const Mechanics = () => {
       <div className="items-center p-4">
         <Pagination
           currentPage={currentPage}
-          totalPages={Math.ceil(filteredMechanics.length / mechanicsPerPage)}
+          totalPages={Math.ceil(filteredVehicles.length / vehiclesPerPage)}
           onPageChange={handlePaginationChange}
         />
       </div>
@@ -140,4 +168,4 @@ const Mechanics = () => {
   );
 };
 
-export default Mechanics;
+export default VehicleList;

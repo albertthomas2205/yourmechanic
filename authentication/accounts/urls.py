@@ -9,6 +9,7 @@ from rest_framework_simplejwt.views import (
 urlpatterns = [
   
     path("register/", views.RegisterView.as_view(), name="user-register"),
+    path("adminregister/", views.AdminRegisterVieww.as_view(), name="user-register"),
     path("login/", views.LoginView.as_view(), name="user-login"),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -27,8 +28,10 @@ urlpatterns = [
     path('userprofile/<int:user_id>/', views.UserProfileDetailView.as_view(), name='user-profile-detail'),
     path('user-vehicles/', views.UserVehiclesListCreateView.as_view(), name='user-vehicles-list-create'),
     path('user-vehicles/<int:user_id>/', views.UserVehiclesListAPIView.as_view(), name='user-vehicles-list'),
+    path('user-vehicle-update/<int:pk>/', views.user_vehicles_detail, name='user-vehicles-list'),
     path('mechanic-profiles/', views.MechanicProfileListCreateView.as_view(), name='mechanic-profile-list-create'),
     path('mechanic-profiles/<int:pk>/', views.MechanicProfileRetrieveUpdateDestroyView.as_view(), name='mechanic-profile-retrieve-update-destroy'),
+    path('mechanic-profile-details/<int:pk>/',views.MechanicProfiledetailsUpdateView.as_view(), name='mechanic-profile-details-update'),
     path('mechanic-profile/<int:mechanic_id>/', views.MechanicProfileDetailView.as_view(), name='mechanic-profile-list-create'),
     path('verify-mechanic/',views.verify_mechanic,name='verify_mechanic'),
     path('verify-mechaniclist/',views.VerifyView.as_view(),name='verify_mech'),

@@ -15,16 +15,29 @@ import {
     InboxIcon,
     PowerIcon,
   } from "@heroicons/react/24/solid";
-  import HeaderUser from "./Headeruser";
-  import Slidebardrover from "./Sidebardrover";
+  import { useDispatch,useSelector } from "react-redux";
+  import { clear_Authentication } from "../../Redux/user/AuthenticationSlice";
+
    
-  export default function UserSidebar({ className }) {
+  export default function MechaniSidebar({ className }) {
+
+
+    const dispatch = useDispatch()
+    const isAuthenticated = useSelector((state) => state.persistedAuthReducer.authentication_user.isAuthenticated);
+    const handleLogoutClick=() =>{
+      dispatch(
+        clear_Authentication()
+        )
+  
+    }
+ 
+ 
     return (
     //     <div className=" relative self-stretch w-[20rem]">
     //     {/* <HeaderUser/> */}
     //  <div className="fixed top-[2rem] bottom-0 ">
       
-      <div className="  mt-[4rem] hidden lg:block w-full max-w-[20rem] fixed  h-screen  bg-white   p-4  shadow-xl shadow-blue-gray-900/5">
+    <Card className="h-[calc(100vh-2rem)] hidden lg:block fixed w-full max-w-[20rem] p-4 ml-[4rem] shadow-xl mt-[8rem]  shadow-blue-gray-900/5">
 
      
 
@@ -67,7 +80,7 @@ import {
             </ListItemPrefix>
             Settings
           </ListItem>
-          <ListItem>
+          <ListItem onClick={handleLogoutClick}>
             <ListItemPrefix>
               <PowerIcon className="h-5 w-5" />
             </ListItemPrefix>
@@ -81,6 +94,6 @@ import {
       
 {/*     
       // </div> */}
-      </div>
+      </Card>
     );
   }

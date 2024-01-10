@@ -6,7 +6,8 @@ import Userpage from '../../pages/Adminpages/Userpage';
 import Mechanicpage from '../../pages/Adminpages/Mechanicpage';
 import Servicepage from '../../pages/Adminpages/Servicepage';
 import AdminPrivateroute from './AdminPrivateroute';
-
+import Brandpage from '../../pages/Adminpages/Brandpage';
+import VehiclesPage from '../../pages/Adminpages/VechilesPage';
 
 const Adminwarper = () => {
   return (
@@ -18,11 +19,13 @@ const Adminwarper = () => {
         <Route path="mechanics/*" element={<Mechanicpage />} />
         <Route path="services/*" element={<Servicepage />} />
         <Route path="adminhome/*" element={<Adminhome />} />
+        <Route path="brands/*" element={<Brandpage />} />
+        <Route path="vehicles/*" element={<VehiclesPage />} />
         <Route
           path="/*"
           element={
            
-              <Admin />
+              <Adminhome />
           
           }
         />

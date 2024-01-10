@@ -28,6 +28,8 @@ import {
   TagIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/solid";
+import { clear_AdminAuthentication } from "../../Redux/Admin/AdminAuthenticationSlice";
+import { useDispatch,useSelector } from "react-redux";
  
 const navListMenuItems = [
   {
@@ -185,6 +187,14 @@ function NavList() {
 }
  
 export default function Header() {
+ const dispatch = useDispatch()
+  const handleLogoutClick=() =>{
+    dispatch(
+      clear_AdminAuthentication()
+      )
+
+  }
+
   const [openNav, setOpenNav] = React.useState(false);
  
   React.useEffect(() => {
@@ -195,7 +205,7 @@ export default function Header() {
   }, []);
  
   return (
-    <Navbar className="mx-auto my-4 border-2 px-4 py-">
+    <Navbar className="mx-auto my-4 border-2 px-4 py-3">
       <div className="flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
@@ -203,18 +213,18 @@ export default function Header() {
           variant="h6"
           className="mr-4 cursor-pointer py-1.5 lg:ml-2"
         >
-          Material Tailwind
+         ADMIN PANEL
         </Typography>
         <div className="hidden lg:block">
-          <NavList />
+          {/* <NavList /> */}
         </div>
         <div className="hidden gap-2 lg:flex">
-          <Button variant="text" size="sm" color="blue-gray">
-            Log In
+          <Button onClick={handleLogoutClick} variant="text" size="sm" color="blue-gray">
+            Log Out
           </Button>
-          <Button variant="gradient" size="sm">
+          {/* <Button variant="gradient" size="sm">
             Sign In
-          </Button>
+          </Button> */}
         </div>
         <IconButton
           variant="text"

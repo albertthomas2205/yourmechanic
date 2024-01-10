@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 
 import { Select, Option } from "@material-tailwind/react";
 
-export default function UserVehicleAdd() {
+export default function UserVehicleAdd(props) {
   const userId = useSelector((state) => state.persistedAuthReducer.authentication_user.id);
 
   const [open, setOpen] = useState(false);
@@ -50,6 +50,7 @@ export default function UserVehicleAdd() {
     try {
       const response = await axios.post('http://127.0.0.1:8001/api/vehiclesname/',data);
       setVehicles(response.data);
+      
     } catch (error) {
       console.error('Error fetching vehicles:', error);
     }
@@ -78,6 +79,7 @@ export default function UserVehicleAdd() {
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/user-vehicles/', vehicleData);
       console.log(response.data);
+      props.fetch()
       setOpen(false);
     } catch (error) {
       console.error('Error adding vehicle:', error);

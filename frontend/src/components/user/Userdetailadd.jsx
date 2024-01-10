@@ -10,7 +10,7 @@ import {
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-export default function Userdetailadd() {
+export default function Userdetailadd(props) {
   const id = useSelector((state)=>state.persistedAuthReducer.authentication_user.id);
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -41,6 +41,7 @@ export default function Userdetailadd() {
       const response = await axios.post('http://127.0.0.1:8000/api/profiles/', data);
       console.log(response.data);
       // Close dialog and reset form after successful submission
+      props.fetchUserProfile()
       setOpen(false);
       setFormData({
         username: '',

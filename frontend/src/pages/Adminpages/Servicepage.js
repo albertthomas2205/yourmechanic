@@ -24,7 +24,7 @@ const Adminhome = () => {
           <Sidebaradmin />
           </div>
 
-          <div className="flex-grow  mt-[12rem] min-h-screen lg:ml-[20rem] ">
+          <div className="flex-grow  mt-[7rem] min-h-screen lg:ml-[20rem] ">
             <Servicelist/>
             {/* <Mechanicdetails/> */}
           </div>

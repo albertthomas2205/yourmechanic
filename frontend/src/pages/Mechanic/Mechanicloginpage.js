@@ -11,9 +11,9 @@ import { set_AdminAuthentication } from "../../Redux/Admin/AdminAuthenticationSl
 
 import HeaderUser from "../../components/user/Headeruser";
 
-const SigninUser= () => {
+const Mechanicloginpage = () => {
 
-  const name  ="user"
+  const name  ="Mechanic"
   {  
     if (name === "user"){
         var url = "login/"
@@ -251,4 +251,4 @@ className="max-w-md mx-auto bg-white  p-4">
   );
 };
 
-export default SigninUser;
+export default Mechanicloginpage;

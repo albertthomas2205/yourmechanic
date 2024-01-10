@@ -8,10 +8,10 @@ import Mechanics from "../../components/admin/Mechanics";
 import Header from "../../components/admin/Header";
 import Sidebaradmin from "../../components/admin/Sidbaradmin";
 import Mechanicdetails from "../../components/admin/Mechanicdetails";
-import UsersRows from "./Users";
 import Servicelist from "../../components/admin/Services";
+import Brandlist from "../../components/admin/Brandlist";
 
-const Adminhome = () => {
+const Brandpage= () => {
   return (
    
       <div>
@@ -26,7 +26,8 @@ const Adminhome = () => {
           </div>
 
           <div className="flex-grow  mt-[7rem] min-h-screen lg:ml-[20rem] ">
-       <UsersRows/>
+            <Brandlist/>
+          
           </div>
         </div>
       </div>
@@ -34,4 +35,4 @@ const Adminhome = () => {
   );
 };
 
-export default Adminhome;
+export default Brandpage;

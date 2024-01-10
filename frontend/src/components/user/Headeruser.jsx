@@ -33,44 +33,44 @@ import {
   UserGroupIcon,
 } from "@heroicons/react/24/solid";
 
-export function MenuDefault() {
-  const navigate = useNavigate();
-  const [state, setstate] = useState("Mechanic");
+// export function MenuDefault() {
+//   const navigate = useNavigate();
+//   const [state, setstate] = useState("Mechanic");
 
-  const handleUserClick = () => {
+//   const handleUserClick = () => {
     
-   setstate("user")
+//    setstate("user")
 
-    navigate('/signin', { state: { name: "user" } });
-  };
-  const handleMechanicClick = () => {
+//     navigate('/signin', { state: { name: "user" } });
+//   };
+//   const handleMechanicClick = () => {
     
-    setstate("Mechanic")
+//     setstate("Mechanic")
  
-     navigate('/signin', { state: { name: "Mechanic" } });
-   };
+//      navigate('/signin', { state: { name: "Mechanic" } });
+//    };
 
-   const handleAdminClick = () => {
+//    const handleAdminClick = () => {
     
-    setstate("Mechanic")
+//     setstate("Mechanic")
  
-     navigate('/signin', { state: { name: "Admin" } });
-   };
+//      navigate('/signin', { state: { name: "Admin" } });
+//    };
  
 
-  return (
-    <Menu>
-      <MenuHandler>
-        <Button variant="gradient" size="sm"   > Log In</Button>
-      </MenuHandler>
-      <MenuList>
-        <MenuItem onClick={handleUserClick}>User</MenuItem>
-        <MenuItem onClick={handleMechanicClick}>Mechanic</MenuItem>
-        <MenuItem onClick={handleAdminClick}>Admin</MenuItem>
-      </MenuList>
-    </Menu>
-  );
-}
+//   return (
+//     <Menu>
+//       <MenuHandler>
+//         <Button variant="gradient" size="sm"   > Log In</Button>
+//       </MenuHandler>
+//       <MenuList>
+//         <MenuItem onClick={handleUserClick}>User</MenuItem>
+//         <MenuItem onClick={handleMechanicClick}>Mechanic</MenuItem>
+//         <MenuItem onClick={handleAdminClick}>Admin</MenuItem>
+//       </MenuList>
+//     </Menu>
+//   );
+// }
 
 const navListMenuItems = [
   {
@@ -247,8 +247,7 @@ function HeaderUser() {
   }, []);
  
   const handleLoginClick = () => {
-    setstate("s")
-    setOpenRight(true);
+    navigate("/signin")
   };
   const handleLogoutClick=() =>{
     dispatch(
@@ -261,18 +260,19 @@ function HeaderUser() {
     setOpenRight(true);
     
   };
+  const handleMechanicregister = () => {
+   navigate("/mechanic/register")
+  }
   const handleCloseLoginDrawer = () => {
     setOpenLoginDrawer(false);
   };
 
-  const handleSignIn = ()=>{
-  
-  }
+
   const navigate = useNavigate()
 
   return (
     <>
-    <div className="   bg-white py-2.5 px-3 container-fluid  fixed-top">
+    <Navbar className="   bg-white m-0 py-2.5 px-3 mx-auto ">
       <div className="flex  w-full items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
@@ -297,9 +297,13 @@ function HeaderUser() {
         </Button>:""
         }
          
+         <Button onClick={handleMechanicregister}>Become Mechanic</Button>
+         <Button onClick={handleLoginClick}>login</Button>
+                  
+        
 
-          
-          <MenuDefault />
+{/*           
+          <MenuDefault /> */}
          
         </div>
         <IconButton
@@ -326,11 +330,11 @@ function HeaderUser() {
           <Button variant="outlined" size="sm" color="blue-gray"   onClick={handleLoginClick}>
             Log In
           </Button>
-          <MenuDefault />
+          {/* <MenuDefault /> */}
         
         </div>
       </Collapse>
-    </div>
+    </Navbar>
     {openRight && <Login openRight={openRight} setOpenRight={setOpenRight} state={state} setstate={setstate}  />}
   </>
   );

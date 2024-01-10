@@ -45,29 +45,33 @@ import { background } from "@chakra-ui/react";
   }, [props.vehicle_id]);
 
     return (
-      <Card className="mt-6 w-96 ">
+      <>
+      {vehicleDetails.image?<Card className="mt-6 w-96 ">
 
-{/* style={{backgroundImage:`url('${vehicleDetails.image}')` ,minHeight:100,}}  */}
-        <CardHeader color="bg-black" className=" relative h-56 bg-cover ">
-            <div >
-            <img
-            className="object-cover"
-            src={vehicleDetails.image}
-            alt="card-image"
-          />
-            </div>
+      {/* style={{backgroundImage:`url('${vehicleDetails.image}')` ,minHeight:100,}}  */}
+              <CardHeader color="bg-black" className=" relative h-56 bg-cover ">
+                  <div >
+                  <img
+                  className="object-cover"
+                  src={vehicleDetails.image}
+                  alt="card-image"
+                />
+                  </div>
+            
+              </CardHeader>
+              <CardBody>
+                <Typography variant="h5" color="blue-gray" className="mb-2">
+                  {vehicleDetails.vehicle_name}
+                </Typography>
+           
+              </CardBody>
+              <CardFooter className="pt-0">
+                {/* <Button>Read More</Button> */}
+                <Vehiclereadmore brandname={brandName} registration_no={props.registration_no}  id = {props.id} km={props.total_km} year = {props.manufacture}/>
+              </CardFooter>
+            </Card>:""
+      }
+      </>
       
-        </CardHeader>
-        <CardBody>
-          <Typography variant="h5" color="blue-gray" className="mb-2">
-            {vehicleDetails.vehicle_name}
-          </Typography>
-     
-        </CardBody>
-        <CardFooter className="pt-0">
-          {/* <Button>Read More</Button> */}
-          <Vehiclereadmore brandname={brandName} registration_no={props.registration_no}  km={props.total_km} year = {props.manufacture}/>
-        </CardFooter>
-      </Card>
     );
   }

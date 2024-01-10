@@ -32,7 +32,7 @@ const AdminNav = () => {
         color="blueGray.900"
       >
         <div className="mr-4 cursor-pointer py-1.5 font-medium">
-          Material Tailwind
+          Admin Panel
         </div>
         <div className="hidden lg:block">{navList}</div>
         <Flex className="hidden items-center gap-x-2 lg:flex">

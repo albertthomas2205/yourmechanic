@@ -10,7 +10,7 @@ import {
   Input,
 } from "@material-tailwind/react";
 
-export default function Userdetailsedit() {
+export default function Userdetailsedit(props) {
   const [open, setOpen] = useState(false);
   const [profileData, setProfileData] = useState({
     id: null,
@@ -57,7 +57,9 @@ export default function Userdetailsedit() {
         'Content-Type': 'multipart/form-data'
       }
     }).then(response => {
+     
       console.log("Profile updated successfully", response.data);
+      props.fetchUserProfile()
       setOpen(false);
       setMessage("Profile updated successfully.");
       setMessageType("success");

@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authenticationReducer, { set_Authentication, clear_Authentication } from '../user/AuthenticationSlice';
+import authenicationadminReducer,{set_AdminAuthentication, clear_AdminAuthentication} from '../Admin/AdminAuthenticationSlice'
 import registrationReducer from '../user/RegistrationSlice'
 import storage from 'redux-persist/lib/storage'
 import {persistReducer,persistStore}  from 'redux-persist'
@@ -13,6 +14,7 @@ const persistconfig ={
 
 const rootReducer = combineReducers({
   authentication_user: authenticationReducer,
+  authentication_admin: authenicationadminReducer,
 })
 
 const persistedAuthReducer = persistReducer(persistconfig,rootReducer)

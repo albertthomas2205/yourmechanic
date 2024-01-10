@@ -20,15 +20,24 @@ export default function Profilecard() {
   const id = useSelector((state)=>state.persistedAuthReducer.authentication_user.id);
  
   const first_name = useSelector((state) => state.persistedAuthReducer.authentication_user.first_name);
-
+ ;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/api/userprofile/${id}/`);
+      setProfileData(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/userprofile/${id}/`)
-      .then(response => {
-        setProfileData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    
+
+    fetchUserProfile();
   }, [id]);
 
   const defaultImageUrl = "https://i.pinimg.com/564x/20/c0/0f/20c00f0f135c950096a54b7b465e45cc.jpg";
@@ -56,7 +65,7 @@ export default function Profilecard() {
     }} 
   />
   <MDBCard>
-    {profileData && profileData.username ? <Userdetailsedit /> : <Userdetailadd />}
+    {profileData && profileData.username ? <Userdetailsedit fetchUserProfile={fetchUserProfile} /> : <Userdetailadd fetchUserProfile ={fetchUserProfile} />}
   </MDBCard>
 </div>
 

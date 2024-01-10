@@ -63,7 +63,7 @@ export default function Vehiclereadmore(props) {
          
               <MenuItem>
               <Typography variant="h6" color="blue-gray" className="mb-1">
-                Brand  : {props.brandname}
+                Brand  : {props.brandname}{props.id}
                 </Typography>
                 <br />
                 <Typography variant="h6" color="blue-gray" className="mb-1">
@@ -78,6 +78,8 @@ export default function Vehiclereadmore(props) {
                   color="gray"
                   className="font-normal"
                 >
+                  <Button>Edit</Button>
+                  <Button>Delete</Button>
                  
                   
                 </Typography>

@@ -13,7 +13,7 @@ const Adminhome = () => {
   return (
    
       <div>
-        <div className="fixed w-full z-30 bg-[rgb(31, 31, 58)]">
+        <div className="fixed w-full z-30 bg-[#180e32] ">
         <Header />
         </div>
      
@@ -23,7 +23,7 @@ const Adminhome = () => {
           <Sidebaradmin />
           </div>
 
-          <div className="flex-grow  mt-[12rem] min-h-screen lg:ml-[20rem] ">
+          <div className="flex-grow  mt-[7rem] min-h-screen lg:ml-[20rem] ">
             <Mechanics />
             {/* <Mechanicdetails/> */}
           </div>

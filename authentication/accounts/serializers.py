@@ -49,6 +49,26 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         else:
             raise serializers.ValidationError({"password": "password is not valid"})
         
+
+class AdminRegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id','first_name','email','password']
+        extra_kwargs = {
+            'password':{ 'write_only':True}
+        }
+    def create(self,validated_data):
+        validated_data['is_admin'] = True
+        validated_data['is_useractive'] = True
+        password = validated_data.pop('password',None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+            instance.save()
+            return instance
+        else:
+            raise serializers.ValidationError({"password": "password is not valid"})
+        
 class MechanicRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -105,7 +125,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class UserProfileEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['id', 'username', 'phone_number', 'place', 'pin', 'user']
+        fields = ['id', 'username', 'phone_number', 'place', 'pin', 'user' 'profile_pic']
         
 from .models import UserVehicles
 
@@ -126,4 +146,18 @@ class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = '__all__'
+        
+
+class MechanicProfiledetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MechanicProfiledetails
+        fields = '__all__'
+
+    def update(self, instance, validated_data):
+        # Update only the fields that are provided in the request
+        for key, value in validated_data.items():
+            setattr(instance, key, value)
+
+        instance.save()
+        return instance
         

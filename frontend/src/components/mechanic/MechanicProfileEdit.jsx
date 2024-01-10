@@ -10,7 +10,7 @@ import {
   Input,
 } from "@material-tailwind/react";
 
-export default function MechanicDetailsEdit() {
+export default function MechanicDetailsEdit(props) {
   const [open, setOpen] = useState(false);
   const [profileData, setProfileData] = useState({
     id: null,
@@ -18,7 +18,7 @@ export default function MechanicDetailsEdit() {
     pin: "",
     experience: null,
     description: "",
-    profile_pic: null, // Use null for file input
+    profile_pic: "", // Use null for file input
     mechanic_id: null,
     is_verify: false,
   });
@@ -31,7 +31,9 @@ export default function MechanicDetailsEdit() {
   useEffect(() => {
     axios.get(apiUrl)
       .then(response => {
+        console.log(response.data)
         setProfileData(response.data);
+
       })
       .catch(error => {
         console.error("There was an error!", error);
@@ -55,6 +57,21 @@ export default function MechanicDetailsEdit() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validation
+    if (
+      profileData.place.trim() === "" ||
+      profileData.pin.trim() === "" ||
+      profileData.experience === null ||
+      profileData.description.trim() === "" ||
+      profileData.profile_pic === ""
+    ) {
+      setMessage("All fields are required.");
+      setMessageType("error");
+      return;
+    }
+
+    // Additional validations...
+
     const formData = new FormData();
     Object.keys(profileData).forEach((key) => {
       formData.append(key, profileData[key]);
@@ -64,6 +81,7 @@ export default function MechanicDetailsEdit() {
       .then(response => {
         console.log("Profile updated successfully", response.data);
         setOpen(false);
+        props.fetch();
         setMessage("Profile updated successfully.");
         setMessageType("success");
       })
@@ -97,20 +115,21 @@ export default function MechanicDetailsEdit() {
           )}
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <Input label="Place" type="text" name="place" value={profileData.place} onChange={handleInputChange} />
+              <Input label="Place" type="text" name="place" value={profileData.place} onChange={handleInputChange} required />
             </div>
             <div className="mb-4">
-              <Input label="Pincode" type="text" name="pin" value={profileData.pin} onChange={handleInputChange} />
+              <Input label="Pincode" type="text" name="pin" value={profileData.pin} onChange={handleInputChange} required />
             </div>
             <div className="mb-4">
-              <Input label="Experience" type="number" name="experience" value={profileData.experience} onChange={handleInputChange} />
+              <Input label="Experience" type="number" name="experience" value={profileData.experience} onChange={handleInputChange} required />
             </div>
             <div className="mb-4">
-              <Input label="Description" type="text" name="description" value={profileData.description} onChange={handleInputChange} />
+              <Input label="Description" type="text" name="description" value={profileData.description} onChange={handleInputChange} required />
             </div>
             <div className="mb-4">
-              <Input label="Profile Picture" type="file" name="profile_pic" onChange={handleFileChange} />
+              <Input label="Profile Picture" type="file" name="profile_pic"  onChange={handleFileChange} required />
             </div>
+            
             <Button variant="gradient" color="green" type="submit">
               <span>Save</span>
             </Button>
