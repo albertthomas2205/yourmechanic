@@ -5,42 +5,30 @@ import {
   MenuList,
   MenuItem,
   Button,
-  Card,
   Typography,
 } from "@material-tailwind/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { CursorArrowRaysIcon } from "@heroicons/react/24/solid";
-import { useNavigate } from "react-router-dom";
-
- 
+import UserVehicleEdit from "./Uservehicleedit";
+import axios from 'axios';
 
 export default function Vehiclereadmore(props) {
-
-  const navigate = useNavigate()
-
-
-  const clickbutton = () => {
-    navigate("/mechanics");
-  };
   const [openMenu, setOpenMenu] = React.useState(false);
-  const menuItems = [
-    {
-      title: "@material-tailwind/html",
-      description:
-        "Learn how to use @material-tailwind/html, packed with rich components and widgets.",
-    },
-    {
-      title: "@material-tailwind/react",
-      description:
-        "Learn how to use @material-tailwind/react, packed with rich components for React.",
-    },
-    {
-      title: "Material Tailwind PRO",
-      description:
-        "A complete set of UI Elements for building faster websites in less time.",
-    },
-  ];
-   
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(`http://127.0.0.1:8000/api/user-vehicle-update/${props.id}/`);
+
+      if (response.status === 204) {
+        // If the delete request is successful, call the fetch function to update the list
+        props.fetch();
+      } else {
+        console.error('Failed to delete user vehicle');
+      }
+    } catch (error) {
+      console.error('Error deleting user vehicle:', error);
+    }
+  };
+
   return (
     <Menu open={openMenu} handler={setOpenMenu} allowHover>
       <MenuHandler>
@@ -58,36 +46,29 @@ export default function Vehiclereadmore(props) {
         </Button>
       </MenuHandler>
       <MenuList className="hidden w-[27rem] gap-3 overflow-visible lg:grid">
-       
-        <ul className=" flex w-full flex-col p-5 ">
-         
-              <MenuItem>
-              <Typography variant="h6" color="blue-gray" className="mb-1">
-                Brand  : {props.brandname}{props.id}
-                </Typography>
-                <br />
-                <Typography variant="h6" color="blue-gray" className="mb-1">
-                Toal kilometers : {props.registration_no} 
-                </Typography>
-                <br />
-                <Typography variant="h6" color="blue-gray" className="mb-1">
-                Toal kilometers : {props.km} 
-                </Typography>
-                <Typography
-                  variant="small"
-                  color="gray"
-                  className="font-normal"
-                >
-                  <Button>Edit</Button>
-                  <Button>Delete</Button>
-                 
-                  
-                </Typography>
-              </MenuItem>
-           {/* <Button onClick={clickbutton}>Book now</Button> */}
-       
+        <ul className="flex w-full flex-col p-5">
+          <MenuItem>
+            <Typography variant="h6" color="blue-gray" className="mb-1">
+              Brand: {props.brandname} {props.id}
+            </Typography>
+            <br />
+            <Typography variant="h6" color="blue-gray" className="mb-1">
+              Total kilometers: {props.registration_no}
+            </Typography>
+            <br />
+            <Typography variant="h6" color="blue-gray" className="mb-1">
+              Total kilometers: {props.km}
+            </Typography>
+            <Typography variant="small" color="gray" className="font-normal">
+              {/* Additional details */}
+            </Typography>
+          </MenuItem>
         </ul>
       </MenuList>
+      <UserVehicleEdit id={props.id} fetch={props.fetch} />
+      <Button onClick={handleDelete} color="red">
+        Delete
+      </Button>
     </Menu>
   );
 }

@@ -97,7 +97,7 @@ export default function MechanicProfilecard() {
                     {profileData && profileData.place ? (
                       <MechanicDetailsEdit fetch = {fetchProfileData} />
                     ) : (
-                      <MechanicdetailsAdd fetch = {fetchProfileData} />
+                      <MechanicdetailsAdd  fetch = {fetchProfileData}  />
                     )}
                   </MDBCard>
                 </div>

@@ -14,6 +14,7 @@ import Forbidden from "../admin/Forbidden";
 import Vehicle from "../../pages/User/Vehicle";
 import Servicepage from "../../pages/User/Servicepage";
 import Mechanicuserpage from "../../pages/User/Mechanicuserpage";
+import Mechaniccheck from "../../pages/User/Mechaniccheck";
 
 import UserPrivaterouter from "./UserPrivaterouter";
 const Userwarper = () => {
@@ -27,6 +28,7 @@ const Userwarper = () => {
         <Route path="/signin" element={<SigninUser/>} /> 
         <Route path="/signup" element={<Signup/>} /> 
         <Route path="/service" element={<Servicepage/>} /> 
+        <Route path="/check" element={<Mechaniccheck/>} /> 
         <Route path="/mechanics" element={<Mechanicuserpage/>} /> 
         
 

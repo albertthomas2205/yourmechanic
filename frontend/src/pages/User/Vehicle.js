@@ -72,7 +72,7 @@ const Profile = () => {
       {/* Render Uservehicle components */}
       {vehicles.map((vehicle) => (
         vehicle.vehicle?
-        <VehicleCard key={vehicle.vehicle_id} id={vehicle.id} vehicle_id={vehicle.vehicle} brandid = {vehicle.brand} registration_no = {vehicle.registration_number} total_km = {vehicle.total_km} manufacture = {vehicle.year_of_manufacture} />:""
+        <VehicleCard key={vehicle.vehicle_id} id={vehicle.id} vehicle_id={vehicle.vehicle} brandid = {vehicle.brand} registration_no = {vehicle.registration_number} total_km = {vehicle.total_km} manufacture = {vehicle.year_of_manufacture}  fetch = {fetchUserVehicles}/>:""
       ))}
     </div>
   </div>

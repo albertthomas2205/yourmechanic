@@ -445,9 +445,9 @@ class MechanicProfileListCreateView(generics.ListCreateAPIView):
     serializer_class = MechanicProfileSerializer
   
   
-class MechanicProfileRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = MechanicProfile.objects.all()
-    serializer_class = MechanicProfileSerializer
+# class MechanicProfileRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = MechanicProfile.objects.all()
+#     serializer_class = MechanicProfileSerializer
     
 class UserVehiclesListAPIView(generics.ListAPIView):
     serializer_class = UserVehiclesSerializer
@@ -463,16 +463,30 @@ class UserVehiclesRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPI
         user_id = self.kwargs.get('user_id')  # Assuming the user_id is provided in the URL
         return UserVehicles.objects.filter(user_id=user_id)
     
-class MechanicProfileDetailView(APIView):
+# class MechanicProfileDetailView(APIView):
 
+#     def get(self, request, mechanic_id):
+#         profile = get_object_or_404(MechanicProfiledetails, mechanic_id=mechanic_id)
+#         serializer = MechanicProfileSerializer(profile)
+#         return Response(serializer.data)
+
+#     def put(self, request, mechanic_id):
+#         profile = get_object_or_404(MechanicProfiledetails, mechanic_id=mechanic_id)
+#         serializer =MechanicProfileSerializer(profile, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class MechanicProfileDetailView(APIView):
     def get(self, request, mechanic_id):
         profile = get_object_or_404(MechanicProfiledetails, mechanic_id=mechanic_id)
         serializer = MechanicProfileSerializer(profile)
         return Response(serializer.data)
 
-    def put(self, request, mechanic_id):
+    def patch(self, request, mechanic_id):
         profile = get_object_or_404(MechanicProfiledetails, mechanic_id=mechanic_id)
-        serializer =MechanicProfileSerializer(profile, data=request.data)
+        serializer = MechanicProfileSerializer(profile, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -482,7 +496,20 @@ class MechanicProfileDetailView(APIView):
     #     profile = get_object_or_404(MechanicProfiledetails, user_id=user_id)
     #     profile.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
-    
+@api_view(['GET', 'PATCH'])
+def mechanic_profile_detail(request, mechanic_id):
+    profile = get_object_or_404(MechanicProfiledetails, mechanic_id=mechanic_id)
+
+    if request.method == 'GET':
+        serializer = MechanicProfileSerializer(profile)
+        return Response(serializer.data)
+
+    elif request.method == 'PATCH':
+        serializer = MechanicProfileSerializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def verify_mechanic(request):
@@ -551,23 +578,30 @@ class IsMechanicAvailableView(generics.CreateAPIView):
 
         return Response({'available': not existing_bookings.exists()})
 
-class MechanicProfiledetailsUpdateView(generics.UpdateAPIView):
-    queryset = MechanicProfiledetails.objects.all()
-    serializer_class = MechanicProfiledetailsSerializer
+# class MechanicProfiledetailsUpdateView(generics.UpdateAPIView):
+#     queryset = MechanicProfiledetails.objects.all()
+#     serializer_class = MechanicProfiledetailsSerializer
 
-    def post(self, request, *args, **kwargs):
+#     def post(self, request, *args, **kwargs):
         
-        return self.update(request, *args, **kwargs)
+#         return self.update(request, *args, **kwargs)
 
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data)
+#     def update(self, request, *args, **kwargs):
+#         partial = kwargs.pop('partial', False)
+#         instance = self.get_object()
+#         serializer = self.get_serializer(instance, data=request.data, partial=partial)
+#         serializer.is_valid(raise_exception=True)
+#         self.perform_update(serializer)
+#         return Response(serializer.data)
     
-@api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from .models import UserVehicles
+from .serializers import UserVehiclesSerializer
+
+@api_view(['GET', 'PATCH', 'DELETE'])
 def user_vehicles_detail(request, pk):
     try:
         user_vehicle = UserVehicles.objects.get(pk=pk)
@@ -578,8 +612,8 @@ def user_vehicles_detail(request, pk):
         serializer = UserVehiclesSerializer(user_vehicle)
         return Response(serializer.data)
 
-    elif request.method in ['PUT', 'PATCH']:
-        serializer = UserVehiclesSerializer(user_vehicle, data=request.data, partial=request.method == 'PATCH')
+    elif request.method == 'PATCH':
+        serializer = UserVehiclesSerializer(user_vehicle, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -587,4 +621,4 @@ def user_vehicles_detail(request, pk):
 
     elif request.method == 'DELETE':
         user_vehicle.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({'detail': 'User vehicle deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
