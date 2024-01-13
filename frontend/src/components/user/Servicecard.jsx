@@ -26,7 +26,7 @@ import {
           </Typography>
         </CardBody>
         <CardFooter className="pt-0">
-            <Readmore price = {props.price} time = {props.time}/>
+            <Readmore price = {props.price} servicename={props.name} id={props.id} time = {props.time}/>
           {/* <Button>Read More</Button> */}
         </CardFooter>
       </Card>

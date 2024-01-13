@@ -7,6 +7,7 @@ import ServiceCard from '../../components/user/Servicecard'
 import Mechaniccard from '../../components/user/Mechaniccard'
 import axios from "axios";
 import MechanicBox from '../../components/user/MechanicBox'
+import { useLocation } from 'react-router-dom';
 
 const Mechanicuserpage = () => {
   const [mechanics, setMechanics] = useState([]);
@@ -20,6 +21,8 @@ const Mechanicuserpage = () => {
         console.error('Error fetching user vehicles:', error);
       });
   }, []);
+  const location = useLocation();
+  const { id, servicename, price } = location.state || {};
 
 
   return (
@@ -32,7 +35,7 @@ const Mechanicuserpage = () => {
       <div className='flex justify-center gap-10 flex-wrap p-[5rem] '>
         {
           mechanics.map((mechanic) => (
-            <MechanicBox key={mechanic.id} id={mechanic.id} name={mechanic.first_name} />
+            <MechanicBox key={mechanic.id} id={mechanic.id} serviceid ={id} name={mechanic.first_name} servicename={servicename} price={price}/>
           ))
         }
       </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import CheckAvailability from './Checkavilability';
 import {
     Card,
     CardHeader,
@@ -41,16 +42,17 @@ useEffect(() => {
         </CardHeader>
         <CardBody>
           <Typography variant="h5" color="blue-gray" className="mb-2">
-            {props.name}
+            {props.name}{props.id}{props.price}
           </Typography>
           <Typography>
+            {props.serviceid}
             The place is close to Barceloneta Beach and bus stop just 2 min by
             walk and near to &quot;Naviglio&quot; where you can enjoy the main
             night life in Barcelona.
           </Typography>
         </CardBody>
         <CardFooter className="pt-0">
-          <Button onClick={Clickbutton}>Select</Button>
+      <CheckAvailability id={props.id} serviceid ={props.serviceid} price={props.price} servicename={props.servicename}/>
         </CardFooter>
       </Card>
     );

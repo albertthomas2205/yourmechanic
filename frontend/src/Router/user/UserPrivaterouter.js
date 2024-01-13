@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../Redux/user/AuthenticationSlice';
 import { Navigate, Outlet } from 'react-router-dom';
 
+
+
 const UserPrivaterouter = () => {
   const [state, setstate] = useState('user');
 

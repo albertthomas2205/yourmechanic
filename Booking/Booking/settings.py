@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'management',
+    'payment',
     'rest_framework',
     'corsheaders',
 ]
@@ -143,8 +144,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+SITE_URL = "http://localhost:3000/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# settings.py
+STRIPE_PUBLIC_KEY = 'sk_test_51OXe9USH9jcXERVDvtzk7A9SiOGvDtHe6RnA6HDIt1jpahmYLrgR6AAoUggdyD3qX3yZFhMIILQ3RRGF3ONXcDun00cxPro2BE'
+STRIPE_SECRET_KEY = 'pk_test_51OXe9USH9jcXERVDaJZF7e63GH54Q3QsZjHtTyv5DkKHWZqZgY1gr4GC8QEKYBwIrQUzrpGbgVwfbnGFtNUL5PoI00zTkaauUo'
+# STRIPE_ENDPOINT_SECRET = "your_stripe_webhook_secret"

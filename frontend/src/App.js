@@ -6,26 +6,15 @@ import Userwarper from './Router/user/Userwarper';
 import Adminwarper from './Router/admin/Adminwarper';
 import Mechanicwarper from './Router/Mechanic/Mechanicwarper';
 // import "./App.css"
-
-
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from "@stripe/stripe-js/pure";
+const stripePromise = loadStripe("your_stripe_public_key");
 function App() {
   function handleCallbackResponse(response) {
     // Handle the callback response
   }
 
-  useEffect(() => {
-    // Uncomment and correct the initialization code for Google Sign-In if needed
-    // google.accounts.id.initialize({
-    //   client_id: 'your_client_id',
-    //   callback: handleCallbackResponse
-    // });
 
-    // Uncomment the code for rendering Google Sign-In button if needed
-    // google.accounts.id.renderButton(
-    //   document.getElementById('signInDiv'),
-    //   { theme: 'outline', size: 'large' }
-    // );
-  }, []);
 
   const [isAdmin, setIsAdmin] = useState(true);
 
@@ -33,6 +22,8 @@ function App() {
     <>
     <div className="App">
       <div id="signInDiv"></div>
+      
+  
       <BrowserRouter>
       
         <Routes>
@@ -46,6 +37,7 @@ function App() {
         </Routes>
     
       </BrowserRouter>
+
     </div>
     </>
   );

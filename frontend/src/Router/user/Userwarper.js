@@ -1,5 +1,6 @@
 import { Route,Routes } from "react-router-dom";
 import React from 'react'
+import UserPrivaterouter from "./UserPrivaterouter";
 import Home from "../../pages/User/Home";
 import { Login } from "../../components/user/Login";
 import SignIn from "../../components/user/Signin";
@@ -15,21 +16,28 @@ import Vehicle from "../../pages/User/Vehicle";
 import Servicepage from "../../pages/User/Servicepage";
 import Mechanicuserpage from "../../pages/User/Mechanicuserpage";
 import Mechaniccheck from "../../pages/User/Mechaniccheck";
+import Stripepage from "../../pages/User/Stripepage";
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from "@stripe/stripe-js/pure";
 
-import UserPrivaterouter from "./UserPrivaterouter";
+
+
 const Userwarper = () => {
   return (
     <div>
+     
       <Routes>
         
-
+    
         <Route path="/" element={<Home/>} /> 
         <Route path="/otp" element={<Otp/>} /> 
         <Route path="/signin" element={<SigninUser/>} /> 
         <Route path="/signup" element={<Signup/>} /> 
         <Route path="/service" element={<Servicepage/>} /> 
         <Route path="/check" element={<Mechaniccheck/>} /> 
-        <Route path="/mechanics" element={<Mechanicuserpage/>} /> 
+        <Route path="/mechanics" element={<Mechanicuserpage/>} />
+        <Route path="/payment" element={<Stripepage/>} />
+ 
         
 
 
@@ -46,7 +54,10 @@ const Userwarper = () => {
         <Route path="/l" element={<Login/>}>
             <Route path="/l/signin" element = {<SignIn />} />
         </Route>
+
       </Routes>
+      
+ 
 
     </div>
   )

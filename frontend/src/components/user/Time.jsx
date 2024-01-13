@@ -25,6 +25,9 @@ const Time = (props) => {
   const resultString = isoString.replace(/\s*(AM|PM)\s*/, "");
   console.log(resultString)
 
+  const passDatetime = ()=>{
+    props.setDatetime(resultString)
+  }
   
 
   const [statusColor, setStatusColor] = useState('');
@@ -32,7 +35,7 @@ const Time = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/booking/check-availability/', {
+        const response = await axios.post('http://127.0.0.1:8002/api/booking/check-availability/', {
           date_time: resultString,
           mechanic_id: 17,
         });
@@ -55,8 +58,9 @@ const Time = (props) => {
   if (!props.date) return null;
 
   return (
-    <div>
-      <div style={{color:`${statusColor}`,borderColor:`${statusColor}`, borderBlockColor:`${statusColor}`}} className={`border p-2 cursor-pointer hover:bg-gray-200 `}>
+    <div >
+
+      <div style={{color:`${statusColor}`}}  className={`border-1 p-2 cursor-pointer border-${statusColor}-500 hover:bg-gray-200 `}>
         {props.time}
       </div>
     </div>

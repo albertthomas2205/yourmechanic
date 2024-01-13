@@ -20,7 +20,7 @@ export default function Readmore(props) {
 
 
   const clickbutton = () => {
-    navigate("/mechanics");
+    navigate('/mechanics', { state: { id: props.id,servicename:props.servicename,price:props.price } });
   };
   const [openMenu, setOpenMenu] = React.useState(false);
   const menuItems = [
@@ -68,7 +68,7 @@ export default function Readmore(props) {
                 </Typography>
                 <br />
                 <Typography variant="h6" color="blue-gray" className="mb-1">
-                Service Completion Time : {props.time} min
+                Service Completion Time : {props.time} min 
                 </Typography>
                 <Typography
                   variant="small"

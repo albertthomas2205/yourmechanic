@@ -34,6 +34,7 @@ const Servicepage = () => {
         <div className="flex justify-center gap-10 flex-wrap p-[5rem] ">
           {services.map((service) => (
             <ServiceCard
+             id = {service.id}
               name={service.name}
               image={service.image}
               description={service.description}
