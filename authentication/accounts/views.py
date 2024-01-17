@@ -404,8 +404,16 @@ class UserProfileDetailView(APIView):
         serializer = UserProfileSerializer(profile)
         return Response(serializer.data)
 
-    def put(self, request, user_id):
+    def patch(self, request, user_id):
         profile = get_object_or_404(UserProfile, user_id=user_id)
+        new_username = request.data.get('username', '')
+
+        # Check if the new username already exists
+        existing_profile = UserProfile.objects.exclude(pk=profile.pk).filter(username=new_username).exists()
+        if existing_profile:
+            return Response({'error': 'Username already exists.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        
         serializer = UserProfileEditSerializer(profile, data=request.data)
         if serializer.is_valid():
             serializer.save()

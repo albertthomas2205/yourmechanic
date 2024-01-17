@@ -10,15 +10,14 @@ import {
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-import { Select, Option } from '@material-tailwind/react';
-
 const UserVehicleEdit = (props) => {
   const userId = useSelector((state) => state.persistedAuthReducer.authentication_user.id);
-  
+
   // State variables
   const [open, setOpen] = useState(false);
   const [brands, setBrands] = useState([]);
   const [vehicles, setVehicles] = useState([]);
+  const [validationErrors, setValidationErrors] = useState({});
   const [vehicleData, setVehicleData] = useState({
     id: null,
     vehicle: '',
@@ -63,7 +62,7 @@ const UserVehicleEdit = (props) => {
   const fetchVehicleName = async (brand_id) => {
     setVehicleData({ ...vehicleData, brand: brand_id });
     const data = { brand_id: brand_id };
-    
+
     try {
       const response = await axios.post('http://127.0.0.1:8001/api/vehiclesname/', data);
       setVehicles(response.data);
@@ -87,6 +86,15 @@ const UserVehicleEdit = (props) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setVehicleData({ ...vehicleData, [name]: value });
+    // Clear validation error when user starts typing
+    updateValidationErrors(name, null);
+  };
+
+  const updateValidationErrors = (field, error) => {
+    setValidationErrors((prevErrors) => ({
+      ...prevErrors,
+      [field]: error,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -102,10 +110,10 @@ const UserVehicleEdit = (props) => {
 
       if (error.response && error.response.data) {
         // Display the specific serializer errors from the backend
-        alert(`${JSON.stringify(error.response.data)}`);
-      } else {
-        // Generic error message
-        alert('Error updating vehicle. Please try again.');
+        const backendErrors = error.response.data;
+        Object.keys(backendErrors).forEach((field) => {
+          updateValidationErrors(field, backendErrors[field][0]);
+        });
       }
     }
   };
@@ -127,39 +135,43 @@ const UserVehicleEdit = (props) => {
         <DialogHeader style={{ textAlign: 'center' }}>Edit Vehicle</DialogHeader>
         <DialogBody>
           <form onSubmit={handleSubmit}>
-            {/* Select Brand */}
             <div className="mb-4">
-              <Select label="Select Brand" onChange={(selectedValue) => fetchVehicleName(selectedValue)}>
-                {brands.map((brand) => (
-                  <Option key={brand.id} value={brand.id.toString()}>
-                    {brand.brand_name}
-                  </Option>
-                ))}
-              </Select>
-            </div>
-            
-            {/* Select Vehicle */}
-            <div className="mb-4">
-              <Select label="Select Vehicle" onChange={(e) => handleVehicleSelect(e)}>
-                {vehicles.map((vehicle) => (
-                  <Option key={vehicle.id} value={vehicle.id.toString()}>
-                    {vehicle.vehicle_name}
-                  </Option>
-                ))}
-              </Select>
-            </div>
-            
-            {/* Other input fields */}
-            <div className="mb-4">
-              <Input label="Year of Manufacture" type="text" name="year_of_manufacture" value={vehicleData.year_of_manufacture} onChange={handleChange} />
+              <Input
+                label="Year of Manufacture"
+                type="text"
+                name="year_of_manufacture"
+                value={vehicleData.year_of_manufacture}
+                onChange={handleChange}
+              />
+              {validationErrors.year_of_manufacture && (
+                <span className="text-red-500">{validationErrors.year_of_manufacture}</span>
+              )}
             </div>
             <div className="mb-4">
-              <Input label="Registration Number" type="text" name="registration_number" value={vehicleData.registration_number} onChange={handleChange} />
+              <Input
+                label="Registration Number"
+                type="text"
+                name="registration_number"
+                value={vehicleData.registration_number}
+                onChange={handleChange}
+              />
+              {validationErrors.registration_number && (
+                <span className="text-red-500">{validationErrors.registration_number}</span>
+              )}
             </div>
             <div className="mb-4">
-              <Input label="Total Kilometers" type="text" name="total_km" value={vehicleData.total_km} onChange={handleChange} />
+              <Input
+                label="Total Kilometers"
+                type="text"
+                name="total_km"
+                value={vehicleData.total_km}
+                onChange={handleChange}
+              />
+              {validationErrors.total_km && (
+                <span className="text-red-500">{validationErrors.total_km}</span>
+              )}
             </div>
-            
+
             {/* Dialog footer with buttons */}
             <DialogFooter>
               <Button variant="text" color="red" onClick={handleOpen} className="mr-1">

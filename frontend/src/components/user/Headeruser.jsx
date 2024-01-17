@@ -272,7 +272,7 @@ function HeaderUser() {
 
   return (
     <>
-    <Navbar className="   bg-white m-0 py-2.5 px-3 mx-auto ">
+    <div className="   bg-white m-0 py-2.5 px-3 mx-auto ">
       <div className="flex  w-full items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
@@ -334,7 +334,7 @@ function HeaderUser() {
         
         </div>
       </Collapse>
-    </Navbar>
+    </div>
     {openRight && <Login openRight={openRight} setOpenRight={setOpenRight} state={state} setstate={setstate}  />}
   </>
   );

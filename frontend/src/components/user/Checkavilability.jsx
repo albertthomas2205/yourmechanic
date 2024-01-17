@@ -32,41 +32,41 @@ export default function CheckAvailability(props) {
 
   const [amount, setAmount] = useState(isNaN(convertedPrice) ? 0 : convertedPrice);
  
-  const handleConfirm = async (e) => {
-    e.preventDefault();
+  // const handleConfirm = async (e) => {
+  //   e.preventDefault();
   
-    // Use the state callback to get the updated value
-    // setAmount((e) => {
-    //   // Update the amount to 2000
+  //   // Use the state callback to get the updated value
+  //   // setAmount((e) => {
+  //   //   // Update the amount to 2000
     
-    //   return props.price
-    // });
+  //   //   return props.price
+  //   // });
   
-    try {
-      console.log("haiiiii");
+  //   try {
+  //     console.log("haiiiii");
   
-      // Make the Axios POST request to your API
-      const response = await axios.post('http://127.0.0.1:8002/api/booking/checkout-session/', {
-        amount: amount,
-        // You may include other form data here if needed
-      });
+  //     // Make the Axios POST request to your API
+  //     const response = await axios.post('http://127.0.0.1:8002/api/booking/checkout-sessionn/', {
+  //       amount: amount,
+  //       // You may include other form data here if needed
+  //     });
   
-      console.log(response.data);
+  //     console.log(response.data);
   
-      // Load Stripe and redirect to Checkout
-      const stripe = await loadStripe('pk_test_51OXe9USH9jcXERVDaJZF7e63GH54Q3QsZjHtTyv5DkKHWZqZgY1gr4GC8QEKYBwIrQUzrpGbgVwfbnGFtNUL5PoI00zTkaauUo');
+  //     // Load Stripe and redirect to Checkout
+  //     const stripe = await loadStripe('pk_test_51OYj2vSEEZQqRNckuhhQv0rtMw3J2paHXtU5QBzY3RdFKAJmGm6ywlrgU95vSquET6W2bG9oJzSL7foVHmtpajTI00XDqvTR41');
   
-      stripe.redirectToCheckout({
-        sessionId: response.data.checkoutSessionId,
-      });
+  //     stripe.redirectToCheckout({
+  //       sessionId: response.data.checkoutSessionId,
+  //     });
   
-      // Reset the form after submission (optional)
+  //     // Reset the form after submission (optional)
   
-    } catch (error) {
-      // Handle errors
-      console.error('Error submitting form:', error);
-    }
-  };
+  //   } catch (error) {
+  //     // Handle errors
+  //     console.error('Error submitting form:', error);
+  //   }
+  // };
 
 
 
@@ -86,7 +86,20 @@ export default function CheckAvailability(props) {
   useEffect(() => {
     fetchUserVehicles();
   },[]);
-
+  useEffect(() => {
+    // Fetch vehicle information using the provided API endpoint
+    axios
+      .get(`http://127.0.0.1:8001/api/vehiclesdetails/${props.vehicleid}/`)
+      .then((response) => {
+        // Assuming the data structure of the vehicle details
+       console.log(response.data)
+       setVehicle(response.data.vehicle_name)
+   
+      })
+      .catch((error) => {
+        console.error("Error fetching vehicle information:", error);
+      });
+  }, [props.vehicle_id]);
   const handleSubmitform = async (e) => {
     e.preventDefault();
   
@@ -151,7 +164,12 @@ export default function CheckAvailability(props) {
   const handleTimeChange = (time) => {
     setSelectedTime(time);
   };
+  
+  const handleVehicleSelect = (selectedVehicleId) => {
+    setVehicle(selectedVehicleId);
+  };
 
+  
   const CustomInput = ({ value, onClick }) => (
     <div className="w-72" onClick={onClick}>
       <Input label="Select date" value={value} readOnly />
@@ -204,7 +222,7 @@ export default function CheckAvailability(props) {
 />
             </div>
             <div className="m-4">
-            {props.id},{props.serviceid}
+        
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* <div>
                 <Input
@@ -229,22 +247,19 @@ export default function CheckAvailability(props) {
                 />
               </div>
 
-                          
-                            <div>
-                <Select
-                  id="vehicle"
-                  name="vehicle"
-                  label="Select your vehicle"
+              <div>
+                <Input
+                  type="text"
+                  id="service"
+                  name="service"
+                  label="service"
+                  placeholder="vehicle name"
                   value={vehicle}
-                  onChange={(option) => setVehicle(option.id)}  // Use option.id instead of e.target.value
-                >
-                  {vehicless.map((option, index) => (
-                    <option key={index} value={option.id}>
-                      {option.registration_number}
-                    </option>
-                  ))}
-                </Select>
+                  onChange={(e) => setPlace(e.target.value)}
+                />
               </div>
+
+                        
             <div>
                 <Input
                   type="text"
@@ -255,7 +270,17 @@ export default function CheckAvailability(props) {
                   onChange={(e) => setPlace(e.target.value)}
                 />
               </div>
-
+              <div>
+                <Input
+                  type="text"
+                  id="place"
+                  label="Place"
+                  name="place"
+                  placeholder="Place"
+                  onChange={(e) => setPlace(e.target.value)}
+                />
+              </div>
+{datetime}
           
             </form>
             </div>
@@ -291,10 +316,11 @@ export default function CheckAvailability(props) {
                       />
                     ))}
                 </div>
+
               </>
             )}
           </DialogBody>
-          {datetime?datetime:""}
+        
           <DialogFooter>
             <Button
               variant="text"
@@ -304,7 +330,7 @@ export default function CheckAvailability(props) {
             >
               <span>Cancel</span>
             </Button>
-            <Button variant="gradient" color="green" onClick={handleConfirm}>
+            <Button variant="gradient" color="green">
               <span>Confirm</span>
             </Button>
           </DialogFooter>

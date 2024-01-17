@@ -19,6 +19,7 @@ class Bookings(models.Model):
     payment = models.BooleanField(default=False)
     date_time = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True) 
+    place = models.CharField(max_length=100,null = True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='p')
 
     def __str__(self):

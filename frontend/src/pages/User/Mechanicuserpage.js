@@ -22,7 +22,8 @@ const Mechanicuserpage = () => {
       });
   }, []);
   const location = useLocation();
-  const { id, servicename, price } = location.state || {};
+  const { vehicleId, id, servicename, price } = location.state || {};
+  console.log(vehicleId, id, servicename, price);
 
 
   return (
@@ -35,7 +36,7 @@ const Mechanicuserpage = () => {
       <div className='flex justify-center gap-10 flex-wrap p-[5rem] '>
         {
           mechanics.map((mechanic) => (
-            <MechanicBox key={mechanic.id} id={mechanic.id} serviceid ={id} name={mechanic.first_name} servicename={servicename} price={price}/>
+            <MechanicBox key={mechanic.id} vehicleId ={vehicleId} id={mechanic.id} serviceid ={id} name={mechanic.first_name} servicename={servicename} price={price}/>
           ))
         }
       </div>

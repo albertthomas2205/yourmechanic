@@ -10,7 +10,7 @@ import {
   Input,
 } from "@material-tailwind/react";
 
-export default function AddBrand() {
+export default function AddBrand(props) {
 
   const [open, setOpen] = React.useState(false);
   const [formError, setFormError] = useState([]);
@@ -41,6 +41,7 @@ export default function AddBrand() {
 
         // Display alert box
         alert("Brand added successfully!");
+        props.fetchBrands()
 
         // Close the dialog after a short delay (e.g., 1 second)
         setTimeout(() => {

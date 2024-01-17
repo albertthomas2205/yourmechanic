@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <>
     
-    <div className=" w-full z-30  pt-4 fixed-top  bg-[#180e32]   ">
+    <div className=" w-full z-30  fixed-top  bg-[#180e32]   ">
         <HeaderUser />
       </div>
     {/* <StickyNavbar/> */}

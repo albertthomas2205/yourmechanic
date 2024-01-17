@@ -20,7 +20,7 @@ export default function Readmore(props) {
 
 
   const clickbutton = () => {
-    navigate('/mechanics', { state: { id: props.id,servicename:props.servicename,price:props.price } });
+    navigate('/vehicle/', { state: { id: props.id,servicename:props.servicename,price:props.price } });
   };
   const [openMenu, setOpenMenu] = React.useState(false);
   const menuItems = [

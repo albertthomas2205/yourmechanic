@@ -17,6 +17,7 @@ import Servicepage from "../../pages/User/Servicepage";
 import Mechanicuserpage from "../../pages/User/Mechanicuserpage";
 import Mechaniccheck from "../../pages/User/Mechaniccheck";
 import Stripepage from "../../pages/User/Stripepage";
+import UserVehiclePage from "../../pages/User/UserVehiclePage";
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from "@stripe/stripe-js/pure";
 
@@ -45,6 +46,7 @@ const Userwarper = () => {
       
         <Route path="/userprofile/" element = {<Profile/>} />
         <Route path="/uservehicle/" element = {<Vehicle/>} />
+        <Route path="/vehicle/" element={<UserVehiclePage/>} />
         </Route>
 
 

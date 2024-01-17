@@ -25,17 +25,17 @@ const Brandlist = () => {
     );
     setFilteredBrands(filtered);
   };
-
+  const fetchBrands = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8001/api/brands/');
+      setBrands(response.data);
+      setFilteredBrands(response.data);
+    } catch (error) {
+      console.error('Error fetching brands:', error);
+    }
+  };
   useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8001/api/brands/');
-        setBrands(response.data);
-        setFilteredBrands(response.data);
-      } catch (error) {
-        console.error('Error fetching brands:', error);
-      }
-    };
+
 
     fetchBrands();
   }, []);
@@ -87,7 +87,7 @@ const Brandlist = () => {
         </div>
         <div className="flex items-center">
           <div className="pr-5">
-           <AddBrand/>
+           <AddBrand fetchBrands={fetchBrands}/>
           
           </div>
           <div className="flex items-center">

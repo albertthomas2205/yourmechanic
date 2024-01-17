@@ -33,7 +33,7 @@ const Profile = () => {
   const isLargeScreen = useMediaQuery({ minWidth: 992 });
   return (
     <div  >
-     <div className=" w-full z-30  pt-4 fixed-top  bg-[#180e32]   ">
+     <div className=" w-full z-30  fixed-top  bg-[#180e32]   ">
         <HeaderUser />
       </div>
         
@@ -43,15 +43,21 @@ const Profile = () => {
       <div className="flex">
   <UserSidebar />
  
-  <div className="flex lg:w-[20rem]">
+  {/* <div className="flex lg:w-[30rem]">
 
-  </div>
+  </div> */}
 
 
-  <div className="flex-grow mt-[3rem]"> {/* Used flex-grow to make this div take up remaining space */}
-    <div className=" text-center  pt-[5rem]">
-      <div className>
+  <div className="flex-grow mt-[3rem] lg:ml-[20rem]"> {/* Used flex-grow to make this div take up remaining space */}
+    <div className=" text-center  pt-[3rem]">
+      <div className="flex justify-around items-center">
+        <div></div>
       <h2 className="mt-4 text-white">Your vehicles</h2>
+
+      <div className=" flex justify-end p-5">
+     <UserVehicleAdd fetch = {fetchUserVehicles}/>
+     </div>
+
       </div>
   
       
@@ -59,15 +65,9 @@ const Profile = () => {
      
  
     </div>
-    <div>
-     
-
-    </div>
-    <div className=" flex justify-end p-5">
-     <UserVehicleAdd fetch = {fetchUserVehicles}/>
-     </div>
-
-    <div className='flex justify-center gap-10 flex-wrap p-[5rem] '>
+   
+ 
+    <div className='flex  justify-center gap-12 flex-wrap py-[5rem]  '>
     
       {/* Render Uservehicle components */}
       {vehicles.map((vehicle) => (

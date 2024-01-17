@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'payment',
     'rest_framework',
     'corsheaders',
+   
 ]
 
 MIDDLEWARE = [
@@ -153,6 +154,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # settings.py
-STRIPE_PUBLIC_KEY = 'sk_test_51OXe9USH9jcXERVDvtzk7A9SiOGvDtHe6RnA6HDIt1jpahmYLrgR6AAoUggdyD3qX3yZFhMIILQ3RRGF3ONXcDun00cxPro2BE'
-STRIPE_SECRET_KEY = 'pk_test_51OXe9USH9jcXERVDaJZF7e63GH54Q3QsZjHtTyv5DkKHWZqZgY1gr4GC8QEKYBwIrQUzrpGbgVwfbnGFtNUL5PoI00zTkaauUo'
+STRIPE_PUBLIC_KEY = 'pk_test_51OYj2vSEEZQqRNckuhhQv0rtMw3J2paHXtU5QBzY3RdFKAJmGm6ywlrgU95vSquET6W2bG9oJzSL7foVHmtpajTI00XDqvTR41'
+STRIPE_SECRET_KEY = 'sk_test_51OYj2vSEEZQqRNckhvQhfoDZKOAAOLbn7WtZdLsm330xGPdqf26zJBxNFClojGQDwlcEjRyQFJtjpQXeVPm88ZY600okxgi0JA'
 # STRIPE_ENDPOINT_SECRET = "your_stripe_webhook_secret"
+
+# KEY = 'rzp_test_lCPwFk1fVNkzxq'
+# SECRET = 'XIM7YrvSXKWouboilyqQ5bGh'
+
+KEY = 'rzp_test_I7m6Q9rCGvlC2'
+SECRET = 'QHkXUqlVm6fqb1VUuBPna3Ei'

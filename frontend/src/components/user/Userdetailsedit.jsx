@@ -23,7 +23,7 @@ export default function Userdetailsedit(props) {
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
 
-  const userId = useSelector((state)=>state.persistedAuthReducer.authentication_user.id);
+  const userId = useSelector((state) => state.persistedAuthReducer.authentication_user.id);
   const apiUrl = `http://127.0.0.1:8000/api/userprofile/${userId}/`;
 
   useEffect(() => {
@@ -42,30 +42,71 @@ export default function Userdetailsedit(props) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProfileData({...profileData, [name]: value});
+    setProfileData({ ...profileData, [name]: value });
   };
 
-  const handleOpen = () => setOpen(!open);
+  const handleOpen = () => {
+    setOpen(!open);
+  };
+
+  const validateForm = () => {
+    const { username, phone_number, place, pin } = profileData;
+
+    if (!username || !phone_number || !place || !pin) {
+      setMessage("All fields are required.");
+      setMessageType("error");
+      return false;
+    }
+
+    // Validate phone number (10 digits)
+    const phoneNumberRegex = /^\d{10}$/;
+    if (!phoneNumberRegex.test(phone_number)) {
+      setMessage("Phone number must be 10 digits.");
+      setMessageType("error");
+      return false;
+    }
+
+    // Validate pin (6 digits)
+    const pinRegex = /^\d{6}$/;
+    if (!pinRegex.test(pin)) {
+      setMessage("Pin must be 6 digits.");
+      setMessageType("error");
+      return false;
+    }
+
+    return true;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     const formData = new FormData();
     Object.keys(profileData).forEach(key => formData.append(key, profileData[key]));
 
-    axios.put(apiUrl, formData, {
+    axios.patch(apiUrl, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     }).then(response => {
-     
       console.log("Profile updated successfully", response.data);
-      props.fetchUserProfile()
+      props.fetchUserProfile();
       setOpen(false);
       setMessage("Profile updated successfully.");
       setMessageType("success");
     }).catch(error => {
       console.error("Error updating profile", error);
-      setMessage("Error updating profile.");
+
+      // Check if the error response contains a custom error message
+      if (error.response && error.response.data && error.response.data.error) {
+        setMessage(error.response.data.error);
+      } else {
+        setMessage("Error updating profile.");
+      }
+
       setMessageType("error");
     });
   };

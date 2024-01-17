@@ -125,7 +125,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class UserProfileEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['id', 'username', 'phone_number', 'place', 'pin', 'user' 'profile_pic']
+        fields = ['id', 'username', 'phone_number', 'place', 'pin', 'user' ]
         
 from .models import UserVehicles
 

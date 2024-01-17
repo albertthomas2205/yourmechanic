@@ -34,7 +34,7 @@ import {
     //     {/* <HeaderUser/> */}
     //  <div className="fixed top-[2rem] bottom-0 ">
       
-    <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] ml-[4rem] p-4 fixed mt-[8rem] mb-[10rem] shadow-xl hidden lg:block shadow-blue-gray-900/5">
+    <div className="h-[calc(100vh-2rem)] bg-white w-full max-w-[20rem] p-4 fixed mt-[3rem] mb-[10rem] shadow-xl hidden lg:block shadow-blue-gray-900/5">
 
      
 
@@ -92,6 +92,6 @@ import {
       
 {/*     
       // </div> */}
-      </Card>
+      </div>
     );
   }

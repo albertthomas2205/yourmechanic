@@ -22,6 +22,7 @@ const Time = (props) => {
   // Concatenate the formatted date with the time
   const isoString = `${formattedDate}T${timeString}`;
   console.log(isoString)
+
   const resultString = isoString.replace(/\s*(AM|PM)\s*/, "");
   console.log(resultString)
 
@@ -60,7 +61,7 @@ const Time = (props) => {
   return (
     <div >
 
-      <div style={{color:`${statusColor}`}}  className={`border-1 p-2 cursor-pointer border-${statusColor}-500 hover:bg-gray-200 `}>
+      <div style={{color:`${statusColor}`}}  onClick={() => statusColor === 'green' && passDatetime()} className={`border-1 p-2 cursor-pointer border-${statusColor}-500 hover:bg-gray-200 `}>
         {props.time}
       </div>
     </div>

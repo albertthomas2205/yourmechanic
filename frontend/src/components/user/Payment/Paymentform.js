@@ -10,7 +10,7 @@ const Paymentform = () => {
 
     try {
       // Make the Axios POST request to your API
-      const response = await axios.post('http://127.0.0.1:8002/api/booking/checkout-session/', {
+      const response = await axios.post('http://127.0.0.1:8002/api/booking/checkout-sessionn/', {
         amount: amount,
         // You may include other form data here if needed
       });
@@ -19,7 +19,7 @@ const Paymentform = () => {
       console.log(response.data);
 
       // Load Stripe and redirect to Checkout
-      const stripe = await loadStripe('pk_test_51OXe9USH9jcXERVDaJZF7e63GH54Q3QsZjHtTyv5DkKHWZqZgY1gr4GC8QEKYBwIrQUzrpGbgVwfbnGFtNUL5PoI00zTkaauUo');
+      const stripe = await loadStripe('pk_test_51OYj2vSEEZQqRNckuhhQv0rtMw3J2paHXtU5QBzY3RdFKAJmGm6ywlrgU95vSquET6W2bG9oJzSL7foVHmtpajTI00XDqvTR41');
 
       stripe.redirectToCheckout({
         sessionId: response.data.checkoutSessionId

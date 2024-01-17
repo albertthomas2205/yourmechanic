@@ -70,7 +70,7 @@ class CustomUser(AbstractBaseUser):
 
 class UserProfile(models.Model):
    
-    username = models.CharField(max_length=100)
+    username = models.CharField(unique=True,max_length=100)
     phone_number = models.CharField(max_length=15)
     place = models.CharField(max_length=100)
     pin = models.CharField(max_length=10)
