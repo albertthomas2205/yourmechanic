@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Order,Transaction
+from .models import Order,Transaction,Transactions
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -21,3 +21,13 @@ class CreateOrderSerializer(serializers.Serializer):
     amount = serializers.IntegerField()
     currency = serializers.CharField()
     
+class HandlepaymentSerilaizer(serializers.Serializer):
+    class Meta:
+        model = Transaction
+        fields = '__all__'
+    
+    
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transactions
+        fields = '__all__'

@@ -99,3 +99,34 @@ class VehicleDetailsView(RetrieveAPIView):
     queryset = Vehicle.objects.all()
     serializer_class = VehicleSerializerr
     permission_classes = [permissions.AllowAny]
+    
+    
+class VehiclenameServiceView(APIView):
+    def post(self, request):
+        vehicle_id = request.data.get('vehicle_id')
+        service_id = request.data.get('service_id')
+
+        try:
+            # Fetch service details based on service_id
+            service = Service.objects.get(id=service_id)
+            service_serializer = ServiceSerializer(service)
+
+            # Fetch vehicle details based on vehicle_id
+            vehicle = Vehicle.objects.get(id=vehicle_id)
+            vehicle_serializer = VehicleSerializer(vehicle)
+
+            response_data = {
+                'service_details': service_serializer.data,
+                'vehicle_details': vehicle_serializer.data,
+            }
+
+            return Response(response_data, status=200)
+
+        except Service.DoesNotExist:
+            return Response({'error': 'Service not found'}, status=404)
+
+        except Vehicle.DoesNotExist:
+            return Response({'error': 'Vehicle not found'}, status=404)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=500)

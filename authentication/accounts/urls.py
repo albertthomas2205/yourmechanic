@@ -41,6 +41,10 @@ urlpatterns = [
     
     
     
+     path('details/', views.UserAndVehicleDetailsAPIView.as_view(), name='user_and_vehicle_details'),
+    
+    
+    
   
    
  

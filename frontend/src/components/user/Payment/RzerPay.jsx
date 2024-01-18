@@ -2,16 +2,21 @@
 import Axios from "axios";
 import React, { useState } from "react";
 import useRazorpay from "react-razorpay";
+import {Button} from "@material-tailwind/react"
 
-function RazerPay() {
+function RazerPay(props) {
   const [Razorpay] = useRazorpay();
+  
 
-  const amount = 500;
+  const amount = parseInt(props.amount, 10);
+  const Name = props.name
+
   const currency = "INR";
   const receiptId = "qwsaq1";
   const server = "http://127.0.0.1:8002"
-  let bodyData = {"amount":100,"name":"hfdsfg"}
+  let bodyData = {"amount":amount,"name":Name}
   const paymentHandler = async (e) => {
+   
     const response = await Axios({
         url: `${server}/api/booking/pay/`,
         method: "POST",
@@ -84,15 +89,19 @@ function RazerPay() {
     rzp1.open();
     e.preventDefault();
   };
-
+//   useEffect(() => {
+//  paymentHandler()
+//   }, []);
   return (
-    <div style={{color:"black"}} className="product">
-      <h2>Tshirt</h2>
-      <p>Solid blue cotton Tshirt</p>
- 
-      <br />
-      <button onClick={paymentHandler}>Pay</button>
-    </div>
+    <>
+
+      <Button variant="gradient" onClick={paymentHandler} color="green">
+              <span>Confirm</span>
+            </Button>
+
+
+    </>
+
   );
 }
 

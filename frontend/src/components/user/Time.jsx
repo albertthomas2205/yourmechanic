@@ -38,7 +38,7 @@ const Time = (props) => {
       try {
         const response = await axios.post('http://127.0.0.1:8002/api/booking/check-availability/', {
           date_time: resultString,
-          mechanic_id: 17,
+          mechanic_id:props.mechanic_id,
         });
 
         // Assuming the response has a status property

@@ -52,7 +52,7 @@ useEffect(() => {
           </Typography>
         </CardBody>
         <CardFooter className="pt-0">
-      <CheckAvailability id={props.id} serviceid ={props.serviceid} price={props.price} vehicleid ={props.vehicleId} servicename={props.servicename}/>
+      <CheckAvailability id={props.id} serviceid ={props.serviceid} mechanic_id ={props.id} price={props.price} vehicleid ={props.vehicleId} servicename={props.servicename}/>
         </CardFooter>
       </Card>
     );

@@ -9,8 +9,9 @@ class Bookings(models.Model):
      
         ('p', 'Pending'),
         ('s', 'Scheduled'),
-        ('w','processing'),
+        ('w','ongoing'),
         ('c', 'Completed'),
+        ('d','Canceld'),
     ]
     user_id = models.IntegerField()
     mechanic_id = models.IntegerField()

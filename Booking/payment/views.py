@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.serializers import ValidationError
 import stripe
+from management.models import Bookings
+from django.shortcuts import get_object_or_404
 from django.conf import settings
 # Set your Stripe API key here (consider using environment variables)
 stripe.api_key = "sk_test_51OYj2vSEEZQqRNckhvQhfoDZKOAAOLbn7WtZdLsm330xGPdqf26zJBxNFClojGQDwlcEjRyQFJtjpQXeVPm88ZY600okxgi0JA"
@@ -71,52 +73,6 @@ class StripeCheckoutVieww(APIView):
         except Exception as e:
             # Handle other exceptions
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={'error': str(e)})
-
-
-# class StripeCheckoutView(APIView):
-#     def post(self, request):
-#         amount = request.data.get('amount')  # Get the amount from the request data
-#         customer_name = request.data.get('customer_name', 'Default Customer Name')
-#         customer_address = request.data.get('customer_address', 'Default Customer Address')
-
-#         try:
-#             checkout_session = stripe.checkout.Session.create(
-#                 payment_method_types=['card'],
-#                 line_items=[{
-#                     'price_data': {
-#                         'currency': 'INR',
-#                         'product_data': {
-#                             'name': 'Your Product Name',
-#                         },
-#                         'unit_amount': amount,
-#                     },
-#                     'quantity': 1,
-#                 }],
-#                 mode="payment",
-#                 billing_address_collection={
-#                     'required': 'auto',
-#                 },
-#                 customer_email=request.user.email if request.user.is_authenticated else None,
-#                 customer={
-#                     'name': customer_name,
-#                     'address': {
-#                         'line1': customer_address,
-#                         'city': 'City',  # Update with actual city
-#                         'state': 'State',  # Update with actual state
-#                         'postal_code': '12345',  # Update with actual postal code
-#                         'country': 'IN',  # Update with actual country code
-#                     },
-#                 },
-#                 success_url=settings.SITE_URL + '/',
-#                 cancel_url=settings.SITE_URL + '/login'
-#             )
-
-#             return Response(status=status.HTTP_200_OK, data={'checkoutSessionId': checkout_session.id})
-#         except stripe.error.StripeError as e:
-#             return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': str(e)})
-#         except Exception as e:
-#             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={'error': str(e)})
-
 
 class StripeCheckoutView(APIView):
     def post(self, request):
@@ -216,9 +172,9 @@ class RezorpayClient:
 def start_payment(request):
     # request.data is coming from frontend
     amount = request.data['amount']
-    # int(amount)
+  
     name = request.data['name']
-
+    booking_id = request.data['booking_id']
     # setup razorpay client
     client = razorpay.Client(auth=(KEY,SECRET))
 
@@ -230,10 +186,16 @@ def start_payment(request):
     # we are saving an order with isPaid=False
     order = Order.objects.create(order_product=name, 
                                  order_amount=amount, 
+                                 booking_id = booking_id,
                                  order_payment_id=payment['id'])
     print(order)
+  
 
     serializer = OrderSerializer(order)
+    booking = get_object_or_404(Bookings, id=booking_id)
+    booking.payment = True
+    booking.status = 's'
+    booking.save()
 
     """order response will be 
     {'id': 17, 
@@ -294,6 +256,7 @@ def handle_payment_success(request):
 
     # if payment is successful that means check is None then we will turn isPaid=True
     order.isPaid = True
+    
     order.save()
 
     res_data = {
@@ -302,18 +265,24 @@ def handle_payment_success(request):
 
     return Response(res_data)
 
-def verify_payment(self,razorpay_order_id,razorpay_payment_id,razorpay_signature):
-    try:
-        return client.utility.varify_payment_signature({
-            'razorpay_order_id': razorpay_order_id,
-            'razorpay_payment_id':razorpay_payment_id,
-            'razorpay_signature':razorpay_signature
-        })
-    except Exception as e:
-        raise ValidationError({
-            "status_code":status.HTTP_400_BAD_REQUEST,
-        })
-      
+
+
+
+@api_view(['POST'])
+def handle_payment_success(request):
+    
+    HandlepaymentSerilaizer = request.data
+ 
+
+
+
+
+
+
+
+
+
+
       
       
 rz_client = RezorpayClient()  
@@ -368,3 +337,22 @@ class TransactionAPIView(APIView):
                 "error": transaction_serializer.errors
             }
             return Response(response, status = status.HTTP_400_BAD_REQUEST)
+        
+        
+from .models import Transactions
+from .serializers import TransactionSerializer
+
+@api_view(['POST'])
+def process_payment_response(request):
+    try:
+        data = request.data
+        serializer = TransactionSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

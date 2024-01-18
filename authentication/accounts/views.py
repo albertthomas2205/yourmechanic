@@ -630,3 +630,35 @@ def user_vehicles_detail(request, pk):
     elif request.method == 'DELETE':
         user_vehicle.delete()
         return Response({'detail': 'User vehicle deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+
+
+
+class UserAndVehicleDetailsAPIView(APIView):
+    def post(self, request):
+        mechanic_id = request.data.get('mechanic_id')
+        vehicle_id = request.data.get('vehicle_id')
+        try:
+            # Fetch first_name from CustomUser based on mechanic_id
+            mechanic_user = CustomUser.objects.get(id=mechanic_id)
+            mechanic_serializer = CustomUserSerializer(mechanic_user)
+
+            # Fetch vehicle details from UserVehicle based on vehicle_id
+            vehicle = UserVehicles.objects.get(id=vehicle_id)
+            vehicle_serializer = UserVehiclesSerializer(vehicle)
+
+            response_data = {
+                'mechanic_name': mechanic_serializer.data.get('first_name'),
+                'vehicle_id': vehicle_serializer.data,
+            }
+
+            return Response(response_data, status=status.HTTP_200_OK)
+
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'Mechanic not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        except UserVehicles.DoesNotExist:
+            return Response({'error': 'Vehicle not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
