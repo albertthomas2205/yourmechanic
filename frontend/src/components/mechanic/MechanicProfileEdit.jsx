@@ -24,7 +24,7 @@ export default function MechanicDetailsEdit(props) {
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
 
-  const mechanicId = useSelector((state) => state.persistedAuthReducer.authentication_user.id);
+  const mechanicId = useSelector((state) => state.persistedAuthReducer.authenication_mechanic.id);
   const apiUrl = `http://127.0.0.1:8000/api/mechanic-profile-detail/${mechanicId}/`;
 
   useEffect(() => {
@@ -111,9 +111,9 @@ export default function MechanicDetailsEdit(props) {
             <div className="mb-4">
               <Input label="Description" type="text" name="description" value={profileData.description} onChange={handleInputChange} />
             </div>
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <Input label="Profile Picture" type="file" name="profile_pic" onChange={handleFileChange} />
-            </div>
+            </div> */}
             
             <Button variant="gradient" color="green" type="submit">
               <span>Save</span>

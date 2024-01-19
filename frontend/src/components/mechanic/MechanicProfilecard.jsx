@@ -21,9 +21,10 @@ export default function MechanicProfilecard() {
   const [profileData, setProfileData] = useState([]);
   const [isEditingProfilePic, setIsEditingProfilePic] = useState(false);
   const fileInputRef = useRef(null); // Create a ref for the file input
-  const id = useSelector((state) => state.persistedAuthReducer.authentication_user.id);
+  // const id = useSelector((state) => state.persistedAuthReducer.authentication_user.id);
+  const id = useSelector((state)=>state.persistedAuthReducer.authenication_mechanic.id)
 
-  const first_name = useSelector((state) => state.persistedAuthReducer.authentication_user.first_name);
+  const first_name = useSelector((state) => state.persistedAuthReducer.authenication_mechanic.first_name);
 
   const fetchProfileData = () => {
     axios

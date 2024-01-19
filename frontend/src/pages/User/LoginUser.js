@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useDispatch } from "react-redux";
 import { GoogleLogin } from '@react-oauth/google';
 import { set_Authentication } from "../../Redux/user/AuthenticationSlice"; // Update the path
+import { set_AdminAuthentication } from "../../Redux/Admin/AdminAuthenticationSlice";
 
 import HeaderUser from "../../components/user/Headeruser";
 
@@ -47,24 +48,35 @@ const LoginUser = () => {
         localStorage.setItem('access', res.data.access);
         localStorage.setItem('refresh', res.data.refresh);
         console.log(res.data);
-        dispatch(
-          set_Authentication({
-            first_name: res.data.first_name,
-            isAuthenticated: true,
-            id : res.data.id,
-            isAdmin:res.data.is_admin,
-            is_user: res.data.is_user,
-            accessToken: res.data.access,
-            user:res.data
-
-          })
-        );
+       
         {
           if (res.data.is_admin){
+            dispatch(
+              set_AdminAuthentication({
+                first_name: res.data.first_name,
+                isAuthenticated: true,
+                id : res.data.id,
+                isAdmin:res.data.is_admin,
+
+              })
+            )
             console.log(res.data.is_admin)
+            
               navigate('/admin/');
         return res;
           }else{
+            dispatch(
+              set_Authentication({
+                first_name: res.data.first_name,
+                isAuthenticated: true,
+                id : res.data.id,
+                isAdmin:res.data.is_admin,
+                is_user: res.data.is_user,
+                accessToken: res.data.access,
+                user:res.data
+    
+              })
+            );
             navigate('/');
           }
         }

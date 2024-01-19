@@ -26,12 +26,13 @@ const Time = (props) => {
   const resultString = isoString.replace(/\s*(AM|PM)\s*/, "");
   console.log(resultString)
 
+  const [statusColor, setStatusColor] = useState('');
   const passDatetime = ()=>{
     props.setDatetime(resultString)
+    setStatusColor("grey")
   }
   
 
-  const [statusColor, setStatusColor] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {

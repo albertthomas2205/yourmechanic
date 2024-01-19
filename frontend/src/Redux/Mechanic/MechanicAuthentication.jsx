@@ -2,8 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   first_name: null,
-  isAuthenticated: false,
+  ismechanicAuthenticated: false,
   isMechanic: false,
+  id:null,
   accessToken:null,
   is_user:false,
   user:{}
@@ -16,13 +17,12 @@ export const AuthenticationMechanicSlice = createSlice({
     set_MechanicAuthentication: (state, action) => {
       console.log(action.payload)
       state.first_name = action.payload.first_name;
-      state.isAuthenticated = action.payload.isAuthenticated;
+      state.ismechanicAuthenticated = action.payload.ismechanicAuthenticated;
       state.isMechanic= action.payload.is_mechanic;
       state.id = action.payload.id;
       state.accessToken = action.payload.access_token;
+  
       state.is_user = action.payload.is_user;
-      state.user=action.payload.user
-      // state.is_user = action.payload.is_user;
 
       // Store first name in local storage
       // localStorage.setItem('first_name', action.payload.first_name);
@@ -32,10 +32,10 @@ export const AuthenticationMechanicSlice = createSlice({
     clear_MechanicAuthentication: (state) => {
       // Clear the authentication state on logout
       state.first_name = null;
-      state.isAuthenticated = false;
-      state.isAdmin = false;
+      state.ismechanicAuthenticated = false;
+      state.isMechanic = false;
       state.id = false;
-      state.user = null;
+    
 
       // Remove first name from local storage on logout
       // localStorage.removeItem('first_name');
@@ -46,6 +46,6 @@ export const AuthenticationMechanicSlice = createSlice({
 
 export const { set_MechanicAuthentication, clear_MechanicAuthentication } = AuthenticationMechanicSlice.actions;
 
-export const selectUser=(state) => state.persistedAuthReducer.authentication_user.user
+export const selectMechanic=(state) => state.persistedAuthReducer.authentication_mechanic.isMechanicAuthenticated
 
 export default AuthenticationMechanicSlice.reducer;

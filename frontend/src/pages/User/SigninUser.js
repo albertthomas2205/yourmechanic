@@ -47,18 +47,7 @@ const SigninUser= () => {
         localStorage.setItem('access', res.data.access);
         localStorage.setItem('refresh', res.data.refresh);
         console.log(res.data);
-        dispatch(
-          set_Authentication({
-            first_name: res.data.first_name,
-            isAuthenticated: true,
-            id : res.data.id,
-            isAdmin:res.data.is_admin,
-            is_user: res.data.is_user,
-            accessToken: res.data.access,
-            user:res.data
-
-          })
-        );
+  
         {
           if (res.data.is_admin){
             console.log(res.data.is_admin)
@@ -73,6 +62,18 @@ const SigninUser= () => {
               navigate('/admin/');
         return res;
           }else if (res.data.is_user){
+            dispatch(
+              set_Authentication({
+                first_name: res.data.first_name,
+                isAuthenticated: true,
+                id : res.data.id,
+                isAdmin:res.data.is_admin,
+                is_user: res.data.is_user,
+                accessToken: res.data.access,
+                user:res.data
+    
+              })
+            );
             navigate('/');
           }
           else{

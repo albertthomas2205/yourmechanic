@@ -139,6 +139,11 @@ class MechanicProfileSerializer(serializers.ModelSerializer):
         model = MechanicProfiledetails
         # fields = ['place', 'pin', 'experience', 'description', 'profile_pic', 'mechanic_id',]
         fields = '__all__'
+class MechaniceditProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MechanicProfiledetails
+        fields = ['place', 'pin', 'experience', 'description', 'mechanic_id',]
+       
       
 from .models import Booking
 

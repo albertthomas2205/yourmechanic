@@ -20,6 +20,7 @@ import Stripepage from "../../pages/User/Stripepage";
 import UserVehiclePage from "../../pages/User/UserVehiclePage";
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from "@stripe/stripe-js/pure";
+import BookingPage from "../../pages/User/Booking/BookingPage";
 
 
 
@@ -38,6 +39,8 @@ const Userwarper = () => {
         <Route path="/check" element={<Mechaniccheck/>} /> 
         <Route path="/mechanics" element={<Mechanicuserpage/>} />
         <Route path="/payment" element={<Stripepage/>} />
+        <Route path="/userbooking" element={<BookingPage/>} />
+        
  
         
 

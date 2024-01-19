@@ -76,8 +76,15 @@ export default function CheckAvailability(props) {
 
   const handleSubmitform = async (e) => {
     e.preventDefault();
-    if (!place || !datetime) {
-      setError('Please fill in all required fields');
+    if (!place || !datetime ) {
+      setError('Place and time required');
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
+      return;
+    }
+    if (!datetime){
+      setError('Please Select your timeslot');
       setTimeout(() => {
         setError(null);
       }, 3000);
@@ -195,9 +202,9 @@ export default function CheckAvailability(props) {
   const currency = "INR";
   const receiptId = "qwsaq1";
   const server = "http://127.0.0.1:8002"
-  
+  const amounts = 100
   const paymentHandler = async (e) => {
-    let bodyData = {"amount":amount,"name":props.servicename ,"booking_id":e}
+    let bodyData = {"amount":amounts,"name":props.servicename ,"booking_id":e}
     const response = await axios({
         url: `${server}/api/booking/pay/`,
         method: "POST",
@@ -274,7 +281,7 @@ export default function CheckAvailability(props) {
   return (
     <>
       <Button onClick={handleOpen} variant="gradient">
-        Open Dialog
+        Check Avilability
       </Button>
       <div style={{ backgroundColor: statusColor }}>
         <Dialog open={open} handler={handleOpen}>
@@ -357,7 +364,7 @@ export default function CheckAvailability(props) {
                   onChange={(e) => setPlace(e.target.value)}
                 />
               </div>
-{datetime}
+
           
             </form>
             </div>

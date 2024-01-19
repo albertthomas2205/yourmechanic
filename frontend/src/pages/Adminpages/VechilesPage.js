@@ -16,7 +16,7 @@ const VehiclesPage = () => {
   return (
    
       <div>
-        <div className="fixed w-full z-30 bg-[#180e32] ">
+        <div className="fixed w-full z-30 bg-[#37397f] ">
         <Header />
         </div>
      

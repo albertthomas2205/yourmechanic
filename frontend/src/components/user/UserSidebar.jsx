@@ -29,6 +29,10 @@ import {
    const VehicleClick = ()=>{
     navigate("/uservehicle")
   }
+
+  const bookingClick = ()=>{
+    navigate("/userbooking")
+  }
     return (
     //     <div className=" relative self-stretch w-[20rem]">
     //     {/* <HeaderUser/> */}
@@ -56,7 +60,7 @@ import {
             </ListItemPrefix>
           Vehicles
           </ListItem>
-          <ListItem>
+          <ListItem onClick={bookingClick}>
             <ListItemPrefix>
               <ShoppingBagIcon className="h-5 w-5" />
             </ListItemPrefix>

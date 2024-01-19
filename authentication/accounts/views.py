@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from .models import   CustomUser,CustomUserManager,UserVehicles
 from .serializers import UserRegisterSerializer,MyTokenObtainPairSerializer, BlockUserSerializer,UserlistSerializer, OtpRequestSerializer,OtpResponseSerializer,UsergoogleSerializer,MechanicRegisterSerializer,EmailCheckSerializer
-from .serializers import AdminRegisterSerializer,MechanicProfiledetailsSerializer
+from .serializers import AdminRegisterSerializer,MechanicProfiledetailsSerializer,MechaniceditProfileSerializer
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.decorators import api_view
 from .serializers import UserProfileEditSerializer
@@ -513,7 +513,7 @@ def mechanic_profile_detail(request, mechanic_id):
         return Response(serializer.data)
 
     elif request.method == 'PATCH':
-        serializer = MechanicProfileSerializer(profile, data=request.data, partial=True)
+        serializer = MechaniceditProfileSerializer(profile, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -636,19 +636,18 @@ def user_vehicles_detail(request, pk):
 class UserAndVehicleDetailsAPIView(APIView):
     def post(self, request):
         mechanic_id = request.data.get('mechanic_id')
-        vehicle_id = request.data.get('vehicle_id')
+       
         try:
             # Fetch first_name from CustomUser based on mechanic_id
             mechanic_user = CustomUser.objects.get(id=mechanic_id)
             mechanic_serializer = CustomUserSerializer(mechanic_user)
 
             # Fetch vehicle details from UserVehicle based on vehicle_id
-            vehicle = UserVehicles.objects.get(id=vehicle_id)
-            vehicle_serializer = UserVehiclesSerializer(vehicle)
+        
 
             response_data = {
                 'mechanic_name': mechanic_serializer.data.get('first_name'),
-                'vehicle_id': vehicle_serializer.data,
+                
             }
 
             return Response(response_data, status=status.HTTP_200_OK)
@@ -656,9 +655,34 @@ class UserAndVehicleDetailsAPIView(APIView):
         except CustomUser.DoesNotExist:
             return Response({'error': 'Mechanic not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        except UserVehicles.DoesNotExist:
-            return Response({'error': 'Vehicle not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class UserDetailsAPIView(APIView):
+    def post(self, request):
+        user_id = request.data.get('user_id')
+       
+        try:
+            # Fetch first_name from CustomUser based on mechanic_id
+            mechanic_user = CustomUser.objects.get(id=user_id)
+            mechanic_serializer = CustomUserSerializer(mechanic_user)
+
+            # Fetch vehicle details from UserVehicle based on vehicle_id
+        
+
+            response_data = {
+                'user_name': mechanic_serializer.data.get('first_name'),
+                
+            }
+
+            return Response(response_data, status=status.HTTP_200_OK)
+
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'Mechanic not found'}, status=status.HTTP_404_NOT_FOUND)
 
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
 

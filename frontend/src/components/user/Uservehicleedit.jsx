@@ -120,8 +120,8 @@ const UserVehicleEdit = (props) => {
 
   return (
     <>
-      <Button onClick={handleOpen} color="green" variant="gradient" className="bg-green-300">
-        Edit Vehicle {props.id}
+      <Button onClick={handleOpen} variant="text" className="bg-green-700">
+        Edit Vehicle
       </Button>
       <Dialog
         open={open}

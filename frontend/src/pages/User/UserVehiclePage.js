@@ -70,7 +70,7 @@ const UserVehiclePage = () => {
     <div className=" text-center  pt-[3rem]">
       <div className="flex justify-around items-center">
         <div></div>
-      <h2 className="mt-4 text-white">Your vehicles</h2>
+      <h2 className="mt-4 text-white">Select vehicle</h2>
 
       <div className=" flex justify-end p-5">
      <UserVehicleAdd fetch = {fetchUserVehicles}/>

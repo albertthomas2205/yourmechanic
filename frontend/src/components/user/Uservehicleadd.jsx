@@ -28,6 +28,8 @@ export default function UserVehicleAdd(props) {
     user: userId,
   });
 
+  const [errorMessage, setErrorMessage] = useState(null);
+
   useEffect(() => {
     const fetchBrands = async () => {
       try {
@@ -75,21 +77,40 @@ export default function UserVehicleAdd(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(vehicleData);
-  
+
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/user-vehicles/', vehicleData);
       console.log(response.data);
-      props.fetch()
+      props.fetch();
       setOpen(false);
     } catch (error) {
       console.error('Error adding vehicle:', error);
-  
+
       if (error.response && error.response.data) {
-        // Display the specific serializer errors from the backend
-        alert(`${JSON.stringify(error.response.data)}`);
+        const errorMessages = [];
+
+        // Iterate over the error response and extract messages
+        for (const field in error.response.data) {
+          if (error.response.data.hasOwnProperty(field)) {
+            errorMessages.push(`${field}: ${error.response.data[field].join(', ')}`);
+          }
+        }
+
+        // Set the formatted error message
+        setErrorMessage(errorMessages.join('\n'));
+
+        // Clear the error message after 3 seconds
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 3000);
       } else {
-        // Generic error message
-        alert('Error adding vehicle. Please try again.');
+        // Set a generic error message
+        setErrorMessage('Error adding vehicle. Please try again.');
+
+        // Clear the error message after 3 seconds
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 3000);
       }
     }
   };
@@ -111,14 +132,19 @@ export default function UserVehicleAdd(props) {
         <DialogHeader style={{ textAlign: 'center' }}>Add Vehicle</DialogHeader>
         <DialogBody>
           <form onSubmit={handleSubmit}>
+            {errorMessage && (
+              <div className="text-red-500 mt-2">
+                <span>{errorMessage}</span>
+              </div>
+            )}
             <div className="mb-4">
-                  <Select label="Select Brand" onChange={(selectedValue) => fetchVehicleName(selectedValue)}>
-        {brands.map((brand) => (
-          <Option key={brand.id} value={brand.id.toString()}>
-            {brand.brand_name}
-          </Option>
-        ))}
-      </Select>
+              <Select label="Select Brand" onChange={(selectedValue) => fetchVehicleName(selectedValue)}>
+                {brands.map((brand) => (
+                  <Option key={brand.id} value={brand.id.toString()}>
+                    {brand.brand_name}
+                  </Option>
+                ))}
+              </Select>
             </div>
             <div className="mb-4">
               <Select label="Select Vehicle" onChange={(e) => handleVehicleSelect(e)}>

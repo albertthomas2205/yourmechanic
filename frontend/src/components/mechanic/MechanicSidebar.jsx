@@ -16,28 +16,45 @@ import {
     PowerIcon,
   } from "@heroicons/react/24/solid";
   import { useDispatch,useSelector } from "react-redux";
-  import { clear_Authentication } from "../../Redux/user/AuthenticationSlice";
-
+  // import { clear_Authentication } from "../../Redux/user/AuthenticationSlice";
+  import { clear_MechanicAuthentication } from "../../Redux/Mechanic/MechanicAuthentication";
+import { useNavigate } from "react-router-dom";
+ 
    
   export default function MechaniSidebar({ className }) {
+    const navigate = useNavigate()
 
 
     const dispatch = useDispatch()
-    const isAuthenticated = useSelector((state) => state.persistedAuthReducer.authentication_user.isAuthenticated);
+    const isAuthenticated = useSelector((state) => state.persistedAuthReducer.authenication_mechanic.ismechanicAuthenticated);
     const handleLogoutClick=() =>{
       dispatch(
-        clear_Authentication()
+        clear_MechanicAuthentication()
         )
+        navigate('/')
   
     }
- 
+    // const bookingClick=() =>{
+    //   dispatch(
+    //     clear_MechanicAuthentication()
+    //     )
+    //     navigate('/mechanic/bookinglist/')
+  
+    // }
+    // const profileClick=() =>{
+    //   dispatch(
+    //     clear_MechanicAuthentication()
+    //     )
+    //     navigate('/mechanic/profile/')
+  
+    // }
  
     return (
     //     <div className=" relative self-stretch w-[20rem]">
     //     {/* <HeaderUser/> */}
     //  <div className="fixed top-[2rem] bottom-0 ">
       
-    <Card className="h-[calc(100vh-2rem)] hidden lg:block fixed w-full max-w-[20rem] p-4 ml-[4rem] shadow-xl mt-[8rem]  shadow-blue-gray-900/5">
+    <div className="h-[calc(100vh-2rem)] bg-blue-gray-50 hidden lg:block fixed w-full max-w-[20rem] p-4  shadow-xl mt-[4rem]  shadow-blue-gray-900/5">
 
      
 
@@ -47,11 +64,18 @@ import {
           </Typography>
         </div>
         <List>
-          <ListItem>
+
+        <ListItem>
+            <ListItemPrefix>
+              <UserCircleIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Profile
+          </ListItem>
+          <ListItem >
             <ListItemPrefix>
               <PresentationChartBarIcon className="h-5 w-5" />
             </ListItemPrefix>
-            Dashboard
+            Booking
           </ListItem>
           <ListItem>
             <ListItemPrefix>
@@ -68,12 +92,7 @@ import {
               <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
             </ListItemSuffix>
           </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Profile
-          </ListItem>
+         
           <ListItem>
             <ListItemPrefix>
               <Cog6ToothIcon className="h-5 w-5" />
@@ -94,6 +113,6 @@ import {
       
 {/*     
       // </div> */}
-      </Card>
+      </div>
     );
   }

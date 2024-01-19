@@ -42,6 +42,7 @@ urlpatterns = [
     
     
      path('details/', views.UserAndVehicleDetailsAPIView.as_view(), name='user_and_vehicle_details'),
+     path('userdetails/', views.UserDetailsAPIView.as_view(), name='user_and_vehicle_details'),
     
     
     

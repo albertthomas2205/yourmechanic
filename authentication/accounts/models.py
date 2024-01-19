@@ -114,7 +114,7 @@ class MechanicProfiledetails(models.Model):
     experience=models.IntegerField()
     description= models.CharField(max_length=200,blank=True,null = True)
     profile_pic =models.FileField(upload_to='yourmechanic_userprofile',blank=True,null=True)
-    mechanic_id=models.IntegerField()
+    mechanic_id=models.IntegerField(unique=True)
     is_verify = models.BooleanField(default=False)
   
     

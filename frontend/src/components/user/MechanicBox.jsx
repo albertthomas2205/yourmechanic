@@ -42,7 +42,7 @@ useEffect(() => {
         </CardHeader>
         <CardBody>
           <Typography variant="h5" color="blue-gray" className="mb-2">
-            {props.name}{props.id}{props.price}
+            {props.name}
           </Typography>
           <Typography>
             {props.serviceid}

@@ -4,7 +4,7 @@ import UserSidebar from '../../components/user/UserSidebar'
 import Sidebar from '../../components/admin/Sidebar';
 import MechanicSidebar from '../../components/mechanic/MechanicSidebar';
 import Mechanicheader from '../../components/mechanic/Mechanicheader';
-
+import MechanicHeader from '../../components/mechanic/MehanicHeader';
 
 import MechanicProfilecard from '../../components/mechanic/MechanicProfilecard';
 import { MDBPopover, MDBPopoverBody, MDBPopoverHeader } from 'mdb-react-ui-kit';
@@ -12,8 +12,8 @@ import { MDBPopover, MDBPopoverBody, MDBPopoverHeader } from 'mdb-react-ui-kit';
 const MechanicProfile = () => {
   return (
     <div  >
-    <div className=" w-full z-30  pt-4 fixed-top  bg-[#180e32]   ">
-     <HeaderUser/>
+    <div className=" w-full z-30 fixed-top  ">
+     <MechanicHeader/>
    </div>
      <div className='flex'>
        <div className='flex '>
