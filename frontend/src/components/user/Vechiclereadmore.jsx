@@ -65,13 +65,13 @@ export default function Vehiclereadmore(props) {
           </MenuItem>
         </ul>
       </MenuList>
-      {/* <div className="flex">
+      <div className="flex">
       <div className="p-4 flex">  <UserVehicleEdit id={props.id} fetch={props.fetch} /></div>
       <div className="p-4 flex">     <Button onClick={handleDelete} color="red">
         Delete
       </Button></div>
       </div>
-     */}
+    
     
   
     </Menu>

@@ -294,7 +294,7 @@ export default function CheckAvailability(props) {
   selected={selectedDate}
   onChange={handleDateChange}
   dateFormat="yyyy/MM/dd"
-  // minDate={new Date()} // Set minimum date to today
+  minDate={new Date()} // Set minimum date to today
   className="border border-gray-300 p-2 w-full mb-4"
   customInput={<CustomInput />}
   style={{ width: "100%" }}

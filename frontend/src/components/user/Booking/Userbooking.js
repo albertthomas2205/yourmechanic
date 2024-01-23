@@ -16,6 +16,7 @@ import {
 import { useSelector } from 'react-redux';
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { ArrowDownTrayIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import instance from '../../axios/axiosInstences';
 
 
 // Function to format date and time
@@ -58,7 +59,7 @@ export default function Userbooking() {
     const fetchData = async () => {
       try {
         // Fetching the main booking data
-        const bookingResponse = await axios.get(`http://127.0.0.1:8002/api/booking/bookinguser/${id}`);
+        const bookingResponse = await instance.get(`/booking/bookinguser/${id}`);
         setBookingData(bookingResponse.data);
 
         // Extracting service_id, vehicle_id, and mechanic_id for each item in bookingData
@@ -121,10 +122,7 @@ export default function Userbooking() {
               </div>
               <div className="flex w-full shrink-0 gap-2 md:w-max">
                 <div className="w-full md:w-72">
-                  <Input
-                    label="Search"
-                    icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                  />
+             
                 </div>
               </div>
             </div>

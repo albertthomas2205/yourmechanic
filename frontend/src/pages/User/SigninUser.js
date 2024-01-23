@@ -47,6 +47,8 @@ const SigninUser= () => {
         localStorage.setItem('access', res.data.access);
         localStorage.setItem('refresh', res.data.refresh);
         console.log(res.data);
+    
+        axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access}`;
   
         {
           if (res.data.is_admin){
@@ -55,6 +57,7 @@ const SigninUser= () => {
               set_AdminAuthentication({
                 isAdminAuthenticated:res.data.is_admin,
                 isAdmin: true,
+                accessToken: res.data.access,
               
               })
 

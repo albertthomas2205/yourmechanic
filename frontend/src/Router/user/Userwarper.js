@@ -21,6 +21,8 @@ import UserVehiclePage from "../../pages/User/UserVehiclePage";
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from "@stripe/stripe-js/pure";
 import BookingPage from "../../pages/User/Booking/BookingPage";
+import Chat from "../../pages/User/Chat/Chat";
+
 
 
 
@@ -40,6 +42,7 @@ const Userwarper = () => {
         <Route path="/mechanics" element={<Mechanicuserpage/>} />
         <Route path="/payment" element={<Stripepage/>} />
         <Route path="/userbooking" element={<BookingPage/>} />
+        <Route path="/chat" element={<Chat/>} />
         
  
         

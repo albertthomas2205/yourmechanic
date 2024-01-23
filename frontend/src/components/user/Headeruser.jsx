@@ -232,7 +232,7 @@ function HeaderUser() {
   const [openRight, setOpenRight] = React.useState(false);
   const [state, setstate] = useState("");
   const dispatch = useDispatch()
-  const isAuthenticated = useSelector((state) => state.persistedAuthReducer.authentication_user);
+  const isAuthenticated = useSelector((state) => state.persistedAuthReducer.authentication_user.isAuthenticated);
 
 
   useEffect(() => {
@@ -292,14 +292,16 @@ function HeaderUser() {
           </div>
        
         <div className="hidden gap-2 lg:flex">
+
         <Button onClick={handleMechanicregister}>Become Mechanic</Button>
-        <Button onClick={handleLoginClick}>login</Button>
+
+       
          
  
          {
           isAuthenticated ? <Button variant="text" size="sm" color="blue-gray"     onClick={handleLogoutClick}>
           Log Out
-        </Button>:""
+        </Button>: <Button onClick={handleLoginClick}>login</Button>
     
         }
         
