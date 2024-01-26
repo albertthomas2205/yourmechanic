@@ -31,3 +31,10 @@ class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transactions
         fields = '__all__'
+        
+# from .models import Review
+
+# class ReviewSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Review
+#         fields = ['id', 'rating', 'review', 'booking_id']

@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { ArrowDownTrayIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import instance from '../../axios/axiosInstences';
-
+import Review from '../../../pages/User/Booking/Review';
 
 // Function to format date and time
 const formatDateTime = (dateTimeString) => {
@@ -261,11 +261,7 @@ export default function Userbooking() {
                             </div>
                           </td>
                           <td className={classes}>
-                            <Tooltip content="Cancel Booking">
-                              <IconButton variant="text">
-                                <PencilIcon className="h-4 w-4" />
-                              </IconButton>
-                            </Tooltip>
+                            <Review id={id}/>
                           </td>
                         </tr>
                       );

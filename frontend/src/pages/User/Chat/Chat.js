@@ -1,101 +1,113 @@
-// Chat.js
+import React, { useState, useEffect } from "react";
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 
-import React, { useEffect, useState } from 'react';
+function Chat() {
+    const [socket, setSocket] = useState(null);
+    const [username, setUsername] = useState("");
+    const [room, setRoom] = useState("");
+    const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState([]);
+    const [activeUsers, setActiveUsers] = useState([]);
 
-const Chat = () => {
-  const [messages, setMessages] = useState([]);
-  const [messageInput, setMessageInput] = useState('');
-  const [webSocket, setWebSocket] = useState(null);
+  
+    useEffect(() => {
 
-  useEffect(() => {
-    // Set up WebSocket connection
-    const socket = new WebSocket('ws://localhost:8000/ws/room/testing/');
+      const storedUsername = localStorage.getItem("username");
+      if (storedUsername) {
+        setUsername(storedUsername);
+      } else {
+        const input = prompt("Enter your username:");
+        if (input) {
+          setUsername(input);
+          localStorage.setItem("username", input);
+        }
+      }
 
-    // Event listener for incoming messages
-    socket.addEventListener('message', (event) => {
-      const message = JSON.parse(event.data);
-      setMessages((prevMessages) => [...prevMessages, message]);
-    });
 
-    setWebSocket(socket);
+      const storedRoom = localStorage.getItem("room");
+      if (storedRoom) {
+        setRoom(storedRoom);
+      } else {
+        const input = prompt("Enter your room:");
+        if (input) {
+          setRoom(input);
+          localStorage.setItem("room", input);
+        }
+      }
 
-    // Clean up WebSocket connection on component unmount
-    return () => {
-      if (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING) {
-        socket.close();
+      
+      if (username && room) {
+        const newSocket = new WebSocket(`ws://localhost:8002/ws/chat/${room}/${username}/`);
+        setSocket(newSocket);
+        newSocket.onopen = () => console.log("WebSocket connected");
+
+        newSocket.onclose = () => {
+          console.log("WebSocket disconnected");
+        };
+        return () => {
+          newSocket.close();
+        };
+      }
+    }, [username, room]);
+
+
+    useEffect(() => {
+      if (socket) {
+        socket.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          if (data.user_list) {
+            setActiveUsers(data.user_list);
+          } else {
+            setMessages((prevMessages) => [...prevMessages, data]);
+          }
+        };
+      }
+    }, [socket]);
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      if (message && socket) {
+        const data = {
+          message: message,
+          username: username,
+        };
+        socket.send(JSON.stringify(data));
+        setMessage("");
       }
     };
-  }, []);
-
-  const sendMessage = () => {
-    if (webSocket && messageInput.trim() !== '') {
-      // Send message to the WebSocket server
-      webSocket.send(JSON.stringify({ message: messageInput }));
-      setMessageInput('');
-    }
-  };
-
-  return (
-    <div style={styles.chatContainer}>
-      <div style={styles.messageContainer}>
-        {messages.map((msg, index) => (
-          <div key={index} style={styles.message}>
-            {msg.message}
+    return (
+      <div className="chat-app">
+        <div className="chat-wrapper">
+          <div className="active-users-container">
+            <h2>Active Users ({activeUsers.length})</h2>
+            <ul>
+              {activeUsers.map((user, index) => (
+                <li key={index}>{user}</li>
+              ))}
+            </ul>
           </div>
-        ))}
+          <div className="chat-container">
+            <div className="chat-header">Chat Room: {room}</div>
+            <div className="message-container">
+              {messages.map((message, index) => (
+                <div key={index} className="message">
+                  <div className="message-username">{message.username}:</div>
+                  <div className="message-content">{message.message}</div>
+                  <div className="message-timestamp">{message.timestamp}</div>
+                </div>
+              ))}
+            </div>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                placeholder="Type a message..."
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+              />
+              <button type="submit">Send</button>
+            </form>
+          </div>
+        </div>
       </div>
-      <div style={styles.inputContainer}>
-        <input
-          type="text"
-          value={messageInput}
-          onChange={(e) => setMessageInput(e.target.value)}
-          placeholder="Type your message..."
-          style={styles.input}
-        />
-        <button onClick={sendMessage} style={styles.button}>
-          Send
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const styles = {
-  chatContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    maxWidth: '400px',
-    margin: 'auto',
-  },
-  messageContainer: {
-    border: '1px solid #ccc',
-    padding: '10px',
-    marginBottom: '10px',
-    overflowY: 'auto',
-    maxHeight: '300px',
-  },
-  message: {
-    backgroundColor: '#f0f0f0',
-    padding: '8px',
-    marginBottom: '5px',
-    borderRadius: '5px',
-  },
-  inputContainer: {
-    display: 'flex',
-    gap: '10px',
-  },
-  input: {
-    flex: 1,
-    padding: '8px',
-  },
-  button: {
-    backgroundColor: '#4caf50',
-    color: 'white',
-    padding: '8px',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-};
-
-export default Chat;
+    );
+  }
+  export default Chat;

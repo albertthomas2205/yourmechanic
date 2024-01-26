@@ -1,22 +1,21 @@
-# asgi.py
 import os
-
-from channels.auth import AuthMiddlewareStack 
-from channels.rounting import ProtocolTypeRouter, URLRouter 
-
 from django.core.asgi import get_asgi_application
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.auth import AuthMiddlewareStack
+# from . import routing
+from Chatapp.consumers import ChatConsumer
+from django.urls import re_path
 
-import chatapp.routing
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE','chatty.settings')
-
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Chat.settings")
 
 application = ProtocolTypeRouter({
-    "http": get_asgi_application(),
-    "websocket": AuthMiddlewareStack(
+    'http': get_asgi_application(),
+    'websocket': AuthMiddlewareStack(
         URLRouter(
-            chatapp.routing.websocket_urlpatterns
+            [
+                re_path(r"ws/chat/(?P<room_name>[\w\d]+)/(?P<username>[\w\d]+)/$", ChatConsumer.as_asgi()),
+                # re_path(r"ws/notify/(?P<username>[\w\d]+)/$", NotificationConsumer.as_asgi()),
+            ]
         )
-    )
+    ),
 })
-

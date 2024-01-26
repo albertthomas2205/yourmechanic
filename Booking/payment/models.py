@@ -8,9 +8,18 @@ class Order(models.Model):
     isPaid = models.BooleanField(default=False)
     order_date = models.DateTimeField(auto_now=True)
     booking_id = models.IntegerField(null=True)
+ 
+ 
 
     def __str__(self):
         return self.order_product
+    
+class Review(models.Model):
+    rating = models.IntegerField()
+    review = models.CharField(max_length=250)
+    booking_id = models.IntegerField(null=True,unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
     
 class Transaction(models.Model):
     payment_id = models.CharField(max_length=100,verbose_name="payment id")

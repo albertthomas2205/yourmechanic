@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.serializers import ValidationError
 import stripe
+from rest_framework import generics
 from management.models import Bookings
 from django.shortcuts import get_object_or_404
 from django.conf import settings
@@ -266,12 +267,19 @@ def handle_payment_success(request):
     return Response(res_data)
 
 
+# from .models import Review
+# from .serializers import ReviewSerializer
 
+# class ReviewListCreateView(generics.ListCreateAPIView):
+#     queryset = Review.objects.all()
+#     serializer_class = ReviewSerializer
 
-@api_view(['POST'])
-def handle_payment_success(request):
+# class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Review.objects.all()
+#     serializer_class = ReviewSerializer
     
-    HandlepaymentSerilaizer = request.data
+
+
  
 
 

@@ -10,5 +10,7 @@ urlpatterns = [
       path('paymentsuccess/', views.handle_payment_success, name="payment_success"),
       path("order/",views.CreateOrderAPIview.as_view(),name="create_order"),
       path("complete/",views.TransactionAPIView.as_view(),name="complete"),
-      path('process-payment-response/', views.process_payment_response, name='process_payment_response')
+      path('process-payment-response/', views.process_payment_response, name='process_payment_response'),
+      # path('reviews/', views.ReviewListCreateView.as_view(), name='review-list-create'),
+      # path('reviews/<int:pk>/', views.ReviewDetailView.as_view(), name='review-detail'),
 ]

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch,useSelector } from "react-redux";
 import  {Login} from "./Login";
 import { clear_Authentication } from "../../Redux/user/AuthenticationSlice";
+
 import {
   Navbar,
   Collapse,
@@ -249,6 +250,10 @@ function HeaderUser() {
   const handleLoginClick = () => {
     navigate("/signin")
   };
+  const handlechatClick = () => {
+    const value ='Robin'; // Replace with your actual mechanic ID or value
+    navigate('/chat', { state: { value } });
+  };
   const handleLogoutClick=() =>{
     dispatch(
       clear_Authentication()
@@ -287,8 +292,8 @@ function HeaderUser() {
           <NavList />
         </div>
 
-        <div className="hidden gap-2 lg:flex">
-      
+        <div className="hidden gap-2 lg:flex" onClick={handlechatClick}>
+        chat
           </div>
        
         <div className="hidden gap-2 lg:flex">

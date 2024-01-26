@@ -11,7 +11,8 @@ import { ChakraProvider, Box, Heading } from '@chakra-ui/react';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { PersistGate } from 'redux-persist/integration/react';
-import persistStore from 'redux-persist/es/persistStore';
+import ChatSelect from './Context/ChatSelectContext';
+
 const theme = {
   navbar: {
     styles: {
@@ -314,16 +315,22 @@ const theme = {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+   
        <GoogleOAuthProvider clientId="71500294553-u6le4ugdlbonld1htn7ejei3i8gj9n1n.apps.googleusercontent.com">
     <ThemeProvider value={theme}>
     <Provider store={userStore}>
+
       <PersistGate loading={null} persistor={persistor}>
-     <App />
+      {/* <ChatSelect> */}
+       
+        <App />
+   
+        {/* </ChatSelect> */}
      </PersistGate>
      </Provider>
     </ThemeProvider>
     </GoogleOAuthProvider>
- 
+  
   </React.StrictMode>
 );
 
