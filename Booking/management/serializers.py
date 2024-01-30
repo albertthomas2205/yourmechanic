@@ -14,3 +14,4 @@ class CheckAvilabilitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookings
         fields = ('date_time', 'mechanic_id')
+        

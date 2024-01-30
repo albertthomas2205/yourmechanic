@@ -9,7 +9,7 @@ const ChatList = () => {
 // const mechanicId = location.state?.mechanicId;
 
   return (
-    <Center backgroundColor={'black'} color={'white'} >
+    <Center backgroundColor={'grey'} color={'white'} >
          
 
 <Flex width={'90%'} >

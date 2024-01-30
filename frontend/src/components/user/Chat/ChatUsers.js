@@ -84,6 +84,9 @@ const ChatUsers = () => {
 
 
   return (
+    <div style={{backgroundColor:"blue"}}>
+
+ 
     <MDBContainer md="6" lg="5" xl="4" className="mb-4 mb-md-0 border-right">
     <div className="p-3">
       <MDBInputGroup className="rounded mb-3">
@@ -109,6 +112,7 @@ const ChatUsers = () => {
     
     </div>
   </MDBContainer>
+  </div>
   )
 };
 

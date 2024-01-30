@@ -32,9 +32,12 @@ class TransactionSerializer(serializers.ModelSerializer):
         model = Transactions
         fields = '__all__'
         
-# from .models import Review
+from .models import Reviews
 
-# class ReviewSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Review
-#         fields = ['id', 'rating', 'review', 'booking_id']
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reviews
+        fields = ['id', 'rating', 'review', 'mechanic_id', 'service_name', 'user_name', 'booking_id', 'created_at']
+
+class AverageRatingSerializer(serializers.Serializer):
+    average_rating = serializers.IntegerField()

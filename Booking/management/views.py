@@ -141,3 +141,18 @@ class UpdateBookingStatusAPIView(generics.views.APIView):
         if isinstance(exc, Http404):
             return Response({'error': 'Booking not found'}, status=status.HTTP_404_NOT_FOUND)
         return super().handle_exception(exc)
+    
+    
+
+# from .models import Review
+# from .serializers import ReviewSerializer
+ 
+# class ReviewListCreateView(generics.ListCreateAPIView):
+#     queryset = Review.objects.all()
+#     serializer_class = ReviewSerializer
+
+# class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Review.objects.all()
+#     print(queryset)
+#     serializer_class = ReviewSerializer
+    

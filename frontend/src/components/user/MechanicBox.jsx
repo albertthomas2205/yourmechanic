@@ -30,11 +30,13 @@ useEffect(() => {
 
     const navigate = useNavigate()
     const Clickbutton = () => {
-      navigate("/userprofile");
+      const mechanicId = props.id;
+      const name = props.name;
+      navigate("/mechanicprofile", { state: { mechanicId ,name} });
     };
     return (
       <Card className="mt-6 w-96">
-        <CardHeader color="blue-gray" className="relative h-56">
+        <CardHeader onClick={Clickbutton} color="blue-gray" className="relative h-56">
           <img
             src={profileData.profile_pic}
             alt="card-image"

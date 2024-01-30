@@ -8,21 +8,14 @@ import {
   Avatar,
   Chip,
   CardFooter,
-  IconButton,
-  Tooltip,
-  Input,
   Button,
 } from "@material-tailwind/react";
 import { useSelector } from 'react-redux';
-import { PencilIcon } from "@heroicons/react/24/solid";
-import { ArrowDownTrayIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import instance from '../../axios/axiosInstences';
 import Review from '../../../pages/User/Booking/Review';
 
-// Function to format date and time
 const formatDateTime = (dateTimeString) => {
-
-
   const options = {
     year: 'numeric',
     month: '2-digit',
@@ -34,7 +27,6 @@ const formatDateTime = (dateTimeString) => {
 
   const formattedDateTime = new Date(dateTimeString);
 
-  // Round up the minutes to the nearest hour
   if (formattedDateTime.getMinutes() === 30) {
     formattedDateTime.setHours(formattedDateTime.getHours() + 1, 0, 0, 0);
   } else {
@@ -44,69 +36,72 @@ const formatDateTime = (dateTimeString) => {
   return formattedDateTime.toLocaleString('en-US', options);
 };
 
-const TABLE_HEAD = ["Sl. No", "Vehicle", "Mechanic", "Service", "Amount", "Date", "Status"];
+const TABLE_HEAD = ["Sl. No", "Vehicle", "Mechanic", "Service", "Amount", "Date", "Status","",""];
 
-export default function Userbooking() {
+const Userbooking = () => {
   const id = useSelector((state)=>state.persistedAuthReducer.authentication_user.id);
   const [bookingData, setBookingData] = useState([]);
   const [serviceDetailsList, setServiceDetailsList] = useState([]);
   const [mechanicDetailsList, setMechanicDetailsList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const handleCancelBooking = async (id) => {
+    const data = {
+     pk:id,
+     action:'cancel_booking'
+    }
+   try {
+     const response = await instance.put('/booking/bookingcanceld/',data);
+     console.log(response.data);
+     fetchData(); // Log the response from the server
+
+     // Update the bookingData state or perform any other necessary actions
+     // ...
+   } catch (error) {
+     console.error('Error canceling booking:', error);
+   }
+ };
+
+ const fetchData = async () => {
+  try {
+    const bookingResponse = await instance.get(`/booking/bookinguser/${id}`);
+    setBookingData(bookingResponse.data);
+
+    const detailsPromises = bookingResponse.data.map(async ({ service_id, vehicle_id, mechanic_id }) => {
+      try {
+        const serviceDetailsResponse = await axios.post('http://127.0.0.1:8001/api/get_details/', { service_id, vehicle_id });
+        const serviceDetails = serviceDetailsResponse.data;
+
+        const mechanicDetailsResponse = await axios.post('http://127.0.0.1:8000/api/details/', { mechanic_id });
+        const mechanicDetails = mechanicDetailsResponse.data;
+
+        return [serviceDetails, mechanicDetails];
+      } catch (error) {
+        console.error(`Error fetching details for service_id: ${service_id}, vehicle_id: ${vehicle_id}, mechanic_id: ${mechanic_id}`, error);
+        return [null, null];
+      }
+    });
+
+    const detailsResponses = await Promise.all(detailsPromises);
+
+    const serviceDetails = detailsResponses.map(([serviceResponse]) => serviceResponse);
+    const mechanicDetails = detailsResponses.map(([, mechanicResponse]) => mechanicResponse);
+
+    setServiceDetailsList(serviceDetails);
+    setMechanicDetailsList(mechanicDetails);
+  } catch (error) {
+    console.error('Error fetching main booking data:', error);
+  }
+};
 
   useEffect(() => {
-
-    const fetchData = async () => {
-      try {
-        // Fetching the main booking data
-        const bookingResponse = await instance.get(`/booking/bookinguser/${id}`);
-        setBookingData(bookingResponse.data);
-
-        // Extracting service_id, vehicle_id, and mechanic_id for each item in bookingData
-        const detailsPromises = bookingResponse.data.map(async ({ service_id, vehicle_id, mechanic_id }) => {
-          try {
-            // Make API call for service details
-            const serviceDetailsResponse = await axios.post('http://127.0.0.1:8001/api/get_details/', { service_id, vehicle_id });
-            const serviceDetails = serviceDetailsResponse.data;
-
-            // Make API call for mechanic details
-            const mechanicDetailsResponse = await axios.post('http://127.0.0.1:8000/api/details/', { mechanic_id });
-            const mechanicDetails = mechanicDetailsResponse.data;
-
-            return [serviceDetails, mechanicDetails];
-          } catch (error) {
-            console.error(`Error fetching details for service_id: ${service_id}, vehicle_id: ${vehicle_id}, mechanic_id: ${mechanic_id}`, error);
-            return [null, null]; // Return null for both details if there's an error
-          }
-        });
-
-        // Wait for all the API calls to complete
-        const detailsResponses = await Promise.all(detailsPromises);
-
-        // Extract service details and mechanic details
-        const serviceDetails = detailsResponses.map(([serviceResponse]) => serviceResponse);
-        const mechanicDetails = detailsResponses.map(([, mechanicResponse]) => mechanicResponse);
-
-        // Set the lists of service details and mechanic details
-        setServiceDetailsList(serviceDetails);
-        setMechanicDetailsList(mechanicDetails);
-      } catch (error) {
-        console.error('Error fetching main booking data:', error);
-      }
-    };
 
     fetchData();
   }, []);
 
-
-  // Calculate total pages based on the number of rows per page (5 in this case)
   const totalPages = Math.ceil(bookingData.length / 5);
-
-  // Calculate the starting and ending indices for the current page
   const startIndex = (currentPage - 1) * 5;
   const endIndex = startIndex + 5;
-
-  // Get the rows for the current page
   const currentPageRows = bookingData.slice(startIndex, endIndex);
 
   return (
@@ -119,11 +114,6 @@ export default function Userbooking() {
                 <Typography variant="h5" color="blue-gray">
                   Booking History
                 </Typography>
-              </div>
-              <div className="flex w-full shrink-0 gap-2 md:w-max">
-                <div className="w-full md:w-72">
-             
-                </div>
               </div>
             </div>
           </CardHeader>
@@ -168,7 +158,6 @@ export default function Userbooking() {
                     const serviceDetails = serviceDetailsList[startIndex + index] || {};
                     const mechanicDetails = mechanicDetailsList[startIndex + index] || {};
 
-                    // Check if the vehicle_name exists in serviceDetails
                     if (serviceDetails.vehicle_details && serviceDetails.vehicle_details.vehicle_name) {
                       return (
                         <tr key={id}>
@@ -242,31 +231,47 @@ export default function Userbooking() {
                             </Typography>
                           </td>
                           <td className={classes}>
-                            <div className="w-max">
                             <Chip
-                size="sm"
-                variant="ghost"
-                value={status_display}
-                color={
-                    status_display === "Completed"
-                    ? "green"
-                    : status_display === "Canceled"
-                    ? "amber"
-                    : status_display === "Scheduled"
-                    ? "blue"
-                    : "red"
-                }
-                    />
-
-                            </div>
+                              size="sm"
+                              variant="ghost"
+                              value={status_display}
+                              color={
+                                status_display === "Completed"
+                                  ? "green"
+                                  : status_display === "Canceled"
+                                  ? "red"
+                                  : status_display === "Scheduled"
+                                  ? "blue"
+                                  : "red"
+                              }
+                            />
                           </td>
                           <td className={classes}>
-                            <Review id={id}/>
+                                            {status_display === "Completed" ? (
+                    <Review id={id} mechanic_id ={mechanic_id} service_name = {serviceDetails.service_details.name}/>
+                  ) : status_display === "Canceled" ? (
+                    // Render something specific for "Cancel"
+                    <span></span>
+                  ) : (
+                    <Button
+                      variant="outlined"
+                      color="red"
+                      size="sm"
+                      onClick={() => handleCancelBooking(id)}
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                                            
+                   
+                          </td>
+                          <td className={classes}>
+                           
                           </td>
                         </tr>
                       );
                     } else {
-                      return null; // Skip rendering the row if vehicle_name doesn't exist
+                      return null;
                     }
                   }
                 )}
@@ -307,4 +312,6 @@ export default function Userbooking() {
       </div>
     </div>
   );
-}
+};
+
+export default Userbooking;

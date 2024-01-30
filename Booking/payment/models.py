@@ -17,8 +17,12 @@ class Order(models.Model):
 class Review(models.Model):
     rating = models.IntegerField()
     review = models.CharField(max_length=250)
-    booking_id = models.IntegerField(null=True,unique=True)
+    # mechanic_id = models.IntegerField(null=True)
+    # service_name = models.CharField(max_length=250)
+    booking_id = models.IntegerField(null=True, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+
     
     
 class Transaction(models.Model):
@@ -41,3 +45,12 @@ class Transactions(models.Model):
 
     def __str__(self):
         return f"Transaction {self.id}"
+    
+class Reviews(models.Model):
+    rating = models.IntegerField()
+    review = models.CharField(max_length=250)
+    mechanic_id = models.IntegerField(null=True)
+    service_name = models.CharField(max_length=250)
+    user_name = models.CharField(max_length=250)
+    booking_id = models.IntegerField(null=True, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)

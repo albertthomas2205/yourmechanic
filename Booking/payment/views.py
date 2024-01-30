@@ -267,20 +267,49 @@ def handle_payment_success(request):
     return Response(res_data)
 
 
-# from .models import Review
-# from .serializers import ReviewSerializer
+from .models import Reviews
+from .serializers import ReviewSerializer,AverageRatingSerializer
+ 
+class ReviewListCreateView(generics.ListCreateAPIView):
+    queryset = Reviews.objects.all()
+    serializer_class = ReviewSerializer
 
-# class ReviewListCreateView(generics.ListCreateAPIView):
-#     queryset = Review.objects.all()
-#     serializer_class = ReviewSerializer
-
-# class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Review.objects.all()
-#     serializer_class = ReviewSerializer
+class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Reviews.objects.all()
+    serializer_class = ReviewSerializer
     
 
 
- 
+class ReviewListView(generics.ListCreateAPIView):
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        mechanic_id = self.kwargs.get('mechanic_id')
+
+        if mechanic_id:
+            reviews = Reviews.objects.filter(mechanic_id=mechanic_id).order_by('-rating')
+            return reviews
+        else:
+            return Reviews.objects.all().order_by('-rating')
+        
+from django.http import Http404
+from django.db.models import Avg      
+        
+class AverageRatingView(generics.RetrieveAPIView):
+    serializer_class = AverageRatingSerializer
+
+    def get_object(self):
+        mechanic_id = self.kwargs.get('mechanic_id')
+        if mechanic_id:
+            reviews = Reviews.objects.filter(mechanic_id=mechanic_id)
+            average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+            if average_rating is not None:
+                data = {'average_rating': round(average_rating)}
+                return data
+            else:
+                raise Http404("There are no reviews for this mechanic.")
+        else:
+            raise Http404("Mechanic ID not provided.")
 
 
 

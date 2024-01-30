@@ -114,6 +114,7 @@ export default function CheckAvailability(props) {
       if (response.status === 201){
         const booking_id = response.data.id
         paymentHandler(booking_id)
+        GetRoom();
       }
   
       // Add any additional logic or state updates after a successful booking
@@ -122,6 +123,60 @@ export default function CheckAvailability(props) {
       // Handle error, display error message, or take appropriate action
     }
   };
+
+
+const baseURL='http://127.0.0.1:8003'
+
+const getUserId = async ()=>{
+
+    try {
+
+     const data = 6
+     
+        const res = await axios.get( 
+          baseURL + "/api/chat/getuserid/", 
+          { params: data } 
+        );
+    
+        if (res.status === 202) {
+console.log("haiii")
+       
+        }
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
+}
+
+
+useEffect(() => {
+
+  GetRoom(); 
+
+}, []);
+
+const GetRoom = async () => {
+
+try {
+  console.log("getrooom calledd...")
+  // console.log(authentication_user.first_name)
+  // console.log(mechanic.first_name)
+  const k = parseInt(id);
+  const c = 17
+  
+  var data = { user1:k, user2:c};
+  console.log(data)
+  const res = await axios.get(baseURL + "/api/chat/findrooms/", {
+    params: data,
+  });
+
+  if (res.status === 200) {
+ 
+    console.log("haiii")
+  }
+} catch (error) {
+  console.error("Error fetching comments:", error);
+}
+};
 
   const morningSlots = [
     "8:00 AM",
@@ -216,6 +271,7 @@ export default function CheckAvailability(props) {
       })
     const order = await response.data.order
     console.log('uyyyyyyyyyyyyyyy',order);
+ 
 
     var options = {
       key: "rzp_test_I7m6Q9rCGvlC2t", // Enter the Key ID generated from the Dashboard

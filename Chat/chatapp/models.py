@@ -18,6 +18,10 @@ class Room(models.Model):
     
     
     
+class Rooms(models.Model):
+    name = models.CharField(max_length=100)
+    mechanic = models.IntegerField()
+    user = models.IntegerField()
     
 class Message(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
@@ -27,6 +31,16 @@ class Message(models.Model):
     seen = models.BooleanField(default=False)
     class Meta:
         db_table = "chat_message"
+        ordering = ("timestamp",)
+
+    
+class Messages(models.Model):
+    room = models.ForeignKey(Rooms, related_name="messages", on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    seen = models.BooleanField(default=False)
+    class Meta:
+        db_table = "chat_messages"
         ordering = ("timestamp",)
 
 

@@ -11,7 +11,7 @@ import {
 import { Box } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import webSocketService from "../../../Context/WebSocketService";
+// import webSocketService from "../../../Context/WebSocketService";
 import { ChatSelectContextt } from "../../../Context/ChatSelectContext";
 import Message from "./small/Message";
 // import PulseCards from "../Home/Main/SkeltonHome";
@@ -239,6 +239,7 @@ const mechanic = mechanics[0]
   }, [messages,message]);
 
   return (
+    <div style={{ backgroundColor: "pink" }}>
     <MDBContainer fluid >
       <MDBRow >
         <MDBCol md="12" >
@@ -315,6 +316,7 @@ const mechanic = mechanics[0]
         style={{ display: 'none' }}
       />
     </div>
+    <div><h1>hellooooo</h1></div>
                  
                   <a className="ms-3 text-muted" href="#!">
                     <MDBIcon fas icon="smile" />
@@ -329,5 +331,6 @@ const mechanic = mechanics[0]
         </MDBCol>
       </MDBRow>
     </MDBContainer>
+    </div>
   );
 }

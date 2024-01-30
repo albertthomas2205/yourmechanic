@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .models import Message, Room, User
-from .serializers import MessageSerializer, RoomSerializer, Userserializer
+from .models import Message, Room, User,Rooms
+from .serializers import MessageSerializer, RoomSerializer, Userserializer, RoomsSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
@@ -94,6 +94,49 @@ class FindRoom(APIView):
         
         return Response({"error": "Both user1 and user2 parameters are required"}, status=status.HTTP_400_BAD_REQUEST)
 
+class FindRooms(APIView):
+    def generate_mixed_string(self, length=10):
+        characters = string.digits + string.ascii_letters
+        mixed_string = ''.join(random.choice(characters) for _ in range(length))
+        return mixed_string
+
+    def get_or_create_room(self, user1_id, user2_id):
+        room_name = self.generate_mixed_string()
+        room = Rooms.objects.create(name=room_name,user=user1_id,mechanic=user2_id)
+        print(room)
+        # room.user=user1_id
+        # room.mechanic=user2_id
+        # room.save()
+        return room
+
+    def get(self, request):
+        user1_id = request.query_params.get("user1")
+        user2_id = request.query_params.get("user2")
+        print(user1_id, user2_id)
+        
+        try:
+            user1_id = int(user1_id)
+            user2_id = int(user2_id)
+        except (TypeError, ValueError):
+            return Response({"error": "Invalid user IDs. User IDs must be integers."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if user1_id is not None and user2_id is not None:
+            try:
+                user1_rooms = Rooms.objects.filter(user=user1_id)
+                user2_rooms = Rooms.objects.filter(mechanic=user2_id)
+
+                room = user1_rooms.filter(mechanic=user2_id).first()
+
+                if not room:
+                    room = self.get_or_create_room(user1_id, user2_id)
+
+                serializer = RoomsSerializer(room)
+                return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+            except Exception as e:
+                return Response({"error": f"Custom error message: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response({"error": "Both user1 and user2 parameters are required"}, status=status.HTTP_400_BAD_REQUEST)
 class GetUser(APIView):
     def get(self,request):
         userId = request.query_params.get("username")

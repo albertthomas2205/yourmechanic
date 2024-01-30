@@ -3,7 +3,7 @@ import { Stack, HStack,Box,Avatar,AvatarBadge,Spacer,Flex,Text } from '@chakra-u
 import axios from 'axios'
 
 
-const baseURL='http://127.0.0.1:8001'
+const baseURL='http://127.0.0.1:8002'
 const REACT_APP_CLOUDINARY_CLOUD_NAME = "dvlpq6zex";
 const UserChatBox = (props) => {
 const [profileimage,setProfileimage] = useState("")
@@ -32,6 +32,10 @@ useEffect(() => {
 
 
   return (
+
+    <div style={{backgroundColor:"red"}}>
+
+   
     <HStack h='70px' bg='pink.100' padding={'2%'}>
     <Avatar src={`https://res.cloudinary.com/${REACT_APP_CLOUDINARY_CLOUD_NAME}/${profileimage}`}>
       <AvatarBadge boxSize='1.25em' bg={props.is_online === true ? 'green.500': 'red.500'} />
@@ -49,7 +53,7 @@ useEffect(() => {
     </Stack>
     </HStack>
 
-
+    </div>
 
   )
 };

@@ -1,59 +1,99 @@
-import React from 'react';
-import Chatmodal from './Chatcomponent/Chatmodal';
-import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
-import { Button, Rating } from "@material-tailwind/react";
+// MechanicProfile.js
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography } from 'mdb-react-ui-kit';
+import { Rating } from "@material-tailwind/react";  // Import the correct Rating component
+import { useLocation } from "react-router-dom";
+import UserReviews from './Booking/UserReviews';
+import ReviewRating from './Booking/ReviewRating';
 
 export default function MechanicProfile() {
+  const location = useLocation();
+  const { state } = location;
+  const id = state?.mechanicId || null;
+  const name = state?.name || null;
+  const [profileData, setProfileData] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [lengthreviews,setLengthReviews] = useState();
+  const [averageRating, setAverageRating] = useState();
+
+  useEffect(() => {
+    axios.get(`http://127.0.0.1:8000/api/mechanic-profile/${id}/`)
+      .then(response => {
+        setProfileData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+
+    axios.get(`http://127.0.0.1:8002/api/booking/reviews/${id}/`)
+      .then(response => {
+        setLengthReviews(response.data.length)
+        
+        setReviews(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching reviews:', error);
+      });
+
+    axios.get(`http://127.0.0.1:8002/api/booking/averagerating/${id}/`)
+      .then(response => {
+        console.log(typeof response.data.average_rating);
+        setAverageRating(response.data.average_rating);
+      })
+      .catch(error => {
+        console.error('Error fetching average rating:', error);
+      });
+  }, [id]);
+
   return (
     <div className="gradient-custom-2">
       <MDBContainer className="py-5 h-100">
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol lg="9" xl="7">
             <MDBCard>
-              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: 'white', height: '300px' }}>
-                <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '150px' }}>
-                  <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                    alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
-                        <div className=''>
-                    <Button> checkavilability</Button>
+              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: 'cyan', height: '250px' }}>
+                <div className="ms-4 mt-3 d-flex flex-column" style={{ width: '150px' }}>
+                  <MDBCardImage
+                    src={profileData.profile_pic}
+                    alt="Generic placeholder image"
+                    className="mt-4 mb-2 img-thumbnail"
+                    fluid
+                    style={{
+                      width: '150px',
+                      height: '150px',
+                      zIndex: '1',
+                      objectFit: 'cover' // Ensures the image covers the area and maintains aspect ratio
+                    }}
+                  />
+                  <div className=''>
+                  </div>
                 </div>
-                </div>
-                <div className=" flex" style={{ padding: '100px', color: 'black' }}>
-                    <div >
-             
-                  <MDBTypography tag="h5">Andy Horwitz</MDBTypography>
+                <div className=" flex mt-3" style={{ padding: '50px', marginLeft: "100px", color: 'black' }}>
                   <div>
-                  <Rating value={4} />
-                  </div>
+                    <MDBTypography tag="h5">{name}</MDBTypography>
+                    <div>
+                      {/* <Rating value={averageRating ? averageRating : 0} /> */}
+                      {
+                        lengthreviews ?   <ReviewRating averagerating  = {averageRating} length ={lengthreviews}/>:""
+                      }
                  
-                  <MDBCardText>New York</MDBCardText>
-      {/* <Chatmodal/> */}
-                
-                </div>
-            
-                </div>
-              </div>
-              <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
-                <div className="d-flex justify-content-end text-center py-1">
-                 
-                </div>
-              </div>
-              <MDBCardBody className="text-black p-4">
-                <div className="mb-5">
-                  <p className="lead fw-normal mb-1">About</p>
-                  <div className="p-4" style={{ backgroundColor: '#f8f9fa' }}>
-                    <MDBCardText className="font-italic mb-1">Web Developer</MDBCardText>
-                    <MDBCardText className="font-italic mb-1">Lives in New York</MDBCardText>
-                    <MDBCardText className="font-italic mb-0">Photographer</MDBCardText>
+                     
+                    </div>
+                    <MDBCardText>{profileData.place} </MDBCardText>
                   </div>
                 </div>
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                  <MDBCardText className="lead fw-normal mb-0">Recent photos</MDBCardText>
-                  <MDBCardText className="mb-0"><a href="#!" className="text-muted">Show all</a></MDBCardText>
-                </div>
-                <MDBRow>
+              </div>
+              <MDBCardBody className="text-black pl-4">
+                {
+                  lengthreviews?   <div className="mb-5">
+                  <p className="lead fw-normal mb-1">Recent Reviews</p>
+                  <UserReviews reviews={reviews} />
+                </div>:    <p className="lead fw-normal mb-1">No Reviews for the mechanic</p>
+                }
              
-                </MDBRow>
+                
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
