@@ -21,7 +21,7 @@ const ChatUsers = () => {
   const fetchMechanicDetails = async (mechanicId) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/mechanic-profile/${mechanicId}/`
+        `http://127.0.0.1:8000/api/userprofile/${mechanicId}/`
       );
 
       if (response.status === 200) {
@@ -38,8 +38,8 @@ const ChatUsers = () => {
   const ChatroomList = async () => {
     try {
       console.log("ddddddddddddddddddddd", authentication_user.first_name);
-      const data = { user_id: authentication_user.id };
-      const res = await axios.post(baseURL + "/api/chat/chatroomlist/", data);
+      const data = {mechanic_id:21};
+      const res = await axios.post(baseURL + "/api/chat/chatroommechanic/", data);
 
       if (res.status === 200) {
         console.log(res.data);
@@ -51,7 +51,7 @@ const ChatUsers = () => {
           console.log(room.mechanic); // Assuming mechanic ID is available in room.mechanic
 
           // Fetch mechanic details
-          await fetchMechanicDetails(room.mechanic);
+          await fetchMechanicDetails(room.user);
         }
       } else {
         console.log("Error on postlist");
@@ -92,7 +92,7 @@ const ChatUsers = () => {
               chatRooms.map((room) => (
                 <ChatuserList
                   key={room.id}
-                  mechanic_id = {room.mechanic}
+                  mechanic_id = {room.user}
                   roomid = {room.id}
                   // img = {mechanicDetails.profile_pic}
                   // name={mechanicDetails.mechanic_name} 

@@ -32,7 +32,7 @@ const getTime = () =>{
   return (
 
     <>
-    { authentication_user.id===props.id?
+    {props.user !== props.userId && authentication_user.first_name!==props.uname ?
     <div className="d-flex flex-row justify-content-start" style={{width:"90%"}}>
     <img
       src={`https://res.cloudinary.com/${REACT_APP_CLOUDINARY_CLOUD_NAME}/${props.recieverimage}`}

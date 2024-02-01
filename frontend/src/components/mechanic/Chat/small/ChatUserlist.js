@@ -11,7 +11,7 @@ const ChatuserList = (props) => {
   const fetchMechanicDetails = async (mechanic_id) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/mechanic-profile/${mechanic_id}/`
+        `http://127.0.0.1:8000/api/userprofile/${mechanic_id}/`
       );
 
       if (response.status === 200) {
@@ -85,7 +85,7 @@ const ChatuserList = (props) => {
             <span className="badge bg-success badge-dot"></span>
           </div>
           <div className="pt-1">
-            <p className="fW-bold mb-0">{mechanicDetails.mechanic_name}</p>
+            <p className="fW-bold mb-0">{mechanicDetails.username}</p>
             <p className="small " style={{ color: "white" }}>
               {lastMessage}
             </p>

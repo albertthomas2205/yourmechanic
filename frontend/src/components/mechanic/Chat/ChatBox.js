@@ -97,7 +97,7 @@ const mechanic = mechanics[0]
       // console.log(authentication_user.first_name)
       // console.log(mechanic.first_name)
       const k = authentication_user.id;
-      const c = 21;
+      const c = 17;
       
       var data = { user1:k, user2:c};
       console.log(data)
@@ -284,7 +284,7 @@ const mechanic = mechanics[0]
                                 ? element.content
                                 : element.message
                             }
-                            userId={room.user}
+                            userId={userId}
                             uname={element.username}
                             time={element.timestamp}
                             seen={element.seen}

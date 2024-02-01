@@ -17,12 +17,6 @@ class Room(models.Model):
         return self.userslist.filter(is_online=True)
     
     
-    
-class Rooms(models.Model):
-    name = models.CharField(max_length=100)
-    mechanic = models.IntegerField()
-    user = models.IntegerField()
-    
 class Message(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, related_name="messages", on_delete=models.CASCADE)
@@ -32,6 +26,14 @@ class Message(models.Model):
     class Meta:
         db_table = "chat_message"
         ordering = ("timestamp",)
+    
+    
+class Rooms(models.Model):
+    name = models.CharField(max_length=100)
+    mechanic = models.IntegerField()
+    user = models.IntegerField()
+    
+
 
     
 class Messages(models.Model):

@@ -489,8 +489,18 @@ class UserVehiclesRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPI
 class MechanicProfileDetailView(APIView):
     def get(self, request, mechanic_id):
         profile = get_object_or_404(MechanicProfiledetails, mechanic_id=mechanic_id)
+        mechanic_user = get_object_or_404(CustomUser, id=mechanic_id)
+        mechanic_name = mechanic_user.first_name
+
+        # Serialize the profile data
         serializer = MechanicProfileSerializer(profile)
-        return Response(serializer.data)
+
+        # Add mechanic_name to the serialized data
+        data = serializer.data
+        data['mechanic_name'] = mechanic_name
+
+        # Return the response with the extended data
+        return Response(data)
 
     def patch(self, request, mechanic_id):
         profile = get_object_or_404(MechanicProfiledetails, mechanic_id=mechanic_id)

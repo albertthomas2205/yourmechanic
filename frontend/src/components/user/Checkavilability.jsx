@@ -161,7 +161,7 @@ try {
   // console.log(authentication_user.first_name)
   // console.log(mechanic.first_name)
   const k = parseInt(id);
-  const c = 17
+  const c = props.mechanic_id;
   
   var data = { user1:k, user2:c};
   console.log(data)
