@@ -16,6 +16,9 @@ import { ChatSelectContextt } from "../../../Context/ChatSelectContext";
 import Message from "./small/Message";
 // import PulseCards from "../Home/Main/SkeltonHome";
 import ReconnectingWebSocket from 'reconnecting-websocket';
+import { useChatContext } from "../../../Context/ChatContext";
+
+
 
 
 
@@ -24,15 +27,18 @@ import ReconnectingWebSocket from 'reconnecting-websocket';
 const baseURL = "http://127.0.0.1:8003";
 const REACT_APP_CLOUDINARY_CLOUD_NAME = "dvlpq6zex";
 
-export default function ChatPage() {
+export default function ChatPage({ mechanic_id }) {
+  const { userId } = useChatContext();
+  // const { selectedMechanicId,userId } = useChatContext();
+  // console.log("mechanicid",selectedMechanicId)
   // console.log(val,"hhhhhhhhh")
-  // const authentication_user = useSelector((state) => state.authentication_user);
   const authentication_user =useSelector((state) => state.persistedAuthReducer.authentication_user);
+  const mechanicc_id = useSelector((state)=>state.persistedAuthReducer.authenication_mechanic.id)
   //  const authentication_user = {"name":"albert"}
-  // const {selectedChat,setSelectedChat}= useContext(ChatSelectContextt);
+  // const { userId } = useChatContext();
   const [selectedChat,setSelectedChat]= useState("")
   const [socket, setSocket] = useState(null);
-  const [userId,setUserId] = useState("")
+ 
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState(null);
@@ -65,30 +71,30 @@ export default function ChatPage() {
     const selectedFile = e.target.files[0];
     console.log('Selected File:', selectedFile);
   };
-  const getUserId = async ()=>{
+//   const getUserId = async ()=>{
 
-        try {
-            var data = { "username": authentication_user.first_name };
-            const res = await axios.get( 
-              baseURL + "/api/chat/getuser/", 
-              { params: data } 
-            );
+//         try {
+//             var data = { "username": authentication_user.first_name };
+//             const res = await axios.get( 
+//               baseURL + "/api/chat/getuser/", 
+//               { params: data } 
+//             );
         
-            if (res.status === 202) {
-              setUserId(res.data.id);
+//             if (res.status === 202) {
+//               setUserId(res.data.id);
            
-            }
-          } catch (error) {
-            console.error("Error fetching comments:", error);
-          }
-}
+//             }
+//           } catch (error) {
+//             console.error("Error fetching comments:", error);
+//           }
+// }
 const mechanic = mechanics[0]
  
   useEffect(() => {
     console.log(selectedChat);
       GetRoom(); 
 
-  }, []);
+  }, [userId]);
 
   const GetRoom = async () => {
 
@@ -96,8 +102,8 @@ const mechanic = mechanics[0]
       console.log("getrooom calledd...")
       // console.log(authentication_user.first_name)
       // console.log(mechanic.first_name)
-      const k = authentication_user.id;
-      const c = 17;
+      const k = userId;
+      const c = mechanicc_id;
       
       var data = { user1:k, user2:c};
       console.log(data)
@@ -117,12 +123,13 @@ const mechanic = mechanics[0]
 
   const SocketManagement = () => {
     if (authentication_user.first_name && room) {
+      const user_id = mechanicc_id
       if (socket) {
         socket.close();
         console.log("Previous WebSocket disconnected");
       }
       const newSocket = new ReconnectingWebSocket(
-        `ws://localhost:8003/ws/chat/${room.name}/`
+        `ws://localhost:8003/ws/chat/${room.name}/${user_id}/`
       );
       setSocket(newSocket);
       newSocket.onopen = () => console.log("WebSocket connected");
@@ -200,7 +207,7 @@ const mechanic = mechanics[0]
   useEffect(() => {
     getSenderImage();
     getRecieverImage();
-    getUserId() 
+    // getUserId() 
    
   }, [room]);
 
@@ -250,18 +257,19 @@ const mechanic = mechanics[0]
     }
   }, [messages,message]);
 
+
   return (
-    <div style={{ backgroundColor: "pink" }}>
+    <div style={{}}>
     <MDBContainer fluid >
       <MDBRow >
         <MDBCol md="12" >
           <MDBCard
             id="chat3"
-            style={{ borderRadius: "15px", marginTop: "60px",backgroundColor:"black" }}
+            style={{ borderRadius: "15px",backgroundColor:"black" }}
           >
             <MDBCardBody>
               <text>{selectedChat}</text>
-              <MDBRow style={{ height: "700px"}}>
+              <MDBRow style={{ height: "600px"}}>
                 <div
                   className="container"
                   ref={scrollRef}
@@ -284,8 +292,9 @@ const mechanic = mechanics[0]
                                 ? element.content
                                 : element.message
                             }
-                            userId={userId}
-                            uname={element.username}
+                            id={element.senderid}
+                            user_id={room.user}
+                            mechanic_id={room.mechanic}
                             time={element.timestamp}
                             seen={element.seen}
                             user={element.user}
@@ -328,12 +337,12 @@ const mechanic = mechanics[0]
         style={{ display: 'none' }}
       />
     </div>
-    <div><h1>hellooooo   {room.id}</h1></div>
+  
                  
                   <a className="ms-3 text-muted" href="#!">
                     <MDBIcon fas icon="smile" />
                   </a>
-                  <a className="ms-3" href="#!">
+                  <a className="ms-3"  href="#!" >
                     <MDBIcon fas icon="paper-plane" onClick={handleSubmit} />
                   </a>
                 </div>

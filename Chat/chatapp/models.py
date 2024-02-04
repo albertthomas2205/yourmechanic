@@ -41,6 +41,7 @@ class Messages(models.Model):
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     seen = models.BooleanField(default=False)
+    senderid = models.IntegerField()
     class Meta:
         db_table = "chat_messages"
         ordering = ("timestamp",)

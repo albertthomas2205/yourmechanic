@@ -11,11 +11,51 @@ const baseURL = "http://127.0.0.1:8003";
 const Message = (props) => {
   const authentication_user =useSelector((state) => state.persistedAuthReducer.authentication_user);
     const [time,setTime] = useState("")
+    const [mechanicDetails, setMechanicDetails] = useState([]);
+    const[userDetails,setUserDetails] = useState([])
+
+    const fetchMechanicDetails = async (mechanic_id) => {
+      console.log("aaaaaa",mechanic_id)
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/mechanic-profile/${mechanic_id}/`
+        );
+  
+        if (response.status === 200) {
+          console.log(response.data);
+          setMechanicDetails(response.data);
+        } else {
+          console.error("Error fetching mechanic details:", response.status);
+        }
+      } catch (error) {
+        console.error("An error occurred while fetching mechanic details:", error);
+      }
+    };
+  
+    const fetchUserDetails = async (user_id) => {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/userprofile/${user_id}/`
+        );
+  
+        if (response.status === 200) {
+          console.log(response.data);
+          setUserDetails(response.data);
+        } else {
+          console.error("Error fetching mechanic details:", response.status);
+        }
+      } catch (error) {
+        console.error("An error occurred while fetching mechanic details:", error);
+      }
+    };
+  
     
 useEffect(() => {
+fetchMechanicDetails(props.mechanic_id)
+fetchUserDetails(props.user_id)
 getTime()
 console.log(props.recieverimage)
-}, [props.user]);
+}, [props.room]);
  
 const getTime = () =>{
     let currentdate = new Date();
@@ -32,12 +72,14 @@ const getTime = () =>{
   return (
 
     <>
-    { authentication_user.id===props.id?
-    <div className="d-flex flex-row justify-content-start" style={{width:"90%"}}>
+
+    { authentication_user.id != props.id?
+    <div className="d-flex flex-row justify-content-start" style={{width:"90%", border:"75%"}}>
     <img
-      src={`https://res.cloudinary.com/${REACT_APP_CLOUDINARY_CLOUD_NAME}/${props.recieverimage}`}
+      src={mechanicDetails.profile_pic}
+      
       alt="avatar 1"
-      style={{ width: "45px", height: "100%" }}
+      style={{ width: "45px",borderRadius: "100%" ,height:"45px"  }}
     />
     <div>
       <p
@@ -45,6 +87,8 @@ const getTime = () =>{
         style={{ backgroundColor: "#f5f6f7" }}
       >
        {props.content}
+      
+   
       </p>
       <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
         {time}
@@ -56,15 +100,16 @@ const getTime = () =>{
     <div>
       <p className="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">
       {props.content}
+    
       </p>
       <p className="small me-3 mb-3 rounded-3 text-muted">
       {time}
       </p>
     </div>
     <img
-      src={`https://res.cloudinary.com/${REACT_APP_CLOUDINARY_CLOUD_NAME}/${props.senderimage}`}
+      src={userDetails.profile_pic}
       alt="avatar 1"
-      style={{ width: "45px", height: "100%" }}
+      style={{ width: "45px",borderRadius: "100%",height:"45px"  }}
     />
   </div> }              </>
   )

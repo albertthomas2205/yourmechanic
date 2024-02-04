@@ -33,6 +33,9 @@ import {
   const bookingClick = ()=>{
     navigate("/userbooking")
   }
+  const inboxClick = ()=>{
+    navigate("/chatpage")
+  }
     return (
     //     <div className=" relative self-stretch w-[20rem]">
     //     {/* <HeaderUser/> */}
@@ -66,7 +69,7 @@ import {
             </ListItemPrefix>
             Booking
           </ListItem>
-          <ListItem>
+          <ListItem onClick={inboxClick}>
             <ListItemPrefix>
               <InboxIcon className="h-5 w-5" />
             </ListItemPrefix>

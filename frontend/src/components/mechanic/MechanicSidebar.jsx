@@ -34,12 +34,10 @@ import { useNavigate } from "react-router-dom";
         navigate('/')
   
     }
-    // const bookingClick=() =>{
-    //   dispatch(
-    //     clear_MechanicAuthentication()
-    //     )
-    //     navigate('/mechanic/bookinglist/')
-  
+    const bookingClick=() =>{
+   
+        navigate('/mechanic/bookinglist/')
+    }
     // }
     // const profileClick=() =>{
     //   dispatch(
@@ -69,9 +67,9 @@ import { useNavigate } from "react-router-dom";
             <ListItemPrefix>
               <UserCircleIcon className="h-5 w-5" />
             </ListItemPrefix>
-            Profile
+            Profileeeeeee
           </ListItem>
-          <ListItem >
+          <ListItem onClick={bookingClick} >
             <ListItemPrefix>
               <PresentationChartBarIcon className="h-5 w-5" />
             </ListItemPrefix>

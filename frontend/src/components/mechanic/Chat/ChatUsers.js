@@ -10,8 +10,9 @@ const baseURL = "http://127.0.0.1:8003";
 const ChatUsers = () => {
   const [selectedChat, setSelectedChat] = useState("");
   const authentication_user = useSelector(
-    (state) => state.persistedAuthReducer.authentication_user
+    (state) => state.persistedAuthReducer.authentication_mechanic
   );
+  const mechanic_id = useSelector((state)=>state.persistedAuthReducer.authenication_mechanic.id)
   const [chatRooms, setChatrooms] = useState([]);
   const [mechanicDetails, setMechanicDetails] = useState([]);
   const location = useLocation();
@@ -37,8 +38,9 @@ const ChatUsers = () => {
 
   const ChatroomList = async () => {
     try {
-      console.log("ddddddddddddddddddddd", authentication_user.first_name);
-      const data = {mechanic_id:21};
+
+      const data = {mechanic_id:mechanic_id};
+      console.log("haiiii",data)
       const res = await axios.post(baseURL + "/api/chat/chatroommechanic/", data);
 
       if (res.status === 200) {
@@ -80,14 +82,7 @@ const ChatUsers = () => {
             </span>
           </MDBInputGroup>
           <MDBTypography listUnStyled className="mb-0">
-            {/* {datas && (
-              <ChatuserList
-                key={null}
-                name={selectedChat}
-                online={null}
-                new={true}
-              />
-            )} */}
+    
             {chatRooms &&
               chatRooms.map((room) => (
                 <ChatuserList

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {useChatContext} from "../../../../Context/ChatContext";
+
 
 const baseURL = "http://127.0.0.1:8003";
 
@@ -7,6 +9,7 @@ const ChatuserList = (props) => {
   const [mechanicDetails, setMechanicDetails] = useState({});
   const [lastMessage, setLastMessage] = useState("");
   const [selectedChat, setSelectedChat] = useState("");
+  const { setMechanicId } = useChatContext();
 
   const fetchMechanicDetails = async (mechanic_id) => {
     try {
@@ -53,24 +56,29 @@ const ChatuserList = (props) => {
   }, []);
 
   const handleChat = () => {
-    setSelectedChat(props.name);
-    console.log("llllllllllllllllllll", props.name, props.mechanic_id);
+    setMechanicId(props.mechanic_id);
+    setSelectedChat(props.mechanic_id);
+  
+    // Set selectedChat to null after 3 seconds
+    setTimeout(() => {
+      setSelectedChat(null);
+    }, 3000);
   };
 
   return (
     <li
       className="p-2 m-2 mt-3 border-bottom"
       onClick={handleChat}
-      style={
-        selectedChat === props.name
-          ? {
-              backgroundColor: "grey",
-              color: "white",
-              fontWeight: "bold",
-              borderRadius: "15px",
-            }
-          : { borderRadius: "15px", backgroundColor: "rgb(33, 35, 35)" }
-      }
+  style={
+      selectedChat === props.mechanic_id
+        ? {
+            backgroundColor: "grey",
+            color: "white",
+            fontWeight: "bold",
+            borderRadius: "15px",
+          }
+        : { borderRadius: "15px", backgroundColor: "black" }
+    }
     >
       <a href="#!" className="d-flex justify-content-between">
         <div className="d-flex flex-row">
@@ -93,7 +101,7 @@ const ChatuserList = (props) => {
         </div>
         <div className="pt-1">
           <p className="small mb-1" style={{ color: "white" }}>
-           
+        
             Just now
           </p>
           <span className="badge bg-danger rounded-pill float-end">3</span>

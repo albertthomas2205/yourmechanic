@@ -1,4 +1,4 @@
-from .models import Room, Message, User,Rooms
+from .models import Room, Message, User,Rooms,Messages
 from rest_framework import serializers
 
 
@@ -24,8 +24,8 @@ class MessageSerializer(serializers.ModelSerializer):
 
 class MessagesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Message
-        fields = ("id", "room", "content", "timestamp", "seen")
+        model = Messages
+        fields = ("id", "room", "content", "timestamp", "seen","senderid")
         read_only_fields = ("id", "timestamp")
 
 class Userserializer(serializers.ModelSerializer):

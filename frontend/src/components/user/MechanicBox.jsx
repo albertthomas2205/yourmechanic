@@ -24,6 +24,7 @@ useEffect(() => {
     .catch(error => {
       console.error('Error fetching data:', error);
     });
+  // setProfileData(props.searchmechanic)
 }, [props.id]);
 
 
@@ -48,6 +49,7 @@ useEffect(() => {
           </Typography>
           <Typography>
             {props.serviceid}
+            Place :     {profileData.place}  
             The place is close to Barceloneta Beach and bus stop just 2 min by
             walk and near to &quot;Naviglio&quot; where you can enjoy the main
             night life in Barcelona.

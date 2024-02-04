@@ -552,9 +552,12 @@ def verify_mechanic(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 class VerifyView(ListAPIView):
     queryset = CustomUser.objects.filter(is_verify=True)
+
     serializer_class = CustomUserSerializer
+
 
 
 from .models import Booking
@@ -574,6 +577,32 @@ class BookingListCreateView(generics.ListCreateAPIView):
     #     headers = self.get_success_headers(serializer.data)
     #     return Response(serializer.data, status=201, headers=headers)
     
+class MechanicProfileSearchView(generics.ListAPIView):
+    serializer_class = MechanicProfiledetailsSerializer
+
+    def get_queryset(self):
+        place = self.request.query_params.get('place', '')
+        return MechanicProfiledetails.objects.filter(place__icontains=place, is_verify=True)    
+    
+@api_view(['POST'])   
+def MechanicPlaceSearch(request):
+    
+ 
+    place =  request.data.get('place')
+    print(place)
+    
+    mechanicdetails = MechanicProfiledetails.objects.filter(place__icontains=place, is_verify=True)
+
+    if not mechanicdetails:
+        return Response({'detail': 'No mechanics found for the given place'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = MechanicProfiledetailsSerializer(mechanicdetails, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+  
+
+
+
 from rest_framework.response import Response
 from django.utils import timezone
 

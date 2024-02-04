@@ -16,6 +16,8 @@ import { ChatSelectContextt } from "../../../Context/ChatSelectContext";
 import Message from "./small/Message";
 // import PulseCards from "../Home/Main/SkeltonHome";
 import ReconnectingWebSocket from 'reconnecting-websocket';
+import { useChatContext } from '../../../Context/ChatContext';
+// import { getMessage } from "@reduxjs/toolkit/dist/actionCreatorInvariantMiddleware";
 
 
 
@@ -24,7 +26,9 @@ import ReconnectingWebSocket from 'reconnecting-websocket';
 const baseURL = "http://127.0.0.1:8003";
 const REACT_APP_CLOUDINARY_CLOUD_NAME = "dvlpq6zex";
 
-export default function ChatPage() {
+export default function ChatPage({ mechanic_id }) {
+  const { selectedMechanicId } = useChatContext();
+  console.log("mechanicid",selectedMechanicId)
   // console.log(val,"hhhhhhhhh")
   // const authentication_user = useSelector((state) => state.authentication_user);
   const authentication_user =useSelector((state) => state.persistedAuthReducer.authentication_user);
@@ -82,13 +86,13 @@ export default function ChatPage() {
             console.error("Error fetching comments:", error);
           }
 }
-const mechanic = mechanics[0]
+// const mechanic = mechanics[0]
  
   useEffect(() => {
     console.log(selectedChat);
       GetRoom(); 
 
-  }, []);
+  }, [selectedMechanicId]);
 
   const GetRoom = async () => {
 
@@ -97,7 +101,7 @@ const mechanic = mechanics[0]
       // console.log(authentication_user.first_name)
       // console.log(mechanic.first_name)
       const k = authentication_user.id;
-      const c = 21;
+      const c = selectedMechanicId;
       
       var data = { user1:k, user2:c};
       console.log(data)
@@ -117,12 +121,13 @@ const mechanic = mechanics[0]
 
   const SocketManagement = () => {
     if (authentication_user.first_name && room) {
+      const user_id = authentication_user.id
       if (socket) {
         socket.close();
         console.log("Previous WebSocket disconnected");
       }
       const newSocket = new ReconnectingWebSocket(
-        `ws://localhost:8003/ws/chat/${room.name}/`
+        `ws://localhost:8003/ws/chat/${room.name}/${user_id}/`
       );
       setSocket(newSocket);
       newSocket.onopen = () => console.log("WebSocket connected");
@@ -196,7 +201,9 @@ const mechanic = mechanics[0]
     SocketManagement(); 
   }, [room]);
 
-
+  const handleMessageSent = ()=>{
+    console.log("haiiii")
+  }
   useEffect(() => {
     getSenderImage();
     getRecieverImage();
@@ -204,17 +211,7 @@ const mechanic = mechanics[0]
    
   }, [room]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (message && socket) {
-      const data = {
-        message: message,
-        username: authentication_user.first_name,
-      };
-      socket.send(JSON.stringify(data));
-      setMessage("");
-    } 
-  };
+
   const GetMessages = async () => {
     if(room){
       try {
@@ -239,9 +236,25 @@ const mechanic = mechanics[0]
    
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (message && socket) {
+      const data = {
+        message: message,
+        username: authentication_user.first_name,
+      };
+      socket.send(JSON.stringify(data));
+      setMessage("");
+   
+      // handleMessageSent()
+    } 
+  };
+
   useEffect(() => {
     GetMessages();
   }, [room]);
+
+
 
   useEffect(() => {
     const element = scrollRef.current;
@@ -251,17 +264,17 @@ const mechanic = mechanics[0]
   }, [messages,message]);
 
   return (
-    <div style={{ backgroundColor: "pink" }}>
+    <div >
     <MDBContainer fluid >
       <MDBRow >
         <MDBCol md="12" >
           <MDBCard
             id="chat3"
-            style={{ borderRadius: "15px", marginTop: "60px",backgroundColor:"black" }}
+            style={{ borderRadius: "15px", marginTop:"15px",  backgroundColor:"black" }}
           >
             <MDBCardBody>
               <text>{selectedChat}</text>
-              <MDBRow style={{ height: "700px"}}>
+              <MDBRow style={{ height: "670px"}}>
                 <div
                   className="container"
                   ref={scrollRef}
@@ -284,8 +297,9 @@ const mechanic = mechanics[0]
                                 ? element.content
                                 : element.message
                             }
-                            userId={room.user}
-                            uname={element.username}
+                            id={element.senderid}
+                            user_id={room.user}
+                            mechanic_id={room.mechanic}
                             time={element.timestamp}
                             seen={element.seen}
                             user={element.user}
@@ -328,12 +342,12 @@ const mechanic = mechanics[0]
         style={{ display: 'none' }}
       />
     </div>
-    <div><h1>hellooooo   {room.id}</h1></div>
+  
                  
                   <a className="ms-3 text-muted" href="#!">
                     <MDBIcon fas icon="smile" />
                   </a>
-                  <a className="ms-3" href="#!">
+                  <a className="ms-3"  href="#!" >
                     <MDBIcon fas icon="paper-plane" onClick={handleSubmit} />
                   </a>
                 </div>

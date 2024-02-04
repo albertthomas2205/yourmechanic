@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {useChatContext} from "../../../../Context/ChatContext";
 
 const baseURL = "http://127.0.0.1:8003";
 
@@ -7,6 +8,7 @@ const ChatuserList = (props) => {
   const [mechanicDetails, setMechanicDetails] = useState({});
   const [lastMessage, setLastMessage] = useState("");
   const [selectedChat, setSelectedChat] = useState("");
+  const { setUserIdToContext} = useChatContext();
 
   const fetchMechanicDetails = async (mechanic_id) => {
     try {
@@ -53,8 +55,10 @@ const ChatuserList = (props) => {
   }, []);
 
   const handleChat = () => {
-    setSelectedChat(props.name);
-    console.log("llllllllllllllllllll", props.name, props.mechanic_id);
+    console.log("idddddd",props.mechanic_id)
+    setUserIdToContext(props.mechanic_id)
+    setSelectedChat(props.mechanic_id)
+    
   };
 
   return (
@@ -62,7 +66,7 @@ const ChatuserList = (props) => {
       className="p-2 m-2 mt-3 border-bottom"
       onClick={handleChat}
       style={
-        selectedChat === props.name
+        selectedChat === props.mechanic_id
           ? {
               backgroundColor: "grey",
               color: "white",
