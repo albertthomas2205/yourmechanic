@@ -51,7 +51,11 @@ export default function Review(props) {
       className="w-64" // Adjust width as needed
     >
       <PopoverHandler>
-        <Button>Feed Back</Button>
+        <Button    variant="outlined"
+                      color="green"
+                      size="sm"
+                     
+                      style={{ width: "120px" }} >Feed Back</Button>
       </PopoverHandler>
       <PopoverContent>
         <div className="p-2 w-[25rem]">

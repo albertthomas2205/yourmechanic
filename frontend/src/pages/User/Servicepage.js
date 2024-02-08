@@ -5,11 +5,25 @@ import HeaderUser from "../../components/user/Headeruser";
 import FooterWithSocialLinks from "../../components/user/Footer";
 import ServiceCard from "../../components/user/Servicecard";
 import axios from "axios";
+import AxiosInstance from "../../components/axios/AxiosInstance";
 const Servicepage = () => {
+  const {serviceInstance} = AxiosInstance()
   const [services, setServices] = useState([]);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://127.0.0.1:8001/api/services/")
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setServices(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log("error fetching the services");
+  //     });
+  // }, []);
+
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8001/api/services/")
+    serviceInstance
+      .get("services/")
       .then((response) => {
         console.log(response.data);
         setServices(response.data);
@@ -17,7 +31,7 @@ const Servicepage = () => {
       .catch((error) => {
         console.log("error fetching the services");
       });
-  }, []);
+  }, [serviceInstance]);
 
   return (
     <div>

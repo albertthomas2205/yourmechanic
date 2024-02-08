@@ -38,6 +38,14 @@ import { useNavigate } from "react-router-dom";
    
         navigate('/mechanic/bookinglist/')
     }
+    const InboxClick=() =>{
+   
+      navigate('/mechanic/chat/')
+  }
+  const profileClick=() =>{
+   
+    navigate('/mechanic/profile/')
+}
     // }
     // const profileClick=() =>{
     //   dispatch(
@@ -63,11 +71,11 @@ import { useNavigate } from "react-router-dom";
         </div>
         <List>
 
-        <ListItem>
+        <ListItem onClick={profileClick}>
             <ListItemPrefix>
               <UserCircleIcon className="h-5 w-5" />
             </ListItemPrefix>
-            Profileeeeeee
+            Profile
           </ListItem>
           <ListItem onClick={bookingClick} >
             <ListItemPrefix>
@@ -75,13 +83,8 @@ import { useNavigate } from "react-router-dom";
             </ListItemPrefix>
             Booking
           </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <ShoppingBagIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            E-Commerce
-          </ListItem>
-          <ListItem>
+         
+          <ListItem onClick={InboxClick}>
             <ListItemPrefix>
               <InboxIcon className="h-5 w-5" />
             </ListItemPrefix>
@@ -91,12 +94,12 @@ import { useNavigate } from "react-router-dom";
             </ListItemSuffix>
           </ListItem>
          
-          <ListItem>
+          {/* <ListItem>
             <ListItemPrefix>
               <Cog6ToothIcon className="h-5 w-5" />
             </ListItemPrefix>
             Settings
-          </ListItem>
+          </ListItem> */}
           <ListItem onClick={handleLogoutClick}>
             <ListItemPrefix>
               <PowerIcon className="h-5 w-5" />

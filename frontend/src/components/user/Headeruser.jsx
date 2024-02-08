@@ -292,9 +292,7 @@ function HeaderUser() {
           <NavList />
         </div>
 
-        <div className="hidden gap-2 lg:flex" onClick={handlechatClick}>
-        chat
-          </div>
+     
        
         <div className="hidden gap-2 lg:flex">
 

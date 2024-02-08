@@ -42,6 +42,9 @@ class BookingListCreateView(generics.ListCreateAPIView):
             'booking_id': booking_id,
         }, status=status.HTTP_201_CREATED)
         
+        
+
+        
 class CheckAvailabilityView(generics.GenericAPIView):
     serializer_class = CheckAvilabilitySerializer
 
@@ -60,7 +63,37 @@ class CheckAvailabilityView(generics.GenericAPIView):
             return Response({"detail": "The time slot is already booked for this mechanic."}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"detail": "The time slot is available."}, status=status.HTTP_200_OK)
-        
+class BookingUpdateView(generics.UpdateAPIView):
+    queryset = Bookings.objects.all()
+    serializer_class = BookingSerializer
+    http_method_names = ['patch']  
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        print("haiiiiiii")
+        # Extract the new date from the request data
+        new_date = request.data.get('date_time')
+
+        # Check if a booking with the same mechanic_id and new date already exists
+        existing_booking = Bookings.objects.filter(
+            mechanic_id=instance.mechanic_id,
+            date_time=new_date
+        ).exclude(id=instance.id).exists()
+
+        if existing_booking:
+            raise serializers.ValidationError("Another booking exists for this mechanic on the specified date.")
+
+        # Continue with the partial update
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        # Customize the response with status code and updated fields
+        return Response({
+            'status': status.HTTP_200_OK,
+            'message': 'Booking updated successfully.',
+            'updated_fields': serializer.validated_data,
+        }, status=status.HTTP_200_OK)    
         
     
 from .serializers import BookingSerializer   

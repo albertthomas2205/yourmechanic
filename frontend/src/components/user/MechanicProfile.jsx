@@ -53,7 +53,7 @@ export default function MechanicProfile() {
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol lg="9" xl="7">
             <MDBCard>
-              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: 'cyan', height: '250px' }}>
+              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: 'black', height: '250px' }}>
                 <div className="ms-4 mt-3 d-flex flex-column" style={{ width: '150px' }}>
                   <MDBCardImage
                     src={profileData.profile_pic}

@@ -58,6 +58,9 @@ const ChatuserList = (props) => {
     console.log("idddddd",props.mechanic_id)
     setUserIdToContext(props.mechanic_id)
     setSelectedChat(props.mechanic_id)
+    setTimeout(() => {
+      setSelectedChat(null);
+    }, 3000);
     
   };
 
@@ -73,14 +76,14 @@ const ChatuserList = (props) => {
               fontWeight: "bold",
               borderRadius: "15px",
             }
-          : { borderRadius: "15px", backgroundColor: "rgb(33, 35, 35)" }
+          : { borderRadius: "15px", backgroundColor: "black" }
       }
     >
       <a href="#!" className="d-flex justify-content-between">
         <div className="d-flex flex-row">
           <div>
             <img
-              style={{ borderRadius: "100%" }}
+              style={{ width: "45px",borderRadius: "100%",height:"45px"  }}
               src={mechanicDetails.profile_pic}
               alt="avatar"
               className="d-flex align-self-center me-3"

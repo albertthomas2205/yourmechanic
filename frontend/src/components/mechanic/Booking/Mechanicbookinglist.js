@@ -123,10 +123,10 @@ export default function Mechanicbookinglist() {
               </div>
               <div className="flex w-full shrink-0 gap-2 md:w-max">
                 <div className="w-full md:w-72">
-                  <Input
+                  {/* <Input
                     label="Search"
                     icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>

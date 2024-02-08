@@ -1,4 +1,12 @@
 import axios from 'axios';
+import { selectUser } from '../../Redux/user/AuthenticationSlice';
+import { useSelector } from 'react-redux';
+
+
+
+const authentication = axios.create({
+  baseURL: 'http://127.0.0.1:8000/api/',
+})
 
 const instance = axios.create({
   baseURL: 'http://127.0.0.1:8002/api/',  // Your base URL
@@ -18,9 +26,6 @@ const service =  axios.create({
 
 export {service}
 
-const user = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api/',
-})
 
 const chat = axios.create({
   baseURL: 'http://127.0.0.1:8003/api/',

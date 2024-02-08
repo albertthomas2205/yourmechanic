@@ -55,7 +55,7 @@ fetchMechanicDetails(mechanic_id)
 fetchUserDetails(props.user_id)
 getTime()
 console.log(props.recieverimage)
-}, [props.user]);
+}, [props.room]);
  
 const getTime = () =>{
     let currentdate = new Date();
@@ -86,7 +86,7 @@ const getTime = () =>{
         className="small p-2 ms-3 mb-1 rounded-3"
         style={{ backgroundColor: "#f5f6f7" }}
       >
-       {props.content}{props.id}{mechanic_id}
+       {props.content}
        {}
       
    
@@ -100,7 +100,7 @@ const getTime = () =>{
   <div className="d-flex flex-row justify-content-end pr-3" >
     <div>
       <p className="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">
-      {props.content},{props.id}
+      {props.content}
     
       </p>
       <p className="small me-3 mb-3 rounded-3 text-muted">

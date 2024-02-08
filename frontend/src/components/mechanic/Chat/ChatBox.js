@@ -152,6 +152,7 @@ const mechanic = mechanics[0]
     if (socket) {
       socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
+        console.log("heeeee",data)
         if (data.user_list) {
           setActiveUsers(data.user_list);
         } else {
@@ -216,7 +217,7 @@ const mechanic = mechanics[0]
     if (message && socket) {
       const data = {
         message: message,
-        username: authentication_user.first_name,
+        user_id: mechanic_id,
       };
       socket.send(JSON.stringify(data));
       setMessage("");
@@ -259,7 +260,7 @@ const mechanic = mechanics[0]
 
 
   return (
-    <div style={{}}>
+    <div >
     <MDBContainer fluid >
       <MDBRow >
         <MDBCol md="12" >
@@ -269,7 +270,7 @@ const mechanic = mechanics[0]
           >
             <MDBCardBody>
               <text>{selectedChat}</text>
-              <MDBRow style={{ height: "600px"}}>
+              <MDBRow style={{ height: "670px"}}>
                 <div
                   className="container"
                   ref={scrollRef}

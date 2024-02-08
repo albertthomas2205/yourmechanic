@@ -58,7 +58,7 @@ const Mechanicuserpage = () => {
     <div className=' mt-[4rem]  min-h-screen min-w-screen  '>
     <div  className="flex justify-center items-center">
   <div className='text-center  text-white'><h4>Select Your Mechanic</h4></div>
-  <div className='ml-[4rem] flex'> <div> <Input onChange={(e) => setPlace(e.target.value)} placeholder="Search your place" /> </div> <div className='ml-3'><Button onClick={()=>handleSearch()}>serach</Button></div></div>
+  {/* <div className='ml-[4rem] flex'> <div> <Input onChange={(e) => setPlace(e.target.value)} placeholder="Search your place" /> </div> <div className='ml-3'><Button onClick={()=>handleSearch()}>serach</Button></div></div> */}
 </div>
        
       <div className='flex justify-center gap-10 flex-wrap p-[5rem] '>

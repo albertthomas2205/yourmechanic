@@ -10,5 +10,5 @@ path('bookingmechanic/<int:mechanic_id>/', views.BookingsByMechanicListView.as_v
 path('bookingongoing/', views.UpdateBookingStatusAPIView.as_view(), name='update-booking-to-ongoing'),
 path('bookingcompleted/', views.UpdateBookingStatusAPIView.as_view(), name='update-booking-to-completed'),
 path('bookingcanceld/', views.UpdateBookingStatusAPIView.as_view(), name='cancel-booking'),
-
+path('bookings/<int:pk>/', views.BookingUpdateView.as_view(), name='booking-update'),
 ]

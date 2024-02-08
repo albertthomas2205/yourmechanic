@@ -15,6 +15,12 @@ import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import instance from '../../axios/axiosInstences';
 import Review from '../../../pages/User/Booking/Review';
 
+import { Tooltip } from "@material-tailwind/react";
+ import Reshedule from './Reshedule';
+import { IdentificationIcon } from '@heroicons/react/24/solid';
+
+ 
+
 const formatDateTime = (dateTimeString) => {
   const options = {
     year: 'numeric',
@@ -65,6 +71,7 @@ const Userbooking = () => {
  const fetchData = async () => {
   try {
     const bookingResponse = await instance.get(`/booking/bookinguser/${id}`);
+    console.log(bookingResponse.data);
     setBookingData(bookingResponse.data);
 
     const detailsPromises = bookingResponse.data.map(async ({ service_id, vehicle_id, mechanic_id }) => {
@@ -231,7 +238,21 @@ const Userbooking = () => {
                             </Typography>
                           </td>
                           <td className={classes}>
-                            <Chip
+                            {
+                              status_display ==='Sheduled'?  (<Tooltip content="Material Tailwind">
+                              <Chip   size="sm"
+                                                      variant="ghost"
+                                                      value={status_display}
+                                                      color={
+                                                        status_display === "Completed"
+                                                          ? "green"
+                                                          : status_display === "Canceled"
+                                                          ? "red"
+                                                          : status_display === "Scheduled"
+                                                          ? "blue"
+                                                          : "red"
+                                                      }>Show Tooltip</Chip>
+                            </Tooltip>):(    <Chip
                               size="sm"
                               variant="ghost"
                               value={status_display}
@@ -245,7 +266,14 @@ const Userbooking = () => {
                                   : "red"
                               }
                             />
-                          </td>
+                         )
+                                          
+                            }
+                           
+                        
+        </td>
+  
+
                           <td className={classes}>
                                             {status_display === "Completed" ? (
                     <Review id={id} mechanic_id ={mechanic_id} service_name = {serviceDetails.service_details.name}/>
@@ -253,14 +281,23 @@ const Userbooking = () => {
                     // Render something specific for "Cancel"
                     <span></span>
                   ) : (
-                    <Button
+                    <div >
+                      <div>
+                              <Button
                       variant="outlined"
                       color="red"
                       size="sm"
                       onClick={() => handleCancelBooking(id)}
+                      style={{ width: "120px" }} 
                     >
                       Cancel
                     </Button>
+                    </div>
+                    <div>
+                     <Reshedule  service_name = {serviceDetails.service_details.name} price ={serviceDetails.service_details.price} vehicle_name = { serviceDetails.vehicle_details.vehicle_name} place ={place} mechanic_id={mechanic_id}  booking_id ={id} user_id={user_id} service_id={service_id} vehicle_id={vehicle_id}/>
+                     </div>
+                    </div>
+            
                   )}
                                             
                    
