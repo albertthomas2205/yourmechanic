@@ -13,7 +13,8 @@ const Adminwarper = () => {
   return (
     <div>
       <Routes>
-      <Route element={<AdminPrivateroute />} >
+{/*       
+      <Route element={<AdminPrivateroute />} > */}
 
         <Route path="users/*" element={<Userpage />} />
         <Route path="mechanics/*" element={<Mechanicpage />} />
@@ -29,7 +30,7 @@ const Adminwarper = () => {
           
           }
         />
-        </Route>
+        {/* </Route> */}
       </Routes>
       
     </div>

@@ -9,6 +9,7 @@ import {
   Typography,
   Input,
 } from "@material-tailwind/react";
+import { admininstance } from '../axios/AxiosInstance';
 
 export default function Editform({ serviceId, onEdit }) {
   const [open, setOpen] = useState(false);
@@ -25,7 +26,7 @@ export default function Editform({ serviceId, onEdit }) {
     // Fetch service data when the component mounts
     const fetchServiceData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8001/api/services/${serviceId}/`);
+        const response = await admininstance.get(`services/${serviceId}/`);
         setServiceData(response.data);
       } catch (error) {
         console.error('Error fetching service data:', error);
@@ -63,7 +64,7 @@ export default function Editform({ serviceId, onEdit }) {
     }
 
     try {
-      const res = await axios.put(`http://127.0.0.1:8001/api/services/${serviceId}/`, formData);
+      const res = await admininstance.put(`services/${serviceId}/`, formData);
 
       if (res.status === 200) {
         // Handle success

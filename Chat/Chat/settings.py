@@ -53,7 +53,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
       'corsheaders.middleware.CorsMiddleware',
-     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
      'allauth.account.middleware.AccountMiddleware'
 ]
@@ -85,13 +84,26 @@ WSGI_APPLICATION = 'Chat.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'Chat',
+#         'USER': 'postgres',
+#         'PASSWORD': 'albert',
+#         'HOST': 'localhost',  # Set to the PostgreSQL server address
+#         'PORT': '5432',       # Set to the PostgreSQL server port
+#     }
+# }
+
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Chat',
+        'NAME': 'dbchat',
         'USER': 'postgres',
         'PASSWORD': 'albert',
-        'HOST': 'localhost',  # Set to the PostgreSQL server address
+        'HOST': 'dbchat',  # Set to the PostgreSQL server address
         'PORT': '5432',       # Set to the PostgreSQL server port
     }
 }
@@ -118,7 +130,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Replace with your React app's URL
+    "http://localhost:3000", 
+      "http://localhost:81",
 ]
 
 CROS_ALLOW_CREDENTIALS = True
@@ -144,7 +157,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-REDIS_HOST = '127.0.0.1'  # Use the actual IP address
+REDIS_HOST = 'redis'  # Use the actual IP address
 REDIS_PORT = 6379
 
 CHANNEL_LAYERS = {

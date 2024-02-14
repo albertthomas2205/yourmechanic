@@ -9,6 +9,7 @@ import {
   Typography,
   Input,
 } from "@material-tailwind/react";
+import { admininstance } from '../axios/AxiosInstance';
 
 export default function AddAdminVehicle() {
   const [open, setOpen] = React.useState(false);
@@ -18,7 +19,7 @@ export default function AddAdminVehicle() {
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8001/api/brands/');
+        const response = await admininstance.get('brands/');
         setBrands(response.data);
       } catch (error) {
         console.error('Error fetching brands:', error);
@@ -56,7 +57,7 @@ export default function AddAdminVehicle() {
 
     try {
       console.log(formData);
-      const res = await axios.post('http://127.0.0.1:8001/api/vehicles/', formData);
+      const res = await admininstance.post('vehicles/', formData);
 
       if (res.status === 201) {
         handleOpen();

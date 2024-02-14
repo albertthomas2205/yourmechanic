@@ -9,6 +9,7 @@ import axios from "axios";
 import MechanicBox from '../../components/user/MechanicBox'
 import { useLocation } from 'react-router-dom';
 import { Input, Button } from "@material-tailwind/react";
+import { authentication } from '../../components/axios/AxiosInstance'
 
 const Mechanicuserpage = () => {
   const [mechanics, setMechanics] = useState([]);
@@ -30,9 +31,9 @@ const Mechanicuserpage = () => {
       const data = { place: place };
   
       // Use an absolute URL or ensure that your relative URL is correct
-      const apiUrl = 'http://127.0.0.1:8000/api/mechanic-place-search/';
+      // const apiUrl = 'http://127.0.0.1:8000/api/mechanic-place-search/';
   
-      const response = await axios.post(apiUrl, data);
+      const response = await authentication.post('mechanic-place-search/', data);
   
       // Check if the response has the expected structure before updating state
       if (response && response.data) {

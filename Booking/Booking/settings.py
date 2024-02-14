@@ -90,16 +90,30 @@ WSGI_APPLICATION = 'Booking.wsgi.application'
 # }
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'Booking',
+#         'USER': 'postgres',
+#         'PASSWORD': 'albert',
+#         'HOST': 'localhost',  # Set to the PostgreSQL server address
+#         'PORT': '5432',       # Set to the PostgreSQL server port
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Booking',
+        'NAME': 'dbbooking',
         'USER': 'postgres',
         'PASSWORD': 'albert',
-        'HOST': 'localhost',  # Set to the PostgreSQL server address
+        'HOST': 'dbbooking',  # Set to the PostgreSQL server address
         'PORT': '5432',       # Set to the PostgreSQL server port
     }
 }
+
+
+
 
 
 # Password validation
@@ -125,7 +139,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Replace with your React app's URL
+    "http://localhost:3000",  
+    "http://localhost:81",
+   
 ]
 
 CROS_ALLOW_CREDENTIALS = True

@@ -4,9 +4,10 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import ChatuserList from "./small/ChatUserlist";
 import { MDBContainer, MDBInputGroup, MDBIcon, MDBTypography } from "mdb-react-ui-kit";
+import { authentication, chatinstance } from "../../axios/AxiosInstance";
 
 
-const baseURL = "http://127.0.0.1:8003";
+// const baseURL = "http://127.0.0.1:8003";
 
 const ChatUsers = () => {
 
@@ -24,8 +25,8 @@ const ChatUsers = () => {
 
   const fetchMechanicDetails = async (mechanicId) => {
     try {
-      const response = await axios.get(
-        `http://127.0.0.1:8000/api/mechanic-profile/${mechanicId}/`
+      const response = await authentication.get(
+        `mechanic-profile/${mechanicId}/`
       );
 
       if (response.status === 200) {
@@ -43,7 +44,7 @@ const ChatUsers = () => {
     try {
       console.log("ddddddddddddddddddddd", authentication_user.first_name);
       const data = { user_id: authentication_user.id };
-      const res = await axios.post(baseURL + "/api/chat/chatroomlist/", data);
+      const res = await chatinstance.post("chatroomlist/", data);
 
       if (res.status === 200) {
         console.log(res.data);

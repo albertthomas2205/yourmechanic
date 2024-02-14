@@ -10,13 +10,14 @@ import {
     Button,
   } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
+import { authentication } from '../axios/AxiosInstance';
 
    
   export  default function   MechanicBox(props) {
     const [profileData, setProfileData] = useState([]);
 
 useEffect(() => {
-  axios.get(`http://127.0.0.1:8000/api/mechanic-profile/${props.id}/`)
+  authentication.get(`mechanic-profile/${props.id}/`)
     .then(response => {
       console.log(response.data)
       setProfileData(response.data);

@@ -16,6 +16,7 @@ import MechanicdetailsAdd from './MechanicdetailsAdd';
 import MechanicDetailsEdit from './MechanicProfileEdit';
 
 import { useSelector } from 'react-redux';
+import { authentication } from '../axios/AxiosInstance';
 
 export default function MechanicProfilecard() {
   const [profileData, setProfileData] = useState([]);
@@ -27,8 +28,8 @@ export default function MechanicProfilecard() {
   const first_name = useSelector((state) => state.persistedAuthReducer.authenication_mechanic.first_name);
 
   const fetchProfileData = () => {
-    axios
-      .get(`http://127.0.0.1:8000/api/mechanic-profile/${id}/`)
+   authentication
+      .get(`mechanic-profile/${id}/`)
       .then((response) => {
         console.log(response.data);
         setProfileData(response.data);

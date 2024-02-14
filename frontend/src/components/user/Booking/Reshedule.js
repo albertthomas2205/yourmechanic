@@ -18,6 +18,7 @@ import axios from 'axios';
 import Registration from "../Registration";
 import { loadStripe } from "@stripe/stripe-js";
 import { useNavigate } from "react-router-dom";
+import { bookinginstance } from "../../axios/AxiosInstance";
 
 export default function Reshedule(props) {
   const [open, setOpen] = useState(false);
@@ -87,7 +88,7 @@ export default function Reshedule(props) {
     console.log(formData)
     try {
       // Make a POST request to the API endpoint
-      const response = await axios.patch(`http://127.0.0.1:8002/api/booking/bookings/${props.booking_id}/`, formData);
+      const response = await bookinginstance.patch(`bookings/${props.booking_id}/`, formData);
        console.log(response.data)
       console.log('Booking update successful:', response.data.id);
       if (response.status === 200){

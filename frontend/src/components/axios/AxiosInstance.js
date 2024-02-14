@@ -1,55 +1,34 @@
 import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../../Redux/user/AuthenticationSlice';
 
-const AxiosInstance = () => {
-  const user = useSelector(selectUser);
-  const refreshToken = user.refresh;
-  const accessToken = user.access;
 
-  const commonHeaders = {
-    Authorization: `Bearer ${accessToken}`,
-    'Content-Type': 'application/json',
-  };
 
-  const axiosInstance = axios.create({
-    baseURL: 'http://127.0.0.1:8002/api/',
-    headers: commonHeaders,
-  });
 
-  const bookingInstance = axios.create({
-    baseURL: 'http://127.0.0.1:8002/api/',
-    headers: commonHeaders,
-  });
+const authentication = axios.create({
+  baseURL: 'http://127.0.0.1:8000/api/',
+})
+export {authentication}
 
-  const serviceInstance = axios.create({
-    baseURL: 'http://127.0.0.1:8001/api/',
-   
-  });
+// const instance = axios.create({
+//   baseURL: 'http://127.0.0.1:8002/api/',  // Your base URL
+// });
 
-  const chatInstance = axios.create({
-    baseURL: 'http://127.0.0.1:8003/api/',
-    headers: commonHeaders,
-  });
+// export default instance;
 
-  const checkInstance = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api/token/refresh',
-    headers: commonHeaders,
-  });
+const bookinginstance = axios.create({
+  baseURL: 'http://127.0.0.1:8002/api/booking/',
+});
 
-  const authenticationInstance = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api/',
-    headers: commonHeaders,
-  });
+export  {bookinginstance};
 
-  return {
-    axiosInstance,
-    bookingInstance,
-    serviceInstance,
-    chatInstance,
-    checkInstance,
-    authenticationInstance,
-  };
-};
+const admininstance =  axios.create({
+  baseURL: 'http://127.0.0.1:8001/api/admin/',
+})
 
-export default AxiosInstance;
+export {admininstance}
+
+
+const chatinstance = axios.create({
+  baseURL: 'http://127.0.0.1:8003/api/chat/',
+})
+
+export {chatinstance}

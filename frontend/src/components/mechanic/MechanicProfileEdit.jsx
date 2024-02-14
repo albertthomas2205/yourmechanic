@@ -9,6 +9,7 @@ import {
   DialogFooter,
   Input,
 } from "@material-tailwind/react";
+import { authentication } from "../axios/AxiosInstance";
 
 export default function MechanicDetailsEdit(props) {
   const [open, setOpen] = useState(false);
@@ -25,10 +26,10 @@ export default function MechanicDetailsEdit(props) {
   const [messageType, setMessageType] = useState("");
 
   const mechanicId = useSelector((state) => state.persistedAuthReducer.authenication_mechanic.id);
-  const apiUrl = `http://127.0.0.1:8000/api/mechanic-profile-detail/${mechanicId}/`;
+  // const apiUrl = `http://127.0.0.1:8000/api/mechanic-profile-detail/${mechanicId}/`;
 
   useEffect(() => {
-    axios.get(apiUrl)
+    authentication.get(`mechanic-profile-detail/${mechanicId}/`)
       .then(response => {
         console.log(response.data)
         setProfileData(response.data);
@@ -38,7 +39,7 @@ export default function MechanicDetailsEdit(props) {
         setMessage("Error fetching profile data.");
         setMessageType("error");
       });
-  }, [apiUrl]);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -62,7 +63,7 @@ export default function MechanicDetailsEdit(props) {
       formData.append(key, profileData[key]);
     });
 
-    axios.patch(apiUrl, formData)
+    authentication.patch(`http://127.0.0.1:8000/api/mechanic-profile-detail/${mechanicId}/`, formData)
       .then(response => {
         console.log("Profile updated successfully", response.data);
         setOpen(false);

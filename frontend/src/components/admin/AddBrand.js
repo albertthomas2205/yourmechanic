@@ -9,6 +9,7 @@ import {
   Typography,
   Input,
 } from "@material-tailwind/react";
+import { admininstance } from '../axios/AxiosInstance';
 
 export default function AddBrand(props) {
 
@@ -32,7 +33,7 @@ export default function AddBrand(props) {
     }
 
     try {
-      const res = await axios.post(`http://127.0.0.1:8001/api/brands/`, formData);
+      const res = await admininstance.post(`brands/`, formData);
 
       if (res.status === 201) {
         // Handle success

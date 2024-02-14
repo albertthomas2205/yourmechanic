@@ -10,13 +10,14 @@ import {
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import UserVehicleEdit from "./Uservehicleedit";
 import axios from 'axios';
+import { authentication } from "../axios/AxiosInstance";
 
 export default function Vehiclereadmore(props) {
   const [openMenu, setOpenMenu] = React.useState(false);
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`http://127.0.0.1:8000/api/user-vehicle-update/${props.id}/`);
+      const response = await authentication.delete(`user-vehicle-update/${props.id}/`);
 
       if (response.status === 204) {
         // If the delete request is successful, call the fetch function to update the list

@@ -9,6 +9,7 @@ import {
   DialogFooter,
   Input,
 } from "@material-tailwind/react";
+import { authentication } from "../axios/AxiosInstance";
 
 export default function Userdetailsedit(props) {
   const [open, setOpen] = useState(false);
@@ -24,10 +25,9 @@ export default function Userdetailsedit(props) {
   const [messageType, setMessageType] = useState("");
 
   const userId = useSelector((state) => state.persistedAuthReducer.authentication_user.id);
-  const apiUrl = `http://127.0.0.1:8000/api/userprofile/${userId}/`;
-
+ 
   useEffect(() => {
-    axios.get(apiUrl)
+    authentication.get(`userprofile/${userId}/`)
       .then(response => {
         setProfileData({
           ...response.data,
@@ -87,7 +87,7 @@ export default function Userdetailsedit(props) {
     const formData = new FormData();
     Object.keys(profileData).forEach(key => formData.append(key, profileData[key]));
 
-    axios.patch(apiUrl, formData, {
+    axios.patch('userprofile' ,formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

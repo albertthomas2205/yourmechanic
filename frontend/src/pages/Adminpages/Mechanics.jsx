@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Typography, Button } from '@material-tailwind/react';
 import Pagination from '../../components/admin/Pagination';
+import { authentication } from '../../components/axios/AxiosInstance';
 
 const MechanicRows = () => {
   const [userData, setUserData] = useState([]);
@@ -13,7 +14,7 @@ const MechanicRows = () => {
     // Fetch data from the API
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/mechanics/');
+        const response = await authentication.get('mechanics/');
         setUserData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -35,7 +36,7 @@ const MechanicRows = () => {
       setLoading(true);
 
       // Send a POST request to block/unblock the user
-      const response = await axios.post('http://127.0.0.1:8000/api/block-mechanic/', {
+      const response = await authentication.post('block-mechanic/', {
         user_id: userId,
       });
 

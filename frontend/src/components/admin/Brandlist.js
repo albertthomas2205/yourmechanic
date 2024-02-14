@@ -5,6 +5,7 @@ import Pagination from './Pagination';
 import DialogWithForm from '../../pages/Adminpages/Dailogform';
 import Editform from './Editform';
 import AddBrand from './AddBrand';
+import { admininstance } from '../axios/AxiosInstance';
 
 
 const Brandlist = () => {
@@ -27,7 +28,7 @@ const Brandlist = () => {
   };
   const fetchBrands = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8001/api/brands/');
+      const response = await admininstance.get('brands/');
       setBrands(response.data);
       setFilteredBrands(response.data);
     } catch (error) {
@@ -52,7 +53,7 @@ const Brandlist = () => {
   const handleDelete = async (id) => {
     try {
       if (window.confirm('Are you sure you want to delete this brand?')) {
-        await axios.delete(`http://127.0.0.1:8001/api/brands/${id}/`);
+        await admininstance.delete(`brands/${id}/`);
 
         setBrands((prevBrands) => prevBrands.filter((brand) => brand.id !== id));
         setFilteredBrands((prevFilteredBrands) =>

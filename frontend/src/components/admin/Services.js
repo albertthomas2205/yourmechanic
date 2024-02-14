@@ -4,6 +4,7 @@ import { Card, Typography, Button, Input, Alert } from '@material-tailwind/react
 import Pagination from './Pagination';
 import DialogWithForm from '../../pages/Adminpages/Dailogform';
 import Editform from './Editform';
+import { admininstance } from '../axios/AxiosInstance';
 
 const Servicelist = () => {
   const [services, setServices] = useState([]);
@@ -13,6 +14,7 @@ const Servicelist = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
   const [editingServiceId, setEditingServiceId] = useState(null);
+  
 
   const TABLE_HEAD = ['NO', 'Name', 'Description', 'Image', 'Price', 'Actions'];
   const handleSearch = () => {
@@ -27,7 +29,7 @@ const Servicelist = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8001/api/services/');
+        const response = await admininstance.get('services/');
         setServices(response.data);
         setFilteredServices(response.data);
       } catch (error) {
@@ -51,7 +53,7 @@ const Servicelist = () => {
   const handleDelete = async (id) => {
     try {
       if (window.confirm('Are you sure you want to delete this service?')) {
-        await axios.delete(`http://127.0.0.1:8001/api/services/${id}/`);
+        await admininstance.delete(`services/${id}/`);
 
         setServices((prevServices) => prevServices.filter((service) => service.id !== id));
         setFilteredServices((prevFilteredServices) =>

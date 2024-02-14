@@ -9,7 +9,7 @@ import {
 } from '@material-tailwind/react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-
+import { admininstance, authentication } from '../axios/AxiosInstance';
 const UserVehicleEdit = (props) => {
   const userId = useSelector((state) => state.persistedAuthReducer.authentication_user.id);
 
@@ -32,7 +32,7 @@ const UserVehicleEdit = (props) => {
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8001/api/brand-name/`);
+        const response = await admininstance.get(`brand-name/`);
         setBrands(response.data);
       } catch (error) {
         console.error('Error fetching brands:', error);
@@ -46,7 +46,7 @@ const UserVehicleEdit = (props) => {
   useEffect(() => {
     const fetchVehicleDetails = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/user-vehicle-update/${props.id}/`);
+        const response = await authentication.get(`user-vehicle-update/${props.id}/`);
         setVehicleData(response.data);
       } catch (error) {
         console.error('Error fetching vehicle details:', error);
@@ -64,7 +64,7 @@ const UserVehicleEdit = (props) => {
     const data = { brand_id: brand_id };
 
     try {
-      const response = await axios.post('http://127.0.0.1:8001/api/vehiclesname/', data);
+      const response = await admininstance.post('vehiclesname/', data);
       setVehicles(response.data);
     } catch (error) {
       console.error('Error fetching vehicles:', error);
@@ -101,7 +101,7 @@ const UserVehicleEdit = (props) => {
     e.preventDefault();
 
     try {
-      const response = await axios.patch(`http://127.0.0.1:8000/api/user-vehicle-update/${props.id}/`, vehicleData);
+      const response = await authentication.patch(`user-vehicle-update/${props.id}/`, vehicleData);
       console.log(response.data);
       props.fetch();
       setOpen(false); // Close the dialog after successful update

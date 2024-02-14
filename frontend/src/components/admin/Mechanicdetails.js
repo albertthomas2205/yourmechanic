@@ -22,6 +22,7 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
+import { admininstance } from "../axios/AxiosInstance";
 
 const TABS = [
   {
@@ -48,8 +49,8 @@ export default function Mechanicdetails() {
     // Fetch data from API when component mounts
     const fetchData = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/mechanics/");
-        const data = await response.json();
+        const response = await admininstance.get("mechanics/");
+        const data = response.data;
         setMechanics(data);
       } catch (error) {
         console.error("Error fetching data:", error);

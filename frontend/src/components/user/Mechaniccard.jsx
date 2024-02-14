@@ -8,6 +8,7 @@ import {
   Button,
 } from '@material-tailwind/react';
 import axios from 'axios';
+import { authentication } from '../axios/AxiosInstance';
 
 export default function Mechaniccard(props) {
   const [profile, setProfile] = useState({
@@ -25,7 +26,7 @@ export default function Mechaniccard(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/mechanic-profile/${props.id}/`);
+        const response = await authentication.get(`mechanic-profile/${props.id}/`);
         setProfile(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -39,7 +40,7 @@ export default function Mechaniccard(props) {
     const data = {mechanic_id: props.id };
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/verify-mechanic/', data);
+      const response = await authentication.post('verify-mechanic/', data);
 
       if (response.status === 200) {
         alert('Successfully updated the status');

@@ -14,6 +14,7 @@ import Userdetailadd from './Userdetailadd';
 import Userdetailsedit from './Userdetailsedit';
 
 import { useSelector } from 'react-redux';
+import { authentication } from '../axios/AxiosInstance';
 
 export default function Profilecard() {
   const [profileData, setProfileData] = useState(null);
@@ -25,7 +26,7 @@ export default function Profilecard() {
   const [error, setError] = useState(null);
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/userprofile/${id}/`);
+      const response = await authentication.get(`userprofile/${id}/`);
       setProfileData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);

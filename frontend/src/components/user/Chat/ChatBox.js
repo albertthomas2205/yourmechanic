@@ -17,6 +17,7 @@ import Message from "./small/Message";
 // import PulseCards from "../Home/Main/SkeltonHome";
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { useChatContext } from '../../../Context/ChatContext';
+import { admininstance, authentication, chatinstance } from "../../axios/AxiosInstance";
 // import { getMessage } from "@reduxjs/toolkit/dist/actionCreatorInvariantMiddleware";
 
 
@@ -55,7 +56,7 @@ export default function ChatPage({ mechanic_id }) {
   const [mechanics, setMechanics] = useState([]);
   useEffect(() => {
     // Fetch the user vehicles data from the API
-    axios.get('http://127.0.0.1:8000/api/verify-mechaniclist/')
+    authentication.get('verify-mechaniclist/')
       .then(response => {
         console.log(response)
         setMechanics(response.data);
@@ -105,7 +106,7 @@ export default function ChatPage({ mechanic_id }) {
       
       var data = { user1:k, user2:c};
       console.log(data)
-      const res = await axios.get(baseURL + "/api/chat/findrooms/", {
+      const res = await chatinstance.get("findrooms/", {
         params: data,
       });
     
@@ -164,11 +165,11 @@ export default function ChatPage({ mechanic_id }) {
     }
   };
   const getRecieverImage = async () => {
-    let baseURLL = "http://127.0.0.1:8001";
+    // let baseURLL = "http://127.0.0.1:8001";
     try {
       var data = { username: selectedChat };
-      const res = await axios.post(
-        baseURLL + "/api/home/getprofilephoto/",
+      const res = await admininstance.post(
+         "home/getprofilephoto/",
         data
       );
 
@@ -182,11 +183,11 @@ export default function ChatPage({ mechanic_id }) {
   };
 
   const getSenderImage = async () => {
-    let baseURLL = "http://127.0.0.1:8001";
+    // let baseURLL = "http://127.0.0.1:8001";
     try {
       var data = { username: authentication_user.first_name };
-      const res = await axios.post(
-        baseURLL + "/api/home/getprofilephoto/",
+      const res = await admininstance.post(
+      "getprofilephoto/",
         data
       );
 
@@ -217,7 +218,7 @@ export default function ChatPage({ mechanic_id }) {
       try {
         const room_id =room.id
         var data = { roomid: room_id };
-        const res = await axios.get(baseURL + "/api/chat/messagess/", {
+        const res = await chatinstance.get( "messagess/", {
           params: data,
         });
         console.log("heyyy")

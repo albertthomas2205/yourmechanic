@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Typography, Button } from '@material-tailwind/react';
 import Pagination from '../../components/admin/Pagination';
+import { authentication } from '../../components/axios/AxiosInstance';
 
 const UsersRows = () => {
   const [userData, setUserData] = useState([]);
@@ -13,7 +14,7 @@ const UsersRows = () => {
     // Fetch data from the API
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/users/');
+        const response = await authentication.get('users/');
         setUserData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);

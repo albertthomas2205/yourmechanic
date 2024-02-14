@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {useChatContext} from "../../../../Context/ChatContext";
+import { authentication, chatinstance } from "../../../axios/AxiosInstance";
 
 
-const baseURL = "http://127.0.0.1:8003";
+// const baseURL = "http://127.0.0.1:8003";
 
 const ChatuserList = (props) => {
   const [mechanicDetails, setMechanicDetails] = useState({});
@@ -13,8 +14,8 @@ const ChatuserList = (props) => {
 
   const fetchMechanicDetails = async (mechanic_id) => {
     try {
-      const response = await axios.get(
-        `http://127.0.0.1:8000/api/mechanic-profile/${mechanic_id}/`
+      const response = await authentication.get(
+        `mechanic-profile/${mechanic_id}/`
       );
 
       if (response.status === 200) {
@@ -36,7 +37,7 @@ const ChatuserList = (props) => {
     try {
       const room_id =props.roomid
       const data = { roomid: room_id };
-      const res = await axios.get(baseURL + "/api/chat/lastmessage/", {
+      const res = await chatinstance.get("lastmessage/", {
         params: data,
       });
 

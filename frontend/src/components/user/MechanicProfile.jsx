@@ -7,6 +7,8 @@ import { Rating } from "@material-tailwind/react";  // Import the correct Rating
 import { useLocation } from "react-router-dom";
 import UserReviews from './Booking/UserReviews';
 import ReviewRating from './Booking/ReviewRating';
+import { authentication, bookinginstance } from '../axios/AxiosInstance';
+
 
 export default function MechanicProfile() {
   const location = useLocation();
@@ -19,7 +21,7 @@ export default function MechanicProfile() {
   const [averageRating, setAverageRating] = useState();
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/mechanic-profile/${id}/`)
+    authentication.get(`mechanic-profile/${id}/`)
       .then(response => {
         setProfileData(response.data);
       })
@@ -27,7 +29,7 @@ export default function MechanicProfile() {
         console.error('Error fetching data:', error);
       });
 
-    axios.get(`http://127.0.0.1:8002/api/booking/reviews/${id}/`)
+    bookinginstance.get(`reviews/${id}/`)
       .then(response => {
         setLengthReviews(response.data.length)
         
@@ -37,7 +39,7 @@ export default function MechanicProfile() {
         console.error('Error fetching reviews:', error);
       });
 
-    axios.get(`http://127.0.0.1:8002/api/booking/averagerating/${id}/`)
+    bookinginstance.get(`averagerating/${id}/`)
       .then(response => {
         console.log(typeof response.data.average_rating);
         setAverageRating(response.data.average_rating);

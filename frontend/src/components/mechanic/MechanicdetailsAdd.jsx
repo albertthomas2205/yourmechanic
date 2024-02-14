@@ -10,10 +10,12 @@ import {
 import { useSelector } from 'react-redux'
 import axios from 'axios';
 import { selectUser } from '../../Redux/user/AuthenticationSlice'
+import { authentication } from '../axios/AxiosInstance';
 
 export default function MechanicdetailsAdd() {
 
- const id = useSelector((state)=>state.persistedAuthReducer.authentication_user.id);
+ const id = useSelector((state)=>state.persistedAuthReducer.authenication_mechanic.id);
+//  const first_name = useSelector((state) => state.persistedAuthReducer.authenication_mechanic.first_name)
 
    
 
@@ -24,7 +26,7 @@ export default function MechanicdetailsAdd() {
     pin: '',
     experience: '',
     description: '',
-    profile_pic: null,
+    profile_pic: '',
     mechanic_id: id,
   });
   const [successMessage, setSuccessMessage] = useState(null);
@@ -50,7 +52,9 @@ export default function MechanicdetailsAdd() {
     Object.keys(formData).forEach((key) => data.append(key, formData[key]));
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/mechanic-profiles/', data);
+      console.log(data)
+      const response = await authentication.post('mechanic-profiles/', data);
+      
       console.log(response.data);
 
       setSuccessMessage('Profile added successfully!');
@@ -60,7 +64,7 @@ export default function MechanicdetailsAdd() {
         pin: '',
         experience: '',
         description: '',
-        profile_pic: null,
+        profile_pic:null,
       });
     } catch (error) {
       console.error('Error adding profile:', error);

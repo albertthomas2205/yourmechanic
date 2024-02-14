@@ -9,6 +9,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { set_Authentication } from "../../Redux/user/AuthenticationSlice"; // Update the path
 
 import HeaderUser from "../../components/user/Headeruser";
+import { authentication } from "../../components/axios/AxiosInstance";
 
 const SigninUser = () => {
   let url = ""
@@ -42,7 +43,7 @@ const SigninUser = () => {
     setFormError([]);
 
     try {
-      const res = await axios.post(`http://127.0.0.1:8000/api/${url}`, { email, password });
+      const res = await authentication.post(`${url}`, { email, password });
       if (res.status === 200) {
         localStorage.setItem('access', res.data.access);
         localStorage.setItem('refresh', res.data.refresh);
@@ -83,7 +84,7 @@ const SigninUser = () => {
   
     try {
       if (profile && profile.email && profile.name) {
-        const res = await axios.post('http://127.0.0.1:8000/api/googlelogin/', {
+        const res = await authentication.post('googlelogin/', {
           email: profile.email,
           password: profile.name,
           first_name: profile.name

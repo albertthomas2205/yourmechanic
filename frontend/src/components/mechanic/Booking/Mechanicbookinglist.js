@@ -18,6 +18,7 @@ import { PencilIcon } from "@heroicons/react/24/solid";
 import { ArrowDownTrayIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 import MenuDefault from './Menudefault';
+import { admininstance, authentication, bookinginstance } from '../../axios/AxiosInstance';
 
 // Function to format date and time
 const formatDateTime = (dateTimeString) => {
@@ -56,18 +57,18 @@ export default function Mechanicbookinglist() {
   const fetchData = async () => {
     try {
       // Fetching the main booking data
-      const bookingResponse = await axios.get(`http://127.0.0.1:8002/api/booking/bookingmechanic/${id}/`);
+      const bookingResponse = await bookinginstance.get(`bookingmechanic/${id}/`);
       setBookingData(bookingResponse.data);
 
       // Extracting service_id, vehicle_id, and mechanic_id for each item in bookingData
       const detailsPromises = bookingResponse.data.map(async ({ service_id, vehicle_id, user_id }) => {
         try {
           // Make API call for service details
-          const serviceDetailsResponse = await axios.post('http://127.0.0.1:8001/api/get_details/', { service_id, vehicle_id });
+          const serviceDetailsResponse = await admininstance.post('get_details/', { service_id, vehicle_id });
           const serviceDetails = serviceDetailsResponse.data;
 
           // Make API call for mechanic details
-          const mechanicDetailsResponse = await axios.post('http://127.0.0.1:8000/api/userdetails/', { user_id });
+          const mechanicDetailsResponse = await authentication.post('userdetails/', { user_id });
           const mechanicDetails = mechanicDetailsResponse.data;
 
           return [serviceDetails, mechanicDetails];

@@ -85,16 +85,28 @@ WSGI_APPLICATION = 'Admin.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'yourmechanic_management',
+#         'USER': 'postgres',
+#         'PASSWORD': 'albert',
+#         'HOST': 'localhost',  # Set to the PostgreSQL server address
+#         'PORT': '5432',       # Set to the PostgreSQL server port
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'yourmechanic_management',
+        'NAME': 'dbadmin',
         'USER': 'postgres',
         'PASSWORD': 'albert',
-        'HOST': 'localhost',  # Set to the PostgreSQL server address
+        'HOST': 'dbadmin',  # Set to the PostgreSQL server address
         'PORT': '5432',       # Set to the PostgreSQL server port
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -121,6 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:81",
     # Add other origins as needed
 ]
 

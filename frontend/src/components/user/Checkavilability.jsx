@@ -18,6 +18,7 @@ import axios from 'axios';
 import Registration from "./Registration";
 import { loadStripe } from "@stripe/stripe-js";
 import { useNavigate } from "react-router-dom";
+import { admininstance, authentication, bookinginstance, chatinstance } from "../axios/AxiosInstance";
 
 export default function CheckAvailability(props) {
   const [open, setOpen] = useState(false);
@@ -46,7 +47,7 @@ export default function CheckAvailability(props) {
 
   const fetchUserVehicles = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/user-vehicles/${id}/`);
+      const response = await authentication.get(`user-vehicles/${id}/`);
       console.log(response.data);
       setVehicless(response.data);
     } catch (error) {
@@ -59,8 +60,8 @@ export default function CheckAvailability(props) {
   },[]);
   useEffect(() => {
     // Fetch vehicle information using the provided API endpoint
-    axios
-      .get(`http://127.0.0.1:8001/api/vehiclesdetails/${props.vehicleid}/`)
+   admininstance
+      .get(`vehiclesdetails/${props.vehicleid}/`)
       .then((response) => {
         // Assuming the data structure of the vehicle details
        console.log(response.data)
@@ -97,7 +98,7 @@ export default function CheckAvailability(props) {
     // Prepare data object to be sent to the API
     const formData = {
       id:props.id,
-      user_id: props.user_id,
+      user_id:id,
       mechanic_id:props.mechanic_id,
       service_id: props.serviceid,
       vehicle_id: props.vehicleid,
@@ -109,7 +110,7 @@ export default function CheckAvailability(props) {
     console.log(formData)
     try {
       // Make a POST request to the API endpoint
-      const response = await axios.post('http://127.0.0.1:8002/api/booking/bookings/', formData);
+      const response = await bookinginstance.post('bookings/', formData);
        console.log(response.data)
       console.log('Booking successful:', response.data.id);
       if (response.status === 201){
@@ -126,27 +127,27 @@ export default function CheckAvailability(props) {
   };
 
 
-const baseURL='http://127.0.0.1:8003'
+// const baseURL='http://127.0.0.1:8003'
 
-const getUserId = async ()=>{
+// const getUserId = async ()=>{
 
-    try {
+//     try {
 
-     const data = 6
+//      const data = 6
      
-        const res = await axios.get( 
-          baseURL + "/api/chat/getuserid/", 
-          { params: data } 
-        );
+//         const res = await chatinstance.get( 
+//         "getuserid/", 
+//           { params: data } 
+//         );
     
-        if (res.status === 202) {
-console.log("haiii")
+//         if (res.status === 202) {
+// console.log("haiii")
        
-        }
-      } catch (error) {
-        console.error("Error fetching comments:", error);
-      }
-}
+//         }
+//       } catch (error) {
+//         console.error("Error fetching comments:", error);
+//       }
+// }
 
 
 useEffect(() => {
@@ -166,7 +167,7 @@ try {
   
   var data = { user1:k, user2:c};
   console.log(data)
-  const res = await axios.get(baseURL + "/api/chat/findrooms/", {
+  const res = await chatinstance.get("findrooms/", {
     params: data,
   });
 

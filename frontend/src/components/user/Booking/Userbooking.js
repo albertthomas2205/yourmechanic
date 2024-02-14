@@ -18,6 +18,7 @@ import Review from '../../../pages/User/Booking/Review';
 import { Tooltip } from "@material-tailwind/react";
  import Reshedule from './Reshedule';
 import { IdentificationIcon } from '@heroicons/react/24/solid';
+import { admininstance, authentication, bookinginstance } from '../../axios/AxiosInstance';
 
  
 
@@ -57,7 +58,7 @@ const Userbooking = () => {
      action:'cancel_booking'
     }
    try {
-     const response = await instance.put('/booking/bookingcanceld/',data);
+     const response = await bookinginstance.put('bookingcanceld/',data);
      console.log(response.data);
      fetchData(); // Log the response from the server
 
@@ -70,16 +71,17 @@ const Userbooking = () => {
 
  const fetchData = async () => {
   try {
-    const bookingResponse = await instance.get(`/booking/bookinguser/${id}`);
+    console.log("daaa",id)
+    const bookingResponse = await bookinginstance.get(`bookinguser/${id}`);
     console.log(bookingResponse.data);
     setBookingData(bookingResponse.data);
 
     const detailsPromises = bookingResponse.data.map(async ({ service_id, vehicle_id, mechanic_id }) => {
       try {
-        const serviceDetailsResponse = await axios.post('http://127.0.0.1:8001/api/get_details/', { service_id, vehicle_id });
+        const serviceDetailsResponse = await admininstance.post('get_details/', { service_id, vehicle_id });
         const serviceDetails = serviceDetailsResponse.data;
 
-        const mechanicDetailsResponse = await axios.post('http://127.0.0.1:8000/api/details/', { mechanic_id });
+        const mechanicDetailsResponse = await authentication.post('details/', { mechanic_id });
         const mechanicDetails = mechanicDetailsResponse.data;
 
         return [serviceDetails, mechanicDetails];

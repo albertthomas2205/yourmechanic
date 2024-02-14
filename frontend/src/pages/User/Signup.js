@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import HeaderUser from "../../components/user/Headeruser";
 import { useLocation } from 'react-router-dom';
+import {authentication} from "../../components/axios/AxiosInstance"
 
 const Signup = () => {
   const { state } = useLocation();
@@ -82,12 +83,12 @@ const Signup = () => {
     }
 
     try {
-      const emailCheckResponse = await axios.post(`http://127.0.0.1:8000/api/${check}/`, {
+      const emailCheckResponse = await authentication.post(`${check}/`, {
         email: formData.email,
       });
 
       if (emailCheckResponse.status === 200) {
-        const response = await axios.post('http://127.0.0.1:8000/api/otp/', {
+        const response = await authentication.post('otp/', {
           email: formData.email,
         });
 

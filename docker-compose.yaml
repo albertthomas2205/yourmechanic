@@ -1,44 +1,145 @@
-version: '3'
+version: '3.7'
 
 services:
-  frontend:
-    build:
-      context: ./frontend
+  dbauthentication:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=albert
+      - POSTGRES_DB=dbauthentication
     ports:
-      - "3000:3000"
-    volumes:
-      - frontend:/app/build
+      - "5432:5432"
 
+  dbchat:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=albert
+      - POSTGRES_DB=dbchat
+    ports:
+      - "5433:5432"
 
+  dbadmin:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=albert
+      - POSTGRES_DB=dbadmin
+    ports:
+      - "5434:5432"
 
-  backend:
+  dbbooking:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=albert
+      - POSTGRES_DB=dbbooking
+    ports:
+      - "5435:5432"
+    
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  authentication:
     build:
-      context: ./Backenduser/user
+      context: ./authentication
+      dockerfile: Dockerfile
+    volumes:
+      - static_authentication:/static
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      - dbauthentication
+      - frontend
 
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: backenddb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+  daphne:
+    build:
+      context: ./Chat  # Adjust this path based on your project structure
+    image: "chat:latest"
+    command: bash -c "daphne -b 0.0.0.0 -p 8003 Chat.asgi:application"
+    ports:
+      - "8003:8003"
+    depends_on:
+      - redis
+      - chat
+
+  chat:
+    build:
+      context: ./Chat
+      dockerfile: Dockerfile
+    volumes:
+      - static_chat:/static
+    # command: 'python -u consumer.py'
+    # ports:
+    #   - "8003:8003"
+    depends_on:
+      - redis
+      - dbchat
+
+  booking:
+    build:
+      context: ./booking
+      dockerfile: Dockerfile
+    volumes:
+      - static_booking:/static
+    ports:
+      - "8002:8002"
+    depends_on:
+      - dbbooking
+
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    volumes:
+      - static_admin:/static
+    ports:
+      - "8001:8001"
+    depends_on:
+      - frontend
+      - dbadmin
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      
+      - frontend:/app/build
+   
 
 
   nginx:
     build:
       context: ./nginx
+      dockerfile: Dockerfile
     volumes:
       - static:/static
       - frontend:/var/www/frontend
+      - static_chat:/static_chat
+ 
     ports:
-      - "80:80"
+      - "81:81"
     depends_on:
-      - backend
       - frontend
+ 
 
 volumes:
-  static:
   frontend:
+  static:
+  static_authentication:
+  static_admin:
+  static_booking:
+  static_chat:
+
+
+
+
+

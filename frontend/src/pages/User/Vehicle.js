@@ -11,6 +11,8 @@ import UserVehicleAdd from "../../components/user/Uservehicleadd";
 import { useSelector } from "react-redux";
 import VehicleCard from "../../components/user/Vechlecard";
 import axios from "axios";
+import {authentication} from "../../components/axios/AxiosInstance"
+
 const Profile = () => {
 
   const [vehicles, setVehicles] = useState([]);
@@ -18,7 +20,7 @@ const Profile = () => {
 
   const fetchUserVehicles = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/user-vehicles/${id}/`);
+      const response = await authentication.get(`user-vehicles/${id}/`);
       console.log(response.data);
       setVehicles(response.data);
     } catch (error) {

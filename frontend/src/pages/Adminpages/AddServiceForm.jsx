@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Input, Typography } from "@material-tailwind/react";
+import { admininstance } from '../../components/axios/AxiosInstance';
 
 export default function AddServiceForm() {
   const [formError, setFormError] = useState([]);
@@ -18,7 +19,7 @@ export default function AddServiceForm() {
     formData.append("image", event.target.image.files[0]);
 
     try {
-      const res = await axios.post(`http://127.0.0.1:8000/api/services/`, formData);
+      const res = await admininstance.post(`services/`, formData);
 
       if (res.status >= 200 && res.status < 300) {
         // Handle success, e.g., redirect or show a success message

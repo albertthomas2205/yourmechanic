@@ -3,11 +3,12 @@ import axios from "axios";
 import{ useState, useEffect,useContext } from "react";
 import { useSelector } from "react-redux";
 import { formatDistance } from 'date-fns'
+import { authentication } from "../../../axios/AxiosInstance";
 
 
 
 const REACT_APP_CLOUDINARY_CLOUD_NAME = "dvlpq6zex";
-const baseURL = "http://127.0.0.1:8003";
+// const baseURL = "http://127.0.0.1:8003";
 const Message = (props) => {
   const authentication_user =useSelector((state) => state.persistedAuthReducer.authentication_user);
     const [time,setTime] = useState("")
@@ -17,8 +18,8 @@ const Message = (props) => {
     const fetchMechanicDetails = async (mechanic_id) => {
       console.log("aaaaaa",mechanic_id)
       try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/mechanic-profile/${mechanic_id}/`
+        const response = await authentication.get(
+          `mechanic-profile/${mechanic_id}/`
         );
   
         if (response.status === 200) {
@@ -34,8 +35,8 @@ const Message = (props) => {
   
     const fetchUserDetails = async (user_id) => {
       try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/userprofile/${user_id}/`
+        const response = await authentication.get(
+          `userprofile/${user_id}/`
         );
   
         if (response.status === 200) {

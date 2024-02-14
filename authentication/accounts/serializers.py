@@ -137,8 +137,8 @@ from .models import MechanicProfiledetails
 class MechanicProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = MechanicProfiledetails
-        # fields = ['place', 'pin', 'experience', 'description', 'profile_pic', 'mechanic_id',]
-        fields = '__all__'
+        fields = ['place', 'pin', 'experience', 'description', 'profile_pic', 'mechanic_id',]
+        # fields = '__all__'
 class MechaniceditProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = MechanicProfiledetails

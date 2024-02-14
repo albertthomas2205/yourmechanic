@@ -9,6 +9,7 @@ import {
   Typography,
   Input,
 } from "@material-tailwind/react";
+import { admininstance } from '../../components/axios/AxiosInstance';
 
 export default function DialogWithForm() {
 
@@ -35,7 +36,7 @@ export default function DialogWithForm() {
     }
 
     try {
-      const res = await axios.post(`http://127.0.0.1:8001/api/services/`, formData);
+      const res = await admininstance.post(`services/`, formData);
 
       if (res.status === 201) {
 

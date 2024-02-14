@@ -26,7 +26,7 @@ import ChatList from "../../pages/User/Chat/Chatlist";
 import Mechanicprofilepage from "../../pages/User/Mechanicprofilepage";
 import Chatpage from "../../pages/User/Chatpage";
 import { ChatProvider } from "../../Context/ChatContext";
-
+import AdminSignup from "../../pages/User/AdminSignup";
 
 
 const Userwarper = () => {
@@ -45,6 +45,7 @@ const Userwarper = () => {
         <Route path="/mechanics" element={<Mechanicuserpage/>} />
         <Route path="/payment" element={<Stripepage/>} />
         <Route path="/userbooking" element={<BookingPage/>} />
+        <Route path="/adminregister" element={<AdminSignup/>} />
      
         <Route path="/chat" element={<ChatList/>} />
       

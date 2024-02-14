@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import VehicleCard from "../../components/user/Vechlecard";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
+import {authentication} from "../../components/axios/AxiosInstance"
 import axios from "axios";
 const UserVehiclePage = () => {
    const navigate = useNavigate()
@@ -36,7 +37,7 @@ const UserVehiclePage = () => {
 
   const fetchUserVehicles = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/user-vehicles/${ids}/`);
+      const response = await authentication.get(`user-vehicles/${ids}/`);
       console.log(response.data);
       setVehicles(response.data);
     } catch (error) {

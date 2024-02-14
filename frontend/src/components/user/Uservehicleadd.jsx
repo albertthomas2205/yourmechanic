@@ -12,6 +12,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 import { Select, Option } from "@material-tailwind/react";
+import { admininstance, authentication } from '../axios/AxiosInstance';
 
 export default function UserVehicleAdd(props) {
   const userId = useSelector((state) => state.persistedAuthReducer.authentication_user.id);
@@ -33,7 +34,7 @@ export default function UserVehicleAdd(props) {
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8001/api/brand-name/');
+        const response = await admininstance.get('brand-name/');
         console.log(response.data)
         setBrands(response.data);
       } catch (error) {
@@ -50,7 +51,7 @@ export default function UserVehicleAdd(props) {
     console.log(brand_id)
     const data = {"brand_id": brand_id}
     try {
-      const response = await axios.post('http://127.0.0.1:8001/api/vehiclesname/',data);
+      const response = await admininstance.post('vehiclesname/',data);
       setVehicles(response.data);
       
     } catch (error) {
@@ -79,7 +80,7 @@ export default function UserVehicleAdd(props) {
     console.log(vehicleData);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/user-vehicles/', vehicleData);
+      const response = await authentication.post('user-vehicles/', vehicleData);
       console.log(response.data);
       props.fetch();
       setOpen(false);

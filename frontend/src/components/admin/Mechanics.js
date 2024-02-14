@@ -5,6 +5,7 @@ import Pagination from './Pagination';
 import DialogWithForm from '../../pages/Adminpages/Dailogform';
 import Mechanicdetails from './Mechanicdetails';
 import Mechanicverify from './Mechanicverify';
+import { authentication } from '../axios/AxiosInstance';
 
 
 const Mechanics = () => {
@@ -15,7 +16,7 @@ const Mechanics = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
   const [editingMechanicId, setEditingMechanicId] = useState(null);
-
+  
 
   const TABLE_HEAD = ['NO', 'First Name', 'Email', 'Phone Number', 'Verify', 'Actions'];
 
@@ -30,7 +31,7 @@ const Mechanics = () => {
   useEffect(() => {
     const fetchMechanics = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/mechanics/');
+        const response = await authentication.get('http://127.0.0.1:8000/api/mechanics/');
         setMechanics(response.data);
         setFilteredMechanics(response.data);
       } catch (error) {

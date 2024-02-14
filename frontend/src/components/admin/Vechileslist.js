@@ -6,6 +6,7 @@ import DialogWithForm from '../../pages/Adminpages/Dailogform';
 import Editform from './Editform';
 import AddBrand from './AddBrand';
 import AddAdminVehicle from './AddadminVehicles';
+import { admininstance } from '../axios/AxiosInstance';
 
 const VehicleList = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -29,7 +30,7 @@ const VehicleList = () => {
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8001/api/vehicles/');
+        const response = await admininstance.get('vehicles/');
         setVehicles(response.data);
         setFilteredVehicles(response.data);
       } catch (error) {
@@ -52,7 +53,7 @@ const VehicleList = () => {
   const handleDelete = async (id) => {
     try {
       if (window.confirm('Are you sure you want to delete this vehicle?')) {
-        await axios.delete(`http://127.0.0.1:8001/api/vehicles/${id}/`);
+        await admininstance.delete(`vehicles/${id}/`);
 
         setVehicles((prevVehicles) => prevVehicles.filter((vehicle) => vehicle.id !== id));
         setFilteredVehicles((prevFilteredVehicles) =>

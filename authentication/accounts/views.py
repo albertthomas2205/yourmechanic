@@ -448,7 +448,7 @@ from rest_framework.exceptions import ValidationError
 
 
 class MechanicProfileListCreateView(generics.ListCreateAPIView):
-    print("haiiiii")
+    
     queryset = MechanicProfiledetails.objects.all()
     serializer_class = MechanicProfileSerializer
   

@@ -9,6 +9,7 @@ import {
 } from '@material-tailwind/react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { authentication } from '../axios/AxiosInstance';
 
 export default function Userdetailadd(props) {
   const id = useSelector((state)=>state.persistedAuthReducer.authentication_user.id);
@@ -38,7 +39,7 @@ export default function Userdetailadd(props) {
     Object.keys(formData).forEach(key => data.append(key, formData[key]));
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/profiles/', data);
+      const response = await authentication.post('profiles/', data);
       console.log(response.data);
       // Close dialog and reset form after successful submission
       props.fetchUserProfile()

@@ -12,6 +12,7 @@ import Vehiclereadmore from "./Vechiclereadmore";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { background } from "@chakra-ui/react";
+import { admininstance } from "../axios/AxiosInstance";
 
 export default function VehicleCard(props) {
   const [brandName, setBrandName] = useState("");
@@ -19,8 +20,8 @@ export default function VehicleCard(props) {
 
   useEffect(() => {
     // Fetch brand information using the provided API endpoint
-    axios
-      .get(`http://127.0.0.1:8001/api/brands/${props.brandid}/`)
+   admininstance
+      .get(`brands/${props.brandid}/`)
       .then((response) => {
         // Assuming the brand_name is available in the response
         const brandNameFromAPI = response.data.brand_name;
@@ -33,8 +34,8 @@ export default function VehicleCard(props) {
 
   useEffect(() => {
     // Fetch vehicle information using the provided API endpoint
-    axios
-      .get(`http://127.0.0.1:8001/api/vehiclesdetails/${props.vehicle_id}/`)
+    admininstance
+      .get(`vehiclesdetails/${props.vehicle_id}/`)
       .then((response) => {
         // Assuming the data structure of the vehicle details
         const vehicleFromAPI = response.data;
